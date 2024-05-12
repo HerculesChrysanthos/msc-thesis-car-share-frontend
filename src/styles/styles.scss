@@ -1,0 +1,28 @@
+@use 'sass:map';
+
+$breakpoints: (
+  small: 576px,
+  medium: 768px,
+  large: 992px,
+  xlarge: 1200px,
+  container: 1536px,
+  xxlarge: 1600px,
+  xxxlarge: 2000px,
+);
+
+$main-color: #5a2c9e;
+$main-hover: #8366af;
+$border-color: #e9e9e9;
+$box-shadow: 0 0 30px
+  rgba(
+    $color: #555555,
+    $alpha: 0.05,
+  );
+
+@mixin mq($key) {
+  $size: map.get($breakpoints, $key);
+
+  @media (min-width: $size) {
+    @content;
+  }
+}
