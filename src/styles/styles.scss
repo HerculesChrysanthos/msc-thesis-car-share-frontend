@@ -6,7 +6,7 @@ $breakpoints: (
   small: 576px,
   medium: 768px,
   large: 992px,
-  xlarge: 1200px,
+  xlarge: 1280px,
   container: 1536px,
   xxlarge: 1600px,
   xxxlarge: 2000px,
@@ -79,6 +79,13 @@ $box-shadow: 0 0 30px
       max-width: 536px;
     }
 
+    @include mq(xlarge) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 792px;
+      max-width: 1088px;
+    }
+
     .close-btn {
       position: absolute;
       top: 8px;
@@ -102,6 +109,12 @@ $box-shadow: 0 0 30px
       display: flex;
       align-items: flex-end;
       justify-content: flex-start;
+
+      @include mq(xlarge) {
+        display: grid;
+        align-content: end;
+        padding: 32px 24px;
+      }
 
       img {
         position: absolute;
@@ -135,92 +148,96 @@ $box-shadow: 0 0 30px
       align-items: center;
       justify-content: center;
       gap: 15px;
-    }
 
-    form {
-      width: 100%;
-
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-
-      h2 {
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 32px;
+      @include mq(xlarge) {
+        padding-inline: 40px;
       }
 
-      .password-input {
+      form {
         width: 100%;
-        position: relative;
 
-        .password-toggle {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: 13px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+
+        h2 {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 32px;
         }
-      }
 
-      input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: 1px solid #a6a6a7;
-      }
+        .password-input {
+          width: 100%;
+          position: relative;
 
-      .forgot-pass {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-      }
+          .password-toggle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 13px;
+          }
+        }
 
-      .login-btn {
-        padding: 8px 24px;
-        border-radius: 8px;
-        border: unset;
-        background-color: #000;
-        color: #fff;
-        width: 100%;
-        min-height: 44px;
-      }
+        input {
+          width: 100%;
+          padding: 12px;
+          border-radius: 12px;
+          border: 1px solid #a6a6a7;
+        }
 
-      .google-login {
-        width: 100%;
+        .forgot-pass {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+        }
 
-        span {
-          font-weight: 300;
+        .login-btn {
+          padding: 8px 24px;
+          border-radius: 8px;
+          border: unset;
+          background-color: #000;
+          color: #fff;
+          width: 100%;
+          min-height: 44px;
+        }
+
+        .google-login {
+          width: 100%;
+
+          span {
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 4px;
+          }
+
+          .google-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 24px 8px 16px;
+            justify-content: center;
+            width: 100%;
+            border: 1px solid #000;
+            border-radius: 12px;
+
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 28px;
+            text-align: center;
+          }
+        }
+
+        .register {
+          font-weight: 400;
           font-size: 16px;
           line-height: 24px;
-          margin-bottom: 4px;
-        }
 
-        .google-btn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 24px 8px 16px;
-          justify-content: center;
-          width: 100%;
-          border: 1px solid #000;
-          border-radius: 12px;
-
-          font-weight: 400;
-          font-size: 20px;
-          line-height: 28px;
-          text-align: center;
-        }
-      }
-
-      .register {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-
-        span {
-          cursor: pointer;
-          text-decoration: underline;
+          span {
+            cursor: pointer;
+            text-decoration: underline;
+          }
         }
       }
     }
@@ -232,6 +249,7 @@ $box-shadow: 0 0 30px
     opacity: 0;
     transform: scale(0.1);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
