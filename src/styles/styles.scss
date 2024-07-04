@@ -50,6 +50,10 @@ $box-shadow: 0 0 30px
   align-items: flex-end;
   justify-content: center;
 
+  @include mq(medium) {
+    align-items: center;
+  }
+
   &:before {
     content: '';
     position: absolute;
@@ -70,6 +74,10 @@ $box-shadow: 0 0 30px
     border-radius: 16px;
     position: relative;
     animation: pop-in 0.25s ease-in;
+
+    @include mq(medium) {
+      max-width: 536px;
+    }
 
     .close-btn {
       position: absolute;
