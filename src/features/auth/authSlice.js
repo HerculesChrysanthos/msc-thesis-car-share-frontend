@@ -42,16 +42,6 @@ export const authSlice = createSlice({
       })
       .addCase(login.rejected, (state) => {
         state.isLoading = false;
-      })
-      .addCase(register.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(register.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload.user;
-      })
-      .addCase(register.rejected, (state) => {
-        state.isLoading = false;
       });
   },
 });
