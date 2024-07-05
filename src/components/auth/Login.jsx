@@ -8,16 +8,25 @@ import { BiShowAlt, BiHide } from 'react-icons/bi';
 import { FaGoogle } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
-function Login({ setShowLogin }) {
+function Login({ showLogin, setShowLogin }) {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [trigerClose, setTrigerClose] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const closeModal = () => {
+    setTrigerClose(true);
+    setTimeout(() => {
+      setShowLogin((prevState) => !prevState);
+      setTrigerClose(false);
+    }, 240);
+  };
 
   const submitLogin = (e) => {
     e.preventDefault();
@@ -38,11 +47,12 @@ function Login({ setShowLogin }) {
 
   return (
     <div className='login'>
-      <div className='login-container'>
-        <div
-          className='close-btn'
-          onClick={() => setShowLogin((prevState) => !prevState)}
-        >
+      <div
+        className={
+          trigerClose ? 'login-container close-login' : 'login-container'
+        }
+      >
+        <div className='close-btn' onClick={closeModal}>
           <IoMdClose size={14} fill='#000' />
         </div>
         <div className='img-container'>

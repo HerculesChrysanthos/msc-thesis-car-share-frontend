@@ -6,7 +6,7 @@ function Home() {
   return (
     <div>
       <div onClick={() => setShowLogin((prevState) => !prevState)}>Login</div>
-      {showLogin && <Login setShowLogin={setShowLogin} />}
+      {showLogin && <Login showLogin={showLogin} setShowLogin={setShowLogin} />}
     </div>
   );
 }
