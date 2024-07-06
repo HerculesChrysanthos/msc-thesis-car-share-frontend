@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 import { FaGoogle } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
+import { RiLockPasswordFill } from 'react-icons/ri';
+import { FaEnvelope } from 'react-icons/fa';
 
 function Login({ showLogin, setShowLogin }) {
   const dispatch = useDispatch();
@@ -16,6 +18,8 @@ function Login({ showLogin, setShowLogin }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [trigerClose, setTrigerClose] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,16 +37,18 @@ function Login({ showLogin, setShowLogin }) {
 
     const userData = { email, password };
 
+    console.log(userData);
+
     dispatch(login(userData))
       .unwrap()
       .then((res) => {
-        console.log('ok');
+        setShowLogin(false);
         //navigate(location?.state?.prevUrl ? location?.state?.prevUrl : '/');
       })
-      .catch(
-        (error) => console.log(error)
-        // toast.error('Παρακαλώ εισάγεται έγκυρα στοιχεία εισόδου')
-      );
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setHasError(true);
+      });
   };
 
   return (
@@ -67,14 +73,22 @@ function Login({ showLogin, setShowLogin }) {
           <div className='logo-container'>
             <img src={Logo} alt='Logo Image' />
           </div>
-          <form>
+          <form onSubmit={submitLogin}>
             <h2>Σύνδεση</h2>
-            <input
-              placeholder='Email'
-              type='email'
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <div className='username-input'>
+              <div className='user'>
+                <FaEnvelope size={16} />
+              </div>
+              <input
+                placeholder='Email'
+                type='email'
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
             <div className='password-input'>
+              <div className='locker'>
+                <RiLockPasswordFill size={16} />
+              </div>
               <input
                 placeholder='Κωδικός'
                 type={showPassword === true ? 'text' : 'password'}
@@ -88,6 +102,7 @@ function Login({ showLogin, setShowLogin }) {
                 )}
               </div>
             </div>
+            {hasError && <span className='errorMessage'>{errorMessage}</span>}
             <span className='forgot-pass' onClick={() => navigate('/')}>
               Ξέχασες τον κωδικό σου;
             </span>
@@ -100,7 +115,7 @@ function Login({ showLogin, setShowLogin }) {
                 <FaGoogle size={18} /> Συνέχεια με την Google
               </div>
             </div>
-            <div className='register'>
+            <div className='register-text'>
               Δεν έχει λογαριασμό;
               <br />
               Κάνε την εγγραφή σου <span>εδώ</span>
