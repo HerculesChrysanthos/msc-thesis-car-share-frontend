@@ -7,7 +7,7 @@ $breakpoints: (
   medium: 768px,
   large: 992px,
   xlarge: 1280px,
-  container: 1536px,
+  container: 1440px,
   xxlarge: 1600px,
   xxxlarge: 2000px,
 );
@@ -37,6 +37,38 @@ $box-shadow: 0 0 30px
   margin: 0;
   padding: 0;
   font-family: 'Ubuntu', sans-serif;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @include mq(medium) {
+    padding-inline: 1.5rem;
+  }
+
+  @include mq(xlarge) {
+    padding-inline: 2rem;
+  }
+
+  @include mq(container) {
+    padding-inline: 0;
+  }
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 
 .errorMessage {
@@ -75,7 +107,7 @@ $box-shadow: 0 0 30px
     width: 100%;
     overflow: hidden;
     background-color: $bg-cream-white;
-    border-radius: 16px;
+    border-radius: 1rem;
     position: relative;
     animation: pop-in 0.25s ease-in;
 
@@ -538,6 +570,43 @@ $box-shadow: 0 0 30px
 
   .close-login {
     animation: pop-out 0.25s ease-in;
+  }
+}
+
+.register-new-car-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  h3 {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #595959;
+  }
+  .steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    :first-child {
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    :last-child {
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+    .step {
+      height: 0.5rem;
+      width: 100%;
+      background-color: #f9e7eb;
+    }
+
+    .active-step {
+      background-color: #912740;
+    }
   }
 }
 

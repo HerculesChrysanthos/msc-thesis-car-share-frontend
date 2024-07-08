@@ -8,6 +8,7 @@ import {
 import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import Header from './components/Header';
+import CarRegistration from './pages/CarRegistration';
 
 function App() {
   const ProtectedRoutes = () => {
@@ -36,6 +37,10 @@ function App() {
         {
           path: '/',
           element: <Home />,
+        },
+        {
+          path: '/car-registration',
+          element: <CarRegistration />,
         },
       ],
     },
