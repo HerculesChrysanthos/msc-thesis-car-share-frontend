@@ -18,29 +18,25 @@ function Header() {
           <img src={Logo} alt='Logo' />
         </div>
         <nav>
-          <ul>
-            <li>
-              {user ? (
-                <div>
+          <ul className='flex-center-32'>
+            {user ? (
+              <>
+                <li>
                   {user?.user?.name} {user?.user?.surname}
-                </div>
-              ) : (
-                <>
-                  <div onClick={() => setShowLogin((prevState) => !prevState)}>
-                    Login
-                  </div>
-                  <div
-                    onClick={() => setShowRegister((prevState) => !prevState)}
-                  >
-                    Register
-                  </div>
-                </>
-              )}
-            </li>
-            {user && (
-              <li onClick={() => navigate('/car-registration')}>
-                Προσθήκη αυτοκινήτου
-              </li>
+                </li>
+                <li onClick={() => navigate('/car-registration')}>
+                  Προσθήκη αυτοκινήτου
+                </li>
+              </>
+            ) : (
+              <>
+                <li onClick={() => setShowLogin((prevState) => !prevState)}>
+                  Login
+                </li>
+                <li onClick={() => setShowRegister((prevState) => !prevState)}>
+                  Register
+                </li>
+              </>
             )}
           </ul>
         </nav>

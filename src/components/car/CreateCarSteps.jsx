@@ -2,7 +2,7 @@ import React from 'react';
 
 function CreateCarSteps({ step }) {
   return (
-    <div className='register-new-car-steps container'>
+    <div className='register-new-car-steps'>
       <h3>Βήμα {step}/6</h3>
       <div className='steps'>
         <div className={`step ${step >= 1 && 'active-step'}`}></div>

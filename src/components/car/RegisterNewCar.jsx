@@ -29,7 +29,8 @@ function RegisterNewCar() {
     }
   };
   return (
-    <div>
+    <div className='register-car container'>
+      <h1>Καταχώριση οχήματος</h1>
       <CreateCarSteps step={step} />
       {renderStep(step)}
     </div>

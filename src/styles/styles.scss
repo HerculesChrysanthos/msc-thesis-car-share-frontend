@@ -12,7 +12,14 @@ $breakpoints: (
   xxxlarge: 2000px,
 );
 
-$main-color: #5a2c9e;
+:root {
+  --select-border: #272728;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+}
+
+$main-color: #912740;
+$main-color-hover: #c74967;
 $main-hover: #8366af;
 $border-color: #e9e9e9;
 
@@ -45,6 +52,12 @@ li {
 
 a {
   text-decoration: none;
+}
+
+.flex-center-32 {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 .container {
@@ -577,6 +590,7 @@ header {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  margin-bottom: 16px;
 
   h3 {
     font-weight: 400;
@@ -606,6 +620,142 @@ header {
 
     .active-step {
       background-color: #912740;
+    }
+  }
+}
+
+.register-car {
+  max-width: 768px;
+  padding: 32px 16px;
+
+  h1 {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #912740;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #912740;
+  }
+
+  .select-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    color: #000;
+    cursor: pointer;
+
+    @include mq(medium) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .full-row {
+      grid-column: span 2;
+    }
+
+    .custom-select__indicator-separator {
+      display: none;
+    }
+
+    .css-13cymwt-control,
+    .css-t3ipsp-control {
+      border: none;
+      min-height: unset;
+      height: 24px;
+      border-color: none;
+      box-shadow: none;
+    }
+
+    .css-art2ul-ValueContainer2 {
+      padding: 0;
+    }
+
+    .create-select {
+      border: 1px solid #a6a6a7;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      height: 64px;
+      position: relative;
+      cursor: pointer;
+
+      .select-label {
+        z-index: 1;
+        pointer-events: none;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 14px;
+      }
+
+      .single-select {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: calc(100% - 24px);
+        font-size: 16px;
+        line-height: 24px;
+
+        .custom-select__control {
+          padding-top: 24px;
+          left: 12px;
+          border: none;
+          border-color: none;
+          box-shadow: none;
+        }
+
+        .custom-select__menu {
+          max-height: 180px;
+          overflow-y: auto;
+        }
+      }
+    }
+
+    .create-input {
+      border: 1px solid #a6a6a7;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      height: 64px;
+      cursor: pointer;
+      position: relative;
+
+      .euro {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .input-label {
+        pointer-events: none;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 14px;
+      }
+
+      .single-input {
+        font-size: 16px;
+        line-height: 24px;
+        border: none;
+        padding-right: 25px;
+      }
+
+      .single-input:focus,
+      .single-input:focus-visible {
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
     }
   }
 }
