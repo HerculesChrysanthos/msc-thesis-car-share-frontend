@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getBrandModels, getCarBrands } from '../../../features/car/carSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaEuroSign } from 'react-icons/fa';
 import Select from 'react-select';
+import { carRegistration } from '../../../features/car/carSlice';
+import toast from 'react-hot-toast';
 
 function RegisterCarCom1({ step, setStep }) {
   const colourStyles = {
@@ -34,12 +37,24 @@ function RegisterCarCom1({ step, setStep }) {
   const dispatch = useDispatch();
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const { carIsLoading } = useSelector((state) => state.car);
+
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
-    make: null,
-    model: null,
+    make: '',
+    model: '',
     plate: '',
-    password: '',
-    passwordConfirmation: '',
+    mileage: '',
+    fuelType: '',
+    engineSize: '',
+    gearboxType: '',
+    enginePower: '',
+    kilowatt: '',
+    price: '',
   });
 
   const monthsInGreek = [
@@ -57,64 +72,181 @@ function RegisterCarCom1({ step, setStep }) {
     'Δεκέμβριος',
   ];
 
-  const options = Array.from(
-    { length: new Date().getFullYear() - 1899 },
-    (_, index) => new Date().getFullYear() - index
+  const greekMonthsToNumbers = {
+    Ιανουάριος: 1,
+    Φεβρουάριος: 2,
+    Μάρτιος: 3,
+    Απρίλιος: 4,
+    Μάιος: 5,
+    Ιούνιος: 6,
+    Ιούλιος: 7,
+    Αύγουστος: 8,
+    Σεπτέμβριος: 9,
+    Οκτώβριος: 10,
+    Νοέμβριος: 11,
+    Δεκέμβριος: 12,
+  };
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    new Array(currentYear - 1900 + 1),
+    (val, index) => 1900 + index
   );
 
-  const makeOptions = makes?.map((make) => ({
-    value: make?._id,
-    label: make?.name,
-  }));
+  const fuelTypes = ['Βενζίνη', 'Πετρέλαιο', 'Αέριο', 'Ηλεκτρικό'];
 
-  const handleForm = (e) => {
+  const gearboxTypes = ['Αυτόματο', 'Μηχανικό', 'Ημιαυτόματο'];
+
+  // const handleForm = (e) => {
+  //   setForm((prevState) => ({
+  //     ...prevState,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
+
+  const validateForm = (state) => {
+    const requiredFields = [
+      'make',
+      'model',
+      'plate',
+      'mileage',
+      'fuelType',
+      'gearboxType',
+      'enginePower',
+      'price',
+      'year',
+      'month',
+    ];
+
+    const extraField =
+      state.fuelType.value === 'Ηλεκτρικό' ? 'kilowatt' : 'engineSize';
+    requiredFields.push(extraField);
+
+    const isValid = requiredFields.every(
+      (field) => state[field] !== '' && state[field] !== null
+    );
+    setIsButtonDisabled(!isValid);
+  };
+
+  const handleForm = (name, value) => {
     setForm((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
-
-  const selectRef = useRef(null);
-
-  const handleClickOutside = (event) => {
-    if (selectRef.current && !selectRef.current.contains(event.target)) {
-      setIsOpen(false);
-      // selectRef.current.select.openMenu('first');
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const onDataChange = (value, action) => {
-    setForm((prevState) => ({
-      ...prevState,
-      [action.name]: value,
-    }));
+    handleForm(action.name, value);
+
+    if (action.name === 'fuelType' && value.value === 'Ηλεκτρικό') {
+      handleForm('engineSize', '');
+    }
+
+    if (action.name === 'fuelType' && value.value !== 'Ηλεκτρικό') {
+      handleForm('kilowatt', '');
+    }
   };
 
   const handleLP = (event) => {
-    const { value } = event.target;
-    // Define a regex pattern for the desired format: 3 letters, a hyphen, and 4 digits
-    const regex = /^[A-Za-z]{0,3}(-[0-9]{0,4})?$/;
+    let value = event.target.value;
 
-    // Check if the current input value matches the pattern
-    if (regex.test(value)) {
-      setForm((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value,
-      }));
+    value = value.replace(/[^Α-Ω0-9-]/g, '');
+
+    let firstThree = value.substring(0, 3);
+    firstThree = firstThree.replace(/[^Α-Ω]/g, '');
+
+    if (value.length > 3 && value[3] !== '-') {
+      value = value.slice(0, 3) + '-' + value.slice(3);
+    }
+
+    let hyphen = value.substring(3, 4);
+    hyphen = hyphen.replace(/[^-]/g, '');
+
+    let nextFour = value.substring(4, 9);
+    nextFour = nextFour.replace(/[^0-9]/g, '');
+
+    value = firstThree + hyphen + nextFour;
+
+    if (value.length <= 8) {
+      handleForm(event.target.name, value);
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const handleNumbers = (event) => {
+    let value = event.target.value;
+    value = value.replace(/\D/g, '');
+
+    console.log(event.target.name);
+    console.log(value);
+    if (value <= 1000000 && value >= 0) {
+      handleForm(event.target.name, value);
+    }
+  };
+
+  const sumbitCarRegistration = (e) => {
+    e.preventDefault();
+
+    const {
+      make,
+      model,
+      plate,
+      mileage,
+      fuelType,
+      engineSize,
+      gearboxType,
+      enginePower,
+      kilowatt,
+      price,
+      month,
+      year,
+    } = form;
+
+    console.log(form);
+
+    const carData = {
+      make: make.value,
+      model: model.value,
+      registrationPlate: plate,
+      mileage: Number(mileage),
+      fuelType: fuelType.value,
+      gearboxType: gearboxType.value,
+      enginePower: Number(enginePower),
+      rentPerHour: Number(price),
+      registration: {
+        month: greekMonthsToNumbers[month.value],
+        year: year.value,
+      },
+    };
+
+    if (engineSize !== '' && engineSize !== null) {
+      carData.engineSize = Number(engineSize);
+    } else {
+      carData.kilowatt = Number(kilowatt);
+    }
+
+    console.log(carData);
+
+    setIsButtonDisabled(true);
+
+    dispatch(carRegistration(carData))
+      .unwrap()
+      .then((res) => {
+        console.log('hi apo dw ');
+        console.log(res);
+        setIsButtonDisabled(false);
+        setStep(2);
+        //navigate(location?.state?.prevUrl ? location?.state?.prevUrl : '/');
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage(error.message);
+        toast.error(error.message);
+        setHasError(true);
+        setIsButtonDisabled(false);
+      });
+  };
 
   const wrapperRef = useRef(null);
-  //const inputRef = useRef(null);
 
   useEffect(() => {
     dispatch(getCarBrands())
@@ -130,9 +262,9 @@ function RegisterCarCom1({ step, setStep }) {
   useEffect(() => {
     setForm((prevForm) => ({
       ...prevForm,
-      model: null,
+      model: '',
     }));
-    if (form.make !== null) {
+    if (form.make !== '' && form.make !== null) {
       dispatch(getBrandModels(form.make.value))
         .unwrap()
         .then((res) => {
@@ -143,9 +275,14 @@ function RegisterCarCom1({ step, setStep }) {
         });
     }
   }, [form?.make]);
+
+  useEffect(() => {
+    validateForm(form);
+  }, [form]);
+
   return (
     <div ref={wrapperRef}>
-      <form>
+      <form onSubmit={sumbitCarRegistration}>
         <h2>Στοιχεία οχήματος</h2>
         <div className='select-container'>
           <div className='create-select'>
@@ -183,13 +320,52 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='πχ Golf'
               styles={colourStyles}
+              required={true}
               options={models?.map((model) => ({
                 value: model?._id,
                 label: model?.name,
               }))}
             />
           </div>
-          <div className='create-input full-row'>
+          <div className='create-select'>
+            <div className='select-label'>Έτος</div>
+            <Select
+              required={true}
+              className='single-select'
+              classNamePrefix='custom-select'
+              isClearable={true}
+              isRtl={false}
+              isSearchable={true}
+              name='year'
+              onChange={onDataChange}
+              placeholder='πχ 2006'
+              styles={colourStyles}
+              options={years.map((year) => ({
+                value: year,
+                label: year,
+              }))}
+            />
+          </div>
+          <div className='create-select'>
+            <div className='select-label'>Μήνας</div>
+            <Select
+              className='single-select'
+              classNamePrefix='custom-select'
+              isClearable={true}
+              isRtl={false}
+              isSearchable={true}
+              name='month'
+              onChange={onDataChange}
+              placeholder='πχ Σεπτέμβριος'
+              styles={colourStyles}
+              required={true}
+              options={monthsInGreek.map((month) => ({
+                value: month,
+                label: month,
+              }))}
+            />
+          </div>
+          <div className='create-input '>
             <div className='input-label'>Αριθμός κυκλοφορίας</div>
             <input
               type='text'
@@ -197,52 +373,121 @@ function RegisterCarCom1({ step, setStep }) {
               className='single-input'
               onChange={handleLP}
               name='plate'
+              value={form.plate}
+              required={true}
+            />
+          </div>
+          <div className='create-input '>
+            <div className='input-label'>Χιλιόμετρα</div>
+            <input
+              type='text'
+              placeholder='πχ 78.000'
+              className='single-input'
+              onChange={handleNumbers}
+              name='mileage'
+              value={form.mileage}
+              required={true}
+            />
+          </div>
+          <div className='create-select full-row'>
+            <div className='select-label'>Καύσιμο</div>
+            <Select
+              className='single-select'
+              classNamePrefix='custom-select'
+              isClearable={true}
+              isRtl={false}
+              isSearchable={false}
+              name='fuelType'
+              onChange={onDataChange}
+              placeholder='Επιλέξτε καύσιμο'
+              styles={colourStyles}
+              required={true}
+              options={fuelTypes.map((fuel) => ({
+                value: fuel,
+                label: fuel,
+              }))}
+            />
+          </div>
+          {form.fuelType?.value === 'Ηλεκτρικό' ? (
+            <div className='create-input '>
+              <div className='input-label'>Kilowatt</div>
+              <input
+                type='text'
+                placeholder='πχ 350'
+                className='single-input'
+                onChange={handleNumbers}
+                name='kilowatt'
+                value={form.kilowatt}
+                required={true}
+              />
+            </div>
+          ) : (
+            <div className='create-input '>
+              <div className='input-label'>Κυβικά</div>
+              <input
+                type='text'
+                placeholder='πχ 1400'
+                className='single-input'
+                onChange={handleNumbers}
+                name='engineSize'
+                value={form.engineSize}
+                required={true}
+              />
+            </div>
+          )}
+          <div className='create-input '>
+            <div className='input-label'>Ίπποι</div>
+            <input
+              type='text'
+              placeholder='πχ 100'
+              className='single-input'
+              onChange={handleNumbers}
+              name='enginePower'
+              value={form.enginePower}
+              required={true}
+            />
+          </div>
+          <div className='create-select full-row'>
+            <div className='select-label'>Κιβώτιο ταχυτήτων</div>
+            <Select
+              className='single-select'
+              classNamePrefix='custom-select'
+              isClearable={true}
+              isRtl={false}
+              isSearchable={false}
+              name='gearboxType'
+              onChange={onDataChange}
+              placeholder='Επιλέξτε κιβώτιο ταχυτήτων'
+              styles={colourStyles}
+              required={true}
+              options={gearboxTypes.map((type) => ({
+                value: type,
+                label: type,
+              }))}
+            />
+          </div>
+          <div className='create-input full-row'>
+            <div className='input-label'>Τιμή ενικοίασης ανά ώρα</div>
+            <input
+              type='text'
+              placeholder='πχ 15'
+              className='single-input'
+              onChange={handleNumbers}
+              value={form.price}
+              name='price'
+              required={true}
             />
             <FaEuroSign color={'#912740'} className='euro' size={18} />
           </div>
-          <div>
-            <Select
-              className='basic-single'
-              classNamePrefix='select'
-              // defaultValue={colourOptions[0]}
-              isDisabled={false}
-              isLoading={false}
-              isClearable={true}
-              isRtl={false}
-              isSearchable={true}
-              name='color'
-              options={makes}
-            />
-          </div>
-          <div>
-            <Select
-              className='basic-single'
-              classNamePrefix='select'
-              // defaultValue={colourOptions[0]}
-              isDisabled={false}
-              isLoading={false}
-              isClearable={true}
-              isRtl={false}
-              isSearchable={true}
-              name='color'
-              options={makes}
-            />
-          </div>
-          <div>
-            <Select
-              className='basic-single'
-              classNamePrefix='select'
-              // defaultValue={colourOptions[0]}
-              isDisabled={false}
-              isLoading={false}
-              isClearable={true}
-              isRtl={false}
-              isSearchable={true}
-              name='color'
-              options={makes}
-            />
-          </div>
         </div>
+
+        <button
+          type='submit'
+          disabled={isButtonDisabled}
+          className='register-car-btn'
+        >
+          {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'}
+        </button>
       </form>
     </div>
   );

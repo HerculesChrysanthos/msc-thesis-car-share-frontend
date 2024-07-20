@@ -9,9 +9,20 @@ const getCarBrands = async () => {
   return response.data;
 };
 
-// get car makes
 const getBrandModels = async (brand) => {
   const response = await axios.get(API_URL + '/models?make=' + `${brand}`);
+
+  return response.data;
+};
+
+const carRegistration = async (car, token) => {
+  console.log(car);
+  const headers = `Bearer ${token}`;
+  const response = await axios.post(API_URL + '/cars', car, {
+    headers: {
+      Authorization: headers,
+    },
+  });
 
   return response.data;
 };
@@ -19,6 +30,7 @@ const getBrandModels = async (brand) => {
 const carService = {
   getCarBrands,
   getBrandModels,
+  carRegistration,
 };
 
 export default carService;

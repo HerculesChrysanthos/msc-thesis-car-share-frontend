@@ -625,6 +625,7 @@ header {
 }
 
 .register-car {
+  position: relative;
   max-width: 768px;
   padding: 32px 16px;
 
@@ -656,7 +657,11 @@ header {
     }
 
     .full-row {
-      grid-column: span 2;
+      grid-column: span 1;
+
+      @include mq(medium) {
+        grid-column: span 2;
+      }
     }
 
     .custom-select__indicator-separator {
@@ -715,6 +720,7 @@ header {
         .custom-select__menu {
           max-height: 180px;
           overflow-y: auto;
+          z-index: 2;
         }
       }
     }
@@ -737,6 +743,7 @@ header {
       }
 
       .input-label {
+        z-index: 1;
         pointer-events: none;
         cursor: pointer;
         font-size: 12px;
@@ -744,10 +751,17 @@ header {
       }
 
       .single-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: calc(100% - 24px);
         font-size: 16px;
         line-height: 24px;
         border: none;
         padding-right: 25px;
+        padding-top: 24px;
+        left: 12px;
       }
 
       .single-input:focus,
@@ -757,6 +771,36 @@ header {
         box-shadow: none;
       }
     }
+  }
+
+  // .btn {
+  //   justify-self: end;
+
+  .register-car-btn {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: unset;
+    background-color: #000;
+    color: #fff;
+    // width: 127px;
+    min-height: 44px;
+    cursor: pointer;
+    margin: 16px;
+
+    font-size: 20px;
+    gap: 8px;
+    position: absolute;
+    right: 0px;
+
+    &:disabled {
+      background-color: #a6a6a7;
+      color: #ffffff;
+      cursor: not-allowed;
+    }
+
+    // @include mq(xlarge) {
+    //   font-size: 20px;
+    // }
   }
 }
 
