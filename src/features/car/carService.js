@@ -24,6 +24,10 @@ const carRegistration = async (car, token) => {
     },
   });
 
+  if (response.data) {
+    localStorage.setItem('car', JSON.stringify(response.data));
+  }
+
   return response.data;
 };
 
@@ -35,6 +39,10 @@ const carUpdate = async (carId, car, token) => {
       Authorization: headers,
     },
   });
+
+  if (response.data) {
+    localStorage.setItem('car', JSON.stringify(response.data));
+  }
 
   return response.data;
 };

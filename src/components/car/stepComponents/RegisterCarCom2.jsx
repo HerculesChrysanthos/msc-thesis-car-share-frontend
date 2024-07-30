@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { carUpdate } from '../../../features/car/carSlice';
 
 function RegisterCarCom2({ step, setStep }) {
-  const [enabledDoorTile, setEnabledDoorTile] = useState(null);
-  const [enabledSeatTile, setEnabledSeatTile] = useState(null);
+  const dispatch = useDispatch();
+  const [enabledDoorTile, setEnabledDoorTile] = useState('3');
+  const [enabledSeatTile, setEnabledSeatTile] = useState('2');
   const [enabledColorTile, setEnabledColorTile] = useState(null);
   const [enabledInteriorColorTile, setEnabledInteriorColorTile] =
     useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const { carIsLoading } = useSelector((state) => state.car);
+  const { carIsLoading, car } = useSelector((state) => state.car);
 
   const [form, setForm] = useState({
-    doors: '',
-    seats: '',
-    exteriorColor: '',
-    interiorColor: '',
-    extras: [],
+    doors: car?.doors ? car?.doors : '3',
+    seats: car?.seats ? car?.seats : '2',
+    exteriorColor: car?.exteriorColor ? car?.exteriorColor : '',
+    interiorColor: car?.interiorColor ? car?.interiorColor : '',
+    extras: car?.features.length ? car?.features : [],
   });
 
   const doors = ['3', '5', '7+'];
@@ -25,7 +27,7 @@ function RegisterCarCom2({ step, setStep }) {
   const exteriorColors = [
     { name: 'Άσπρο', color: '#F0F0F1' },
     { name: 'Μαύρο', color: '#000000' },
-    { name: 'Γκρί', color: '#8A8A8A' },
+    { name: 'Γκρι', color: '#8A8A8A' },
     { name: 'Καφέ', color: '#8E3009' },
     { name: 'Μπλέ', color: '#000E8E' },
     { name: 'Κίτρινο', color: '#D8C93C' },
@@ -38,7 +40,7 @@ function RegisterCarCom2({ step, setStep }) {
   const interiorColors = [
     { name: 'Άσπρο', color: '#F0F0F1' },
     { name: 'Μαύρο', color: '#000000' },
-    { name: 'Γκρί', color: '#8A8A8A' },
+    { name: 'Γκρι', color: '#8A8A8A' },
     { name: 'Καφέ', color: '#8E3009' },
     { name: 'Δίχρωμο', color: '#000E8E' },
     { name: 'Άλλο', color: '' },
@@ -48,7 +50,7 @@ function RegisterCarCom2({ step, setStep }) {
     'ABS',
     'ESP',
     'GPS',
-    'Κάμερα Οπισθοπορείας',
+    'Κάμερα οπισθοπορείας',
     'Air condition',
     'Bluetooth',
   ];
@@ -97,17 +99,18 @@ function RegisterCarCom2({ step, setStep }) {
   const hanldeExtras = (event) => {
     const { value, checked } = event.target;
 
+    // console.log(form.extras);
     setForm((prevForm) => {
+      console.log(checked);
       const newExtras = checked
         ? [...prevForm.extras, value]
         : prevForm.extras.filter((extra) => extra !== value);
-
+      console.log(newExtras);
       return { ...prevForm, extras: newExtras };
     });
   };
 
   const handleGoBackButton = (e) => {
-    setFromNextStep(true);
     setStep(1);
   };
 
@@ -121,15 +124,37 @@ function RegisterCarCom2({ step, setStep }) {
       seats,
       exteriorColor: exteriorColor.name,
       interiorColor: interiorColor.name,
-      extras,
+      features: extras,
     };
 
     console.log(carFeatures);
+
+    dispatch(carUpdate({ carId: car._id, car: carFeatures }))
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        setIsButtonDisabled(false);
+        setStep(3);
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage(error.message);
+        toast.error(error.message);
+        setHasError(true);
+        setIsButtonDisabled(false);
+      });
   };
 
   useEffect(() => {
     validateForm(form);
   }, [form]);
+
+  // useEffect(() => {
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     extras: form.extras || [],
+  //   }));
+  // }, [form?.extras]);
 
   return (
     <div>
@@ -260,6 +285,7 @@ function RegisterCarCom2({ step, setStep }) {
                       name={option}
                       value={option}
                       onChange={hanldeExtras}
+                      checked={form.extras.includes(option)}
                     />
                     {option}
                   </label>

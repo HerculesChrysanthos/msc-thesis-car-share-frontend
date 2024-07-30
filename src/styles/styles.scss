@@ -697,6 +697,10 @@ header {
       padding: 0;
     }
 
+    .custom-select__value-container {
+      padding: 0px;
+    }
+
     .create-select {
       border: 1px solid #a6a6a7;
       padding: 12px;
@@ -815,6 +819,7 @@ header {
           padding: 6px 32px 6px 32px;
           border-radius: 8px;
           border: 2px solid #a6a6a7;
+          cursor: pointer;
 
           h4 {
             text-align: center;
