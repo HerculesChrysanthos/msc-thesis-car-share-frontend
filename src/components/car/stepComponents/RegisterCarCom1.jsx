@@ -360,6 +360,7 @@ function RegisterCarCom1({ step, setStep }) {
               name='make'
               onChange={onDataChange}
               placeholder='πχ Volkswagen'
+              required={true}
               defaultValue={form.make}
               styles={colourStyles}
               options={makes?.map((model) => ({
@@ -384,7 +385,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='πχ Golf'
               styles={colourStyles}
-              //  required={true}
+              required={true}
               options={models?.map((model) => ({
                 value: model?._id,
                 label: model?.name,
@@ -394,7 +395,7 @@ function RegisterCarCom1({ step, setStep }) {
           <div className='create-select'>
             <div className='select-label'>Έτος</div>
             <Select
-              //  required={true}
+              required={true}
               className='single-select'
               classNamePrefix='custom-select'
               defaultValue={form.year}
@@ -424,7 +425,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='πχ Σεπτέμβριος'
               styles={colourStyles}
-              //   required={true}
+              required={true}
               options={monthsInGreek.map((month) => ({
                 value: month,
                 label: month,
@@ -440,7 +441,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleLP}
               name='plate'
               value={form.plate}
-              //   required={true}
+              required={true}
             />
           </div>
           <div className='create-input '>
@@ -452,7 +453,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               name='mileage'
               value={form.mileage}
-              //   required={true}
+              required={true}
             />
           </div>
           <div className='create-select full-row'>
@@ -468,7 +469,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='Επιλέξτε καύσιμο'
               styles={colourStyles}
-              //   required={true}
+              required={true}
               options={fuelTypes.map((fuel) => ({
                 value: fuel,
                 label: fuel,
@@ -485,7 +486,7 @@ function RegisterCarCom1({ step, setStep }) {
                 onChange={handleNumbers}
                 name='kilowatt'
                 value={form.kilowatt}
-                //  required={true}
+                required={true}
               />
             </div>
           ) : (
@@ -498,7 +499,7 @@ function RegisterCarCom1({ step, setStep }) {
                 onChange={handleNumbers}
                 name='engineSize'
                 value={form.engineSize}
-                //  required={true}
+                required={true}
               />
             </div>
           )}
@@ -511,7 +512,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               name='enginePower'
               value={form.enginePower}
-              //  required={true}
+              required={true}
             />
           </div>
           <div className='create-select full-row'>
@@ -527,7 +528,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='Επιλέξτε κιβώτιο ταχυτήτων'
               styles={colourStyles}
-              //  required={true}
+              required={true}
               options={gearboxTypes.map((type) => ({
                 value: type,
                 label: type,
@@ -543,7 +544,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               value={form.price}
               name='price'
-              //  required={true}
+              required={true}
             />
             <FaEuroSign color={'#912740'} className='euro' size={18} />
           </div>
