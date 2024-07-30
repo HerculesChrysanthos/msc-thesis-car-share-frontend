@@ -645,6 +645,22 @@ header {
     color: #912740;
   }
 
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    //   margin-bottom: 16px;
+    color: #000000;
+  }
+
+  h4 {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 400;
+    //  margin-bottom: 16px;
+    color: #000000;
+  }
+
   .select-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -773,34 +789,186 @@ header {
     }
   }
 
+  .com2-container {
+    display: grid;
+
+    .feature-area {
+      margin-bottom: 16px;
+
+      .additional-text {
+        color: #838486;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 300;
+      }
+
+      .tile-area {
+        margin: 16px 0px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 96px);
+        gap: 16px;
+
+        .tile {
+          background-color: #ffffff;
+          width: 96px;
+          height: 44px;
+          padding: 6px 32px 6px 32px;
+          border-radius: 8px;
+          border: 2px solid #a6a6a7;
+
+          h4 {
+            text-align: center;
+          }
+
+          &.enabled {
+            background-color: #f3e7ea;
+            border: 2px solid #912740;
+          }
+
+          &.enabled h4 {
+            font-weight: 500;
+            color: #912740;
+          }
+        }
+      }
+
+      .color-area {
+        margin: 16px 0px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 156px);
+        gap: 16px;
+
+        .color-tile {
+          background-color: #ffffff;
+          width: 156px;
+          height: 44px;
+          padding: 8px 16px 8px 16px;
+          border-radius: 8px;
+          border: 2px solid #a6a6a7;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          //     transition: background-color 0.3s;
+
+          &.enabled {
+            background-color: #f3e7ea;
+            border: 2px solid #912740;
+          }
+
+          &.enabled h4 {
+            font-weight: 500;
+            color: #912740;
+          }
+
+          h4 {
+            text-align: center;
+          }
+
+          .color-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .out-color-circle {
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: #d5d5d5;
+              display: flex;
+
+              .color-circle {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background-color: currentColor;
+                margin: auto;
+                border: 2px solid #ffffff;
+              }
+            }
+          }
+        }
+      }
+
+      .checkbox-container {
+        margin: 16px 0px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 150px);
+        gap: 8px;
+
+        .checkbox-item {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          label {
+            display: flex;
+            // align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+            color: #000;
+          }
+
+          input[type='checkbox'] {
+            accent-color: #000000;
+          }
+        }
+      }
+    }
+  }
+
   // .btn {
   //   justify-self: end;
 
-  .register-car-btn {
-    padding: 8px 24px;
-    border-radius: 8px;
-    border: unset;
-    background-color: #000;
-    color: #fff;
-    // width: 127px;
-    min-height: 44px;
-    cursor: pointer;
-    margin: 16px;
+  .buttons {
+    display: flex;
+    flex-flow: row-reverse;
+    gap: 24px;
 
-    font-size: 20px;
-    gap: 8px;
-    position: absolute;
-    right: 0px;
+    .register-car-btn {
+      padding: 8px 24px;
+      border-radius: 8px;
+      border: unset;
+      background-color: #000;
+      color: #fff;
+      // width: 127px;
+      min-height: 44px;
+      cursor: pointer;
+      margin: 16px 0px;
 
-    &:disabled {
-      background-color: #a6a6a7;
-      color: #ffffff;
-      cursor: not-allowed;
+      font-size: 20px;
+      // gap: 8px;
+      // position: absolute;
+      // right: 0px;
+
+      &:disabled {
+        background-color: #a6a6a7;
+        color: #ffffff;
+        cursor: not-allowed;
+      }
+
+      // @include mq(xlarge) {
+      //   font-size: 20px;
+      // }
     }
 
-    // @include mq(xlarge) {
-    //   font-size: 20px;
-    // }
+    .go-back-car-btn {
+      padding: 8px 24px;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #000;
+      min-height: 44px;
+      cursor: pointer;
+      margin: 16px 0px;
+      border-radius: 8px;
+      border: 1px solid #000000;
+
+      font-size: 20px;
+      // gap: 8px;
+      // position: relative;
+      // right: -100px;
+    }
   }
 }
 

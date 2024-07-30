@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaEuroSign } from 'react-icons/fa';
 import Select from 'react-select';
-import { carRegistration } from '../../../features/car/carSlice';
+import { carRegistration, carUpdate } from '../../../features/car/carSlice';
 import toast from 'react-hot-toast';
 
 function RegisterCarCom1({ step, setStep }) {
+  const { car } = useSelector((state) => state.car);
+
   const colourStyles = {
     control: (styles) => ({ ...styles, backgroundColor: 'white' }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -42,20 +44,7 @@ function RegisterCarCom1({ step, setStep }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { carIsLoading } = useSelector((state) => state.car);
 
-  const navigate = useNavigate();
-
-  const [form, setForm] = useState({
-    make: '',
-    model: '',
-    plate: '',
-    mileage: '',
-    fuelType: '',
-    engineSize: '',
-    gearboxType: '',
-    enginePower: '',
-    kilowatt: '',
-    price: '',
-  });
+  // console.log(car);
 
   const monthsInGreek = [
     'Ιανουάριος',
@@ -86,12 +75,42 @@ function RegisterCarCom1({ step, setStep }) {
     Νοέμβριος: 11,
     Δεκέμβριος: 12,
   };
+  //   key={`my_unique_select_key__${form.model}`}
+  const [form, setForm] = useState({
+    make: car?.make?.name
+      ? { label: car?.make?.name, value: car?.make?._id }
+      : '',
+    model: car?.model?.name
+      ? { label: car?.model?.name, value: car?.model?._id }
+      : '',
+    plate: car?.registrationPlate || '',
+    mileage: car?.mileage || '',
+    fuelType: car?.fuelType
+      ? { label: car?.fuelType, value: car?.fuelType }
+      : '',
+    engineSize: car?.engineSize || '',
+    gearboxType: car?.gearboxType
+      ? { label: car?.gearboxType, value: car?.gearboxType }
+      : '',
+    enginePower: car?.enginePower || '',
+    kilowatt: car?.kilowatt || '',
+    price: car?.rentPerHour || '',
+    year: car?.registration?.year
+      ? { label: car?.registration?.year, value: car?.registration?.year }
+      : '',
+    month: car?.registration?.month
+      ? {
+          label: car?.registration?.month,
+          value: monthsInGreek[car?.registration?.month - 1],
+        }
+      : '',
+  });
 
   const currentYear = new Date().getFullYear();
   const years = Array.from(
     new Array(currentYear - 1900 + 1),
     (val, index) => 1900 + index
-  );
+  ).reverse();
 
   const fuelTypes = ['Βενζίνη', 'Πετρέλαιο', 'Αέριο', 'Ηλεκτρικό'];
 
@@ -136,6 +155,7 @@ function RegisterCarCom1({ step, setStep }) {
   };
 
   const onDataChange = (value, action) => {
+    console.log(value, action);
     handleForm(action.name, value);
 
     if (action.name === 'fuelType' && value.value === 'Ηλεκτρικό') {
@@ -183,6 +203,17 @@ function RegisterCarCom1({ step, setStep }) {
     }
   };
 
+  const validatePlate = (plate) => {
+    const plateRegex = /^[Α-Ω]{3}-\d{4}$/;
+
+    if (!plateRegex.test(plate)) {
+      toast.error('Ο αριθμός κυκλοφορίας πρέπει να είναι της μορφής ΑΒΓ-1234');
+      return false;
+    }
+
+    return true;
+  };
+
   const sumbitCarRegistration = (e) => {
     e.preventDefault();
 
@@ -206,7 +237,6 @@ function RegisterCarCom1({ step, setStep }) {
     const carData = {
       make: make.value,
       model: model.value,
-      registrationPlate: plate,
       mileage: Number(mileage),
       fuelType: fuelType.value,
       gearboxType: gearboxType.value,
@@ -226,24 +256,56 @@ function RegisterCarCom1({ step, setStep }) {
 
     console.log(carData);
 
+    if (!validatePlate(plate)) {
+      return;
+    }
+
     setIsButtonDisabled(true);
 
-    dispatch(carRegistration(carData))
-      .unwrap()
-      .then((res) => {
-        console.log('hi apo dw ');
-        console.log(res);
-        setIsButtonDisabled(false);
-        setStep(2);
-        //navigate(location?.state?.prevUrl ? location?.state?.prevUrl : '/');
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorMessage(error.message);
-        toast.error(error.message);
-        setHasError(true);
-        setIsButtonDisabled(false);
-      });
+    if (!car) {
+      // car doesnt exist, so add plate
+      carData.registrationPlate = plate;
+
+      dispatch(carRegistration(carData))
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          setIsButtonDisabled(false);
+          setStep(2);
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrorMessage(error.message);
+          toast.error(error.message);
+          setHasError(true);
+          setIsButtonDisabled(false);
+        });
+    } else {
+      /**
+       * check if plate is not the same with previous
+       * if not, add new plates for update
+       */
+      if (plate !== car.registrationPlate) {
+        console.log('new plates ');
+        carData.registrationPlate = plate;
+      }
+
+      console.log('updating existing car');
+
+      dispatch(carUpdate({ carId: car._id, car: carData }))
+        .unwrap()
+        .then((res) => {
+          setIsButtonDisabled(false);
+          setStep(2);
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrorMessage(error.message);
+          toast.error(error.message);
+          setHasError(true);
+          setIsButtonDisabled(false);
+        });
+    }
   };
 
   const wrapperRef = useRef(null);
@@ -262,7 +324,9 @@ function RegisterCarCom1({ step, setStep }) {
   useEffect(() => {
     setForm((prevForm) => ({
       ...prevForm,
-      model: '',
+      model: car?.model?.name
+        ? { label: car?.model?.name, value: car?.model?._id }
+        : '',
     }));
     if (form.make !== '' && form.make !== null) {
       dispatch(getBrandModels(form.make.value))
@@ -296,6 +360,7 @@ function RegisterCarCom1({ step, setStep }) {
               name='make'
               onChange={onDataChange}
               placeholder='πχ Volkswagen'
+              defaultValue={form.make}
               styles={colourStyles}
               options={makes?.map((model) => ({
                 value: model?._id,
@@ -310,7 +375,6 @@ function RegisterCarCom1({ step, setStep }) {
               classNamePrefix='custom-select'
               defaultValue={form.model}
               key={`my_unique_select_key__${form.model}`}
-              value={form.model || ''}
               isDisabled={form.make === null ? true : false}
               isLoading={false}
               isClearable={true}
@@ -320,7 +384,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='πχ Golf'
               styles={colourStyles}
-              required={true}
+              //  required={true}
               options={models?.map((model) => ({
                 value: model?._id,
                 label: model?.name,
@@ -330,9 +394,10 @@ function RegisterCarCom1({ step, setStep }) {
           <div className='create-select'>
             <div className='select-label'>Έτος</div>
             <Select
-              required={true}
+              //  required={true}
               className='single-select'
               classNamePrefix='custom-select'
+              defaultValue={form.year}
               isClearable={true}
               isRtl={false}
               isSearchable={true}
@@ -351,6 +416,7 @@ function RegisterCarCom1({ step, setStep }) {
             <Select
               className='single-select'
               classNamePrefix='custom-select'
+              defaultValue={form.month}
               isClearable={true}
               isRtl={false}
               isSearchable={true}
@@ -358,7 +424,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={onDataChange}
               placeholder='πχ Σεπτέμβριος'
               styles={colourStyles}
-              required={true}
+              //   required={true}
               options={monthsInGreek.map((month) => ({
                 value: month,
                 label: month,
@@ -374,7 +440,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleLP}
               name='plate'
               value={form.plate}
-              required={true}
+              //   required={true}
             />
           </div>
           <div className='create-input '>
@@ -386,7 +452,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               name='mileage'
               value={form.mileage}
-              required={true}
+              //   required={true}
             />
           </div>
           <div className='create-select full-row'>
@@ -398,10 +464,11 @@ function RegisterCarCom1({ step, setStep }) {
               isRtl={false}
               isSearchable={false}
               name='fuelType'
+              defaultValue={form.fuelType}
               onChange={onDataChange}
               placeholder='Επιλέξτε καύσιμο'
               styles={colourStyles}
-              required={true}
+              //   required={true}
               options={fuelTypes.map((fuel) => ({
                 value: fuel,
                 label: fuel,
@@ -418,7 +485,7 @@ function RegisterCarCom1({ step, setStep }) {
                 onChange={handleNumbers}
                 name='kilowatt'
                 value={form.kilowatt}
-                required={true}
+                //  required={true}
               />
             </div>
           ) : (
@@ -431,7 +498,7 @@ function RegisterCarCom1({ step, setStep }) {
                 onChange={handleNumbers}
                 name='engineSize'
                 value={form.engineSize}
-                required={true}
+                //  required={true}
               />
             </div>
           )}
@@ -444,7 +511,7 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               name='enginePower'
               value={form.enginePower}
-              required={true}
+              //  required={true}
             />
           </div>
           <div className='create-select full-row'>
@@ -453,13 +520,14 @@ function RegisterCarCom1({ step, setStep }) {
               className='single-select'
               classNamePrefix='custom-select'
               isClearable={true}
+              defaultValue={form.gearboxType}
               isRtl={false}
               isSearchable={false}
               name='gearboxType'
               onChange={onDataChange}
               placeholder='Επιλέξτε κιβώτιο ταχυτήτων'
               styles={colourStyles}
-              required={true}
+              //  required={true}
               options={gearboxTypes.map((type) => ({
                 value: type,
                 label: type,
@@ -475,19 +543,21 @@ function RegisterCarCom1({ step, setStep }) {
               onChange={handleNumbers}
               value={form.price}
               name='price'
-              required={true}
+              //  required={true}
             />
             <FaEuroSign color={'#912740'} className='euro' size={18} />
           </div>
         </div>
-
-        <button
-          type='submit'
-          disabled={isButtonDisabled}
-          className='register-car-btn'
-        >
-          {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'}
-        </button>
+        <div className='buttons'>
+          {' '}
+          <button
+            type='submit'
+            disabled={isButtonDisabled}
+            className='register-car-btn'
+          >
+            {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'}
+          </button>
+        </div>
       </form>
     </div>
   );

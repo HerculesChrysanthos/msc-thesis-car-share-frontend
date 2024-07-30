@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import carService from './carService';
 
+const car = JSON.parse(localStorage.getItem('car'));
+
 const initialState = {
   brands: [],
   models: [],
   carIsLoading: false,
+  car: car ? car : null,
 };
 
 // get car brands
@@ -70,9 +73,19 @@ export const carSlice = createSlice({
       })
       .addCase(carRegistration.fulfilled, (state, action) => {
         state.carIsLoading = false;
-        state.models = action.payload;
+        state.car = action.payload;
       })
       .addCase(carRegistration.rejected, (state) => {
+        state.carIsLoading = false;
+      })
+      .addCase(carUpdate.pending, (state) => {
+        state.carIsLoading = true;
+      })
+      .addCase(carUpdate.fulfilled, (state, action) => {
+        state.carIsLoading = false;
+        state.car = action.payload;
+      })
+      .addCase(carUpdate.rejected, (state) => {
         state.carIsLoading = false;
       });
   },
@@ -84,8 +97,23 @@ export const carRegistration = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
 
-      console.log(token);
       return await carService.carRegistration(car, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const carUpdate = createAsyncThunk(
+  'car/update',
+  async ({ carId, car }, thunkAPI) => {
+    try {
+      console.log(carId);
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.carUpdate(carId, car, token);
     } catch (error) {
       console.log(error);
       const message = error.response.data.error;
