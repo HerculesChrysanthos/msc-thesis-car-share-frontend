@@ -30,7 +30,8 @@ const MyComponent = ({ setStep }) => {
   let addr = null;
   if (car) {
     const { address } = car;
-    if (address) {
+    if (address?.street) {
+      console.log(address);
       const { city, street, number, postalCode } = address;
       addr = street + '' + number + '' + city + '' + postalCode;
     }
