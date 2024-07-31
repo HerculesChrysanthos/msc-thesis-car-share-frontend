@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { carUpdate } from '../../../features/car/carSlice';
+import toast from 'react-hot-toast';
 
 function RegisterCarCom2({ step, setStep }) {
   const dispatch = useDispatch();

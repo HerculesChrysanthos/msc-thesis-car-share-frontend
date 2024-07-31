@@ -977,6 +977,85 @@ header {
   }
 }
 
+.step-three {
+  .autocomplete-suggestions {
+    position: relative;
+    padding-bottom: 16px;
+
+    .create-input-auto-complete {
+      border: 1px solid #a6a6a7;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      height: 64px;
+      cursor: pointer;
+      position: relative;
+
+      .euro {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .input-label {
+        z-index: 1;
+        pointer-events: none;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 14px;
+      }
+
+      .single-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: calc(100% - 24px);
+        font-size: 16px;
+        line-height: 24px;
+        border: none;
+        padding-right: 25px;
+        padding-top: 24px;
+        left: 12px;
+      }
+
+      .single-input:focus,
+      .single-input:focus-visible {
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .google-autocomplete-suggestions {
+      list-style: none;
+      border: 1px solid #a6a6a7;
+      padding: 12px;
+      border-radius: 12px;
+      background-color: #fff;
+
+      position: absolute;
+      top: 76px;
+      width: 100%;
+      max-height: 220px;
+      overflow: auto;
+      z-index: 1;
+
+      li {
+        cursor: pointer;
+        padding: 8px;
+        margin: 4px 0;
+
+        // &:nth-child(odd) {
+        //    background-color: red;
+        // }
+      }
+    }
+  }
+}
+
 @keyframes pop-in {
   from {
     opacity: 0;

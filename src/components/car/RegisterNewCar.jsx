@@ -8,7 +8,7 @@ import RegisterCarCom5 from './stepComponents/RegisterCarCom5';
 import RegisterCarCom6 from './stepComponents/RegisterCarCom6';
 
 function RegisterNewCar() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const renderStep = (step) => {
     switch (step) {
