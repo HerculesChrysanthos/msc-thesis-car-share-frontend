@@ -109,11 +109,11 @@ export const carRegistration = createAsyncThunk(
 
 export const carUpdate = createAsyncThunk(
   'car/update',
-  async ({ carId, car }, thunkAPI) => {
+  async ({ carId, body }, thunkAPI) => {
     try {
       console.log(carId);
       const token = thunkAPI.getState().auth.user.token;
-      return await carService.carUpdate(carId, car, token);
+      return await carService.carUpdate(carId, body, token);
     } catch (error) {
       console.log(error);
       const message = error.response.data.error;

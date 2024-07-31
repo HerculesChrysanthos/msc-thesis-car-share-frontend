@@ -5,14 +5,7 @@ import toast from 'react-hot-toast';
 
 function RegisterCarCom2({ step, setStep }) {
   const dispatch = useDispatch();
-  const [enabledDoorTile, setEnabledDoorTile] = useState('3');
-  const [enabledSeatTile, setEnabledSeatTile] = useState('2');
-  const [enabledColorTile, setEnabledColorTile] = useState(null);
-  const [enabledInteriorColorTile, setEnabledInteriorColorTile] =
-    useState(null);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { carIsLoading, car } = useSelector((state) => state.car);
-
   const [form, setForm] = useState({
     doors: car?.doors ? car?.doors : '3',
     seats: car?.seats ? car?.seats : '2',
@@ -20,6 +13,19 @@ function RegisterCarCom2({ step, setStep }) {
     interiorColor: car?.interiorColor ? car?.interiorColor : '',
     extras: car?.features.length ? car?.features : [],
   });
+
+  const [enabledDoorTile, setEnabledDoorTile] = useState(form.doors);
+  const [enabledSeatTile, setEnabledSeatTile] = useState(form.seats);
+  const [enabledColorTile, setEnabledColorTile] = useState(form.exteriorColor);
+  const [enabledInteriorColorTile, setEnabledInteriorColorTile] = useState(
+    form.interiorColor
+  );
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  console.log(car);
+
+  console.log(form);
 
   const doors = ['3', '5', '7+'];
 
@@ -30,7 +36,7 @@ function RegisterCarCom2({ step, setStep }) {
     { name: 'Μαύρο', color: '#000000' },
     { name: 'Γκρι', color: '#8A8A8A' },
     { name: 'Καφέ', color: '#8E3009' },
-    { name: 'Μπλέ', color: '#000E8E' },
+    { name: 'Μπλε', color: '#000E8E' },
     { name: 'Κίτρινο', color: '#D8C93C' },
     { name: 'Κόκκινο', color: '#D20000' },
     { name: 'Πράσσινο', color: '#008E17' },
@@ -130,7 +136,7 @@ function RegisterCarCom2({ step, setStep }) {
 
     console.log(carFeatures);
 
-    dispatch(carUpdate({ carId: car._id, car: carFeatures }))
+    dispatch(carUpdate({ carId: car._id, body: carFeatures }))
       .unwrap()
       .then((res) => {
         console.log(res);

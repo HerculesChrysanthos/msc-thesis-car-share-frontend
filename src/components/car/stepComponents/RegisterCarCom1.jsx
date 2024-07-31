@@ -292,7 +292,7 @@ function RegisterCarCom1({ step, setStep }) {
 
       console.log('updating existing car');
 
-      dispatch(carUpdate({ carId: car._id, car: carData }))
+      dispatch(carUpdate({ carId: car._id, body: carData }))
         .unwrap()
         .then((res) => {
           setIsButtonDisabled(false);

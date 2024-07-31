@@ -4,6 +4,7 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { carUpdate } from '../../../features/car/carSlice';
+import { add } from 'lodash';
 
 const containerStyle = {
   width: '100%',
@@ -17,7 +18,6 @@ const initialCenter = {
 };
 
 const MyComponent = ({ setStep }) => {
-  const inputRef = useRef(null);
   const autocompleteServiceRef = useRef(null);
   const placesServiceRef = useRef(null);
   const [predictions, setPredictions] = useState([]);
@@ -27,6 +27,15 @@ const MyComponent = ({ setStep }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const dispatch = useDispatch();
   const { carIsLoading, car } = useSelector((state) => state.car);
+  let addr = null;
+  if (car) {
+    const { address } = car;
+    if (address) {
+      const { city, street, number, postalCode } = address;
+      addr = street + '' + number + '' + city + '' + postalCode;
+    }
+  }
+  const inputRef = useRef(null);
 
   const options = {
     componentRestrictions: { country: 'gr' },
@@ -166,14 +175,14 @@ const MyComponent = ({ setStep }) => {
       long,
     };
 
-    console.log({ carId: car._id, address: address });
+    console.log({ carId: car._id, body: address });
 
-    dispatch(carUpdate({ carId: car._id, address: address }))
+    dispatch(carUpdate({ carId: car._id, body: { address } }))
       .unwrap()
       .then((res) => {
         console.log(res);
         setIsButtonDisabled(false);
-        setStep(3);
+        setStep(4);
       })
       .catch((error) => {
         console.log(error);
@@ -196,6 +205,7 @@ const MyComponent = ({ setStep }) => {
                 type='text'
                 className='single-input'
                 ref={inputRef}
+                value={addr}
                 onChange={handleChange}
                 style={{ width: '90%' }}
                 placeholder='Η τοποθεσία μου'

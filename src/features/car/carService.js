@@ -31,10 +31,10 @@ const carRegistration = async (car, token) => {
   return response.data;
 };
 
-const carUpdate = async (carId, car, token) => {
+const carUpdate = async (carId, body, token) => {
   console.log(carId);
   const headers = `Bearer ${token}`;
-  const response = await axios.patch(API_URL + `/cars/${carId}`, car, {
+  const response = await axios.patch(API_URL + `/cars/${carId}`, body, {
     headers: {
       Authorization: headers,
     },
