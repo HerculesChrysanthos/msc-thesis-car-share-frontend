@@ -266,7 +266,7 @@ const MyComponent = ({ setStep }) => {
                 center={center}
                 zoom={16}
               >
-                {marker !== null && <Marker position={marker} />}
+                {marker && <Marker position={marker} />}
               </GoogleMap>
             )}
           </div>
