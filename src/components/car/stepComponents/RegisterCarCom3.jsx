@@ -19,21 +19,54 @@ const initialCenter = {
 
 const MyComponent = ({ setStep }) => {
   const autocompleteServiceRef = useRef(null);
+  const { carIsLoading, car } = useSelector((state) => state.car);
   const placesServiceRef = useRef(null);
   const [predictions, setPredictions] = useState([]);
-  const [marker, setMarker] = useState(null);
-  const [center, setCenter] = useState(initialCenter);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [center, setCenter] = useState(() => {
+    return car.address.location.coordinates[0] !== 0
+      ? {
+          lat: car.address.location.coordinates[1],
+          lng: car.address.location.coordinates[0],
+        }
+      : initialCenter;
+  });
+  const [marker, setMarker] = useState(() => {
+    return car.address.location.coordinates[0] !== 0
+      ? {
+          lat: car.address.location.coordinates[1],
+          lng: car.address.location.coordinates[0],
+        }
+      : null;
+  });
+  const [isButtonDisabled, setIsButtonDisabled] = useState(() => {
+    return car.address.location.coordinates[0] !== 0 ? false : true;
+  });
+  const [selectedPlace, setSelectedPlace] = useState(() => {
+    return car.address.location.coordinates[0] !== 0
+      ? {
+          address_components: [
+            { types: ['locality'], long_name: car.address.city || '' },
+            { types: ['route'], long_name: car.address.street || '' },
+            { types: ['street_number'], long_name: car.address.number || '' },
+            { types: ['postal_code'], long_name: car.address.postalCode || '' },
+          ],
+          geometry: {
+            location: {
+              lat: () => car.address.location.coordinates[1],
+              lng: () => car.address.location.coordinates[0],
+            },
+          },
+        }
+      : null;
+  });
   const dispatch = useDispatch();
-  const { carIsLoading, car } = useSelector((state) => state.car);
   let addr = null;
-  if (car) {
+  if (car.address.location.coordinates[0] !== 0) {
+    console.log(car.address.location.coordinates);
     const { address } = car;
-    if (address?.street) {
-      console.log(address);
+    if (address) {
       const { city, street, number, postalCode } = address;
-      addr = street + '' + number + '' + city + '' + postalCode;
+      addr = street + ' ' + number + ', ' + city + ', ' + postalCode;
     }
   }
   const inputRef = useRef(null);
@@ -233,7 +266,7 @@ const MyComponent = ({ setStep }) => {
                 center={center}
                 zoom={16}
               >
-                {marker && <Marker position={marker} />}
+                {marker !== null && <Marker position={marker} />}
               </GoogleMap>
             )}
           </div>
