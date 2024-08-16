@@ -852,7 +852,7 @@ header {
           border: 2px solid #a6a6a7;
           display: flex;
           align-items: center;
-          cursor: pointer;
+          cursor: pointer; // Make it clear that the tiles are clickable
           //     transition: background-color 0.3s;
 
           &.enabled {
@@ -872,7 +872,7 @@ header {
           .color-display {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 10px; // Space between the circle and the color name
 
             .out-color-circle {
               width: 20px;
@@ -1051,6 +1051,42 @@ header {
         // &:nth-child(odd) {
         //    background-color: red;
         // }
+      }
+    }
+  }
+}
+
+.step-four {
+  .img-upload {
+    #img-upload {
+      display: none;
+    }
+    .file-custom {
+      width: 100%;
+      height: 198px;
+      padding: 40px;
+      font-size: 100px;
+      border: 1px solid #efd4da;
+      border-radius: 4px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+
+      h4 {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 500;
+        color: #000;
+        text-align: justify;
+      }
+
+      p {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 400;
+        color: #595959;
       }
     }
   }
