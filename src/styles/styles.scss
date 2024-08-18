@@ -1068,6 +1068,7 @@ header {
       font-size: 100px;
       border: 1px solid #efd4da;
       border-radius: 4px;
+      margin-bottom: 24px;
 
       display: flex;
       flex-direction: column;
@@ -1087,6 +1088,115 @@ header {
         line-height: 14px;
         font-weight: 400;
         color: #595959;
+      }
+    }
+
+    .image-upload-loading {
+      padding: 12px;
+      border: 1px solid #a6a6a7;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: 1fr 24px;
+      gap: 4px;
+      margin-bottom: 24px;
+
+      p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+      }
+    }
+
+    .car-images-container {
+      h3 {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .car-images {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+
+        @include mq(medium) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include mq(xlarge) {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .single-image {
+          padding: 8px;
+          border: 1px solid #2fb25b;
+          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          label {
+            font-size: 12px;
+            line-height: 14px;
+            font-weight: 400;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .image-container {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            overflow: hidden;
+
+            img {
+              max-width: 100%;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+            }
+          }
+        }
+
+        .image-name-del {
+          display: grid;
+          grid-template-columns: 1fr 24px;
+          gap: 4px;
+
+          p {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+
+            font-size: 12px;
+            line-height: 24px;
+            font-weight: 400;
+          }
+
+          .trash-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
       }
     }
   }

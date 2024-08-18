@@ -23,10 +23,6 @@ function RegisterCarCom2({ step, setStep }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
-  console.log(car);
-
-  console.log(form);
-
   const doors = ['3', '5', '7+'];
 
   const seats = ['2', '3', '4', '5', '6', '7+'];
@@ -61,14 +57,6 @@ function RegisterCarCom2({ step, setStep }) {
     'Air condition',
     'Bluetooth',
   ];
-
-  // const handleForm = (e) => {
-  //   console.log(e.target.value);
-  //   setForm((prevState) => ({
-  //     ...prevState,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // };
 
   const handleForm = (name, value) => {
     setForm((prevState) => ({
@@ -106,13 +94,10 @@ function RegisterCarCom2({ step, setStep }) {
   const hanldeExtras = (event) => {
     const { value, checked } = event.target;
 
-    // console.log(form.extras);
     setForm((prevForm) => {
-      console.log(checked);
       const newExtras = checked
         ? [...prevForm.extras, value]
         : prevForm.extras.filter((extra) => extra !== value);
-      console.log(newExtras);
       return { ...prevForm, extras: newExtras };
     });
   };
@@ -134,12 +119,9 @@ function RegisterCarCom2({ step, setStep }) {
       features: extras,
     };
 
-    console.log(carFeatures);
-
     dispatch(carUpdate({ carId: car._id, body: carFeatures }))
       .unwrap()
       .then((res) => {
-        console.log(res);
         setIsButtonDisabled(false);
         setStep(3);
       })
@@ -155,13 +137,6 @@ function RegisterCarCom2({ step, setStep }) {
   useEffect(() => {
     validateForm(form);
   }, [form]);
-
-  // useEffect(() => {
-  //   setForm((prevForm) => ({
-  //     ...prevForm,
-  //     extras: form.extras || [],
-  //   }));
-  // }, [form?.extras]);
 
   return (
     <div>

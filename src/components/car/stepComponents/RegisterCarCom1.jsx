@@ -155,7 +155,6 @@ function RegisterCarCom1({ step, setStep }) {
   };
 
   const onDataChange = (value, action) => {
-    console.log(value, action);
     handleForm(action.name, value);
 
     if (action.name === 'fuelType' && value.value === 'Ηλεκτρικό') {
@@ -195,9 +194,6 @@ function RegisterCarCom1({ step, setStep }) {
   const handleNumbers = (event) => {
     let value = event.target.value;
     value = value.replace(/\D/g, '');
-
-    console.log(event.target.name);
-    console.log(value);
     if (value <= 1000000 && value >= 0) {
       handleForm(event.target.name, value);
     }
@@ -232,8 +228,6 @@ function RegisterCarCom1({ step, setStep }) {
       year,
     } = form;
 
-    console.log(form);
-
     const carData = {
       make: make.value,
       model: model.value,
@@ -254,8 +248,6 @@ function RegisterCarCom1({ step, setStep }) {
       carData.kilowatt = Number(kilowatt);
     }
 
-    console.log(carData);
-
     if (!validatePlate(plate)) {
       return;
     }
@@ -269,12 +261,10 @@ function RegisterCarCom1({ step, setStep }) {
       dispatch(carRegistration(carData))
         .unwrap()
         .then((res) => {
-          console.log(res);
           setIsButtonDisabled(false);
           setStep(2);
         })
         .catch((error) => {
-          console.log(error);
           setErrorMessage(error.message);
           toast.error(error.message);
           setHasError(true);
@@ -286,11 +276,8 @@ function RegisterCarCom1({ step, setStep }) {
        * if not, add new plates for update
        */
       if (plate !== car.registrationPlate) {
-        console.log('new plates ');
         carData.registrationPlate = plate;
       }
-
-      console.log('updating existing car');
 
       dispatch(carUpdate({ carId: car._id, body: carData }))
         .unwrap()
@@ -299,7 +286,6 @@ function RegisterCarCom1({ step, setStep }) {
           setStep(2);
         })
         .catch((error) => {
-          console.log(error);
           setErrorMessage(error.message);
           toast.error(error.message);
           setHasError(true);

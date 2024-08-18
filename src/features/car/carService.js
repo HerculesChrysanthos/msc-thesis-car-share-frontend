@@ -46,11 +46,63 @@ const carUpdate = async (carId, body, token) => {
 
   return response.data;
 };
+
+const carUploadImage = async (carId, body, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.post(API_URL + `cars/${carId}/images`, body, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  if (response.data) {
+    localStorage.setItem('car', JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
+const carUpdateImage = async (carId, body, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.patch(API_URL + `cars/${carId}`, body, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  if (response.data) {
+    localStorage.setItem('car', JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
+const carDeleteImage = async (carId, imageId, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.delete(
+    API_URL + `cars/${carId}/images/${imageId}`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  if (response.data) {
+    localStorage.setItem('car', JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 const carService = {
   getCarBrands,
   getBrandModels,
   carRegistration,
   carUpdate,
+  carUploadImage,
+  carUpdateImage,
+  carDeleteImage,
 };
 
 export default carService;

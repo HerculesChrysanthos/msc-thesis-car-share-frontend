@@ -62,7 +62,6 @@ const MyComponent = ({ setStep }) => {
   const dispatch = useDispatch();
   let addr = null;
   if (car.address.location.coordinates[0] !== 0) {
-    console.log(car.address.location.coordinates);
     const { address } = car;
     if (address) {
       const { city, street, number, postalCode } = address;
@@ -209,21 +208,15 @@ const MyComponent = ({ setStep }) => {
       long,
     };
 
-    console.log({ carId: car._id, body: address });
-
     dispatch(carUpdate({ carId: car._id, body: { address } }))
       .unwrap()
       .then((res) => {
-        console.log(res);
         setIsButtonDisabled(false);
         setStep(4);
       })
       .catch((error) => {
         console.log(error);
-        // setErrorMessage(error.message)
         toast.error(error.message);
-        // setHasError(true)
-        // setIsButtonDisabled(false)
       });
   };
 
