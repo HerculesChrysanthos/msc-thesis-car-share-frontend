@@ -95,6 +95,17 @@ const carDeleteImage = async (carId, imageId, token) => {
   return response.data;
 };
 
+const getMycars = async (token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.get(API_URL + `cars/my-cars`, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  return response.data;
+};
+
 const carService = {
   getCarBrands,
   getBrandModels,
@@ -103,6 +114,7 @@ const carService = {
   carUploadImage,
   carUpdateImage,
   carDeleteImage,
+  getMycars,
 };
 
 export default carService;

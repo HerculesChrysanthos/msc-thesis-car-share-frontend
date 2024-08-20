@@ -144,6 +144,7 @@ header {
       background-color: #e6e6e6;
       z-index: 5;
       border-radius: 50px;
+      cursor: pointer;
 
       display: flex;
       align-items: center;
@@ -1195,6 +1196,228 @@ header {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.profile-page {
+  padding-top: 32px;
+  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    @include mq(medium) {
+      flex-direction: row;
+      gap: 24px;
+      align-items: center;
+      padding-left: 24px;
+      margin-bottom: 24px;
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .profile-image {
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      border: 4px solid #272728;
+      position: relative;
+      margin-bottom: 12px;
+
+      img {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .upload-icon {
+        position: absolute;
+        top: 116px;
+        left: 92px;
+        width: 40px;
+        height: 40px;
+        background-color: #272728;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      h2 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 700;
+        color: #000;
+      }
+
+      .rating {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        .stars {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        .text {
+          color: #838486;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .tab-section {
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    padding: 16px;
+    border-radius: 24px;
+    width: 100%;
+
+    @include mq(xlarge) {
+      display: grid;
+      grid-template-columns: 236px 1fr;
+      gap: 40px;
+
+      padding: 24px;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 16px;
+      overflow-x: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      max-width: 100%;
+      margin-bottom: 40px;
+
+      @include mq(medium) {
+        justify-content: space-between;
+      }
+
+      @include mq(xlarge) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 0;
+        justify-content: flex-start;
+      }
+
+      .tab {
+        padding: 8px 16px 8px 16px;
+        border-radius: 8px;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 400;
+        color: #595959;
+        text-wrap: nowrap;
+        cursor: pointer;
+      }
+
+      .selected {
+        background-color: #efd4da;
+        font-weight: 500;
+        color: #000;
+      }
+    }
+    .car-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+
+      .car {
+        padding: 16px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e6e6e6;
+        cursor: pointer;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        @include mq(medium) {
+          flex-direction: row;
+          justify-content: flex-start;
+        }
+
+        .car-img {
+          width: 146px;
+          height: 104px;
+          border-radius: 8px;
+          overflow: hidden;
+
+          img {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+
+        .car-info {
+          h2 {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+
+            @include mq(medium) {
+              text-align: left;
+            }
+          }
+          .rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+
+            .stars {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+            }
+
+            .text {
+              color: #838486;
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 300;
+            }
           }
         }
       }

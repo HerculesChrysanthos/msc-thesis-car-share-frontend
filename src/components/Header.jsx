@@ -21,7 +21,7 @@ function Header() {
           <ul className='flex-center-32'>
             {user ? (
               <>
-                <li>
+                <li onClick={() => navigate('/profile')}>
                   {user?.user?.name} {user?.user?.surname}
                 </li>
                 <li onClick={() => navigate('/car-registration')}>

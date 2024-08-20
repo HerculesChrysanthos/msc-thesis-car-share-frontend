@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import Header from './components/Header';
 import CarRegistration from './pages/CarRegistration';
+import Profile from './pages/Profile';
 
 function App() {
   const ProtectedRoutes = () => {
@@ -41,6 +42,10 @@ function App() {
         {
           path: '/car-registration',
           element: <CarRegistration />,
+        },
+        {
+          path: '/profile',
+          element: <Profile />,
         },
       ],
     },

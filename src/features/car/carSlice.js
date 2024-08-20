@@ -9,6 +9,7 @@ const initialState = {
   carIsLoading: false,
   carImgUploadLoading: false,
   car: car ? car : null,
+  myCars: [],
 };
 
 // get car brands
@@ -118,6 +119,16 @@ export const carSlice = createSlice({
       })
       .addCase(carUpdateImage.rejected, (state) => {
         state.carImgUploadLoading = false;
+      })
+      .addCase(getMycars.pending, (state) => {
+        state.carIsLoading = true;
+      })
+      .addCase(getMycars.fulfilled, (state, action) => {
+        state.carIsLoading = false;
+        state.myCars = action.payload;
+      })
+      .addCase(getMycars.rejected, (state) => {
+        state.carIsLoading = false;
       });
   },
 });
@@ -142,7 +153,6 @@ export const carUpdate = createAsyncThunk(
   'car/update',
   async ({ carId, body }, thunkAPI) => {
     try {
-      console.log(carId);
       const token = thunkAPI.getState().auth.user.token;
       return await carService.carUpdate(carId, body, token);
     } catch (error) {
@@ -158,7 +168,6 @@ export const carUploadImage = createAsyncThunk(
   'car/upload/image',
   async ({ carId, body }, thunkAPI) => {
     try {
-      console.log(carId);
       const token = thunkAPI.getState().auth.user.token;
       return await carService.carUploadImage(carId, body, token);
     } catch (error) {
@@ -174,7 +183,6 @@ export const carUpdateImage = createAsyncThunk(
   'car/update/image',
   async ({ carId, body }, thunkAPI) => {
     try {
-      console.log(carId);
       const token = thunkAPI.getState().auth.user.token;
       return await carService.carUpdateImage(carId, body, token);
     } catch (error) {
@@ -190,9 +198,23 @@ export const carDeleteImage = createAsyncThunk(
   'car/delete/image',
   async ({ carId, imageId }, thunkAPI) => {
     try {
-      console.log(carId);
       const token = thunkAPI.getState().auth.user.token;
       return await carService.carDeleteImage(carId, imageId, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getMycars = createAsyncThunk(
+  'cars/getMyCars',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.getMycars(token);
     } catch (error) {
       console.log(error);
       const message = error.response.data.error;
