@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { getBrandModels, getCarBrands } from '../../../features/car/carSlice';
+import {
+  getBrandModels,
+  getCarBrands,
+  carRegistration,
+  carUpdate,
+} from '../../../../../features/car/carSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaEuroSign } from 'react-icons/fa';
 import Select from 'react-select';
-import { carRegistration, carUpdate } from '../../../features/car/carSlice';
 import toast from 'react-hot-toast';
 
-function RegisterCarCom1({ step, setStep }) {
-  const { car } = useSelector((state) => state.car);
-
+function CarInfomrations({ car }) {
   const colourStyles = {
     control: (styles) => ({ ...styles, backgroundColor: 'white' }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -254,21 +257,7 @@ function RegisterCarCom1({ step, setStep }) {
     setIsButtonDisabled(true);
 
     if (!car) {
-      // car doesnt exist, so add plate
-      carData.registrationPlate = plate;
-
-      dispatch(carRegistration(carData))
-        .unwrap()
-        .then((res) => {
-          setIsButtonDisabled(false);
-          setStep(2);
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-          toast.error(error.message);
-          setHasError(true);
-          setIsButtonDisabled(false);
-        });
+      return;
     } else {
       /**
        * check if plate is not the same with previous
@@ -282,7 +271,7 @@ function RegisterCarCom1({ step, setStep }) {
         .unwrap()
         .then((res) => {
           setIsButtonDisabled(false);
-          setStep(2);
+          toast.success('Επιτυχής ενημέρωση αυτοκινήτου');
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -328,11 +317,9 @@ function RegisterCarCom1({ step, setStep }) {
   useEffect(() => {
     validateForm(form);
   }, [form]);
-
   return (
     <div ref={wrapperRef}>
       <form onSubmit={sumbitCarRegistration}>
-        <h2>Στοιχεία οχήματος</h2>
         <div className='select-container'>
           <div className='create-select'>
             <div className='select-label'>Mάρκα</div>
@@ -541,7 +528,7 @@ function RegisterCarCom1({ step, setStep }) {
             disabled={isButtonDisabled}
             className='register-car-btn'
           >
-            {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'}
+            {carIsLoading ? 'Φόρτωση..' : ' Αποθήκευση'}
           </button>
         </div>
       </form>
@@ -549,4 +536,4 @@ function RegisterCarCom1({ step, setStep }) {
   );
 }
 
-export default RegisterCarCom1;
+export default CarInfomrations;

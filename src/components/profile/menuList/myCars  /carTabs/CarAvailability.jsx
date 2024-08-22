@@ -1,9 +1,20 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import debounce from 'lodash/debounce';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { setHours, setMinutes, addHours } from 'date-fns';
+import { el } from 'date-fns/locale';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+
+import { SlCloudUpload } from 'react-icons/sl';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { carUpdate } from '../../../features/car/carSlice';
+import {
+  carUpdateImage,
+  carUploadImage,
+  carDeleteImage,
+} from '../../../../../features/car/carSlice';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
 const containerStyle = {
   width: '100%',
@@ -16,7 +27,18 @@ const initialCenter = {
   lng: 23.727539,
 };
 
-const MyComponent = ({ setStep }) => {
+function CarAvailability() {
+  const now = new Date();
+  const nextHour = setMinutes(setHours(now, now.getHours() + 1), 0);
+
+  const [startDate, setStartDate] = useState(nextHour);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    setEndDate(null); // Reset end date when start date changes
+  };
+
   const autocompleteServiceRef = useRef(null);
   const { carIsLoading, car } = useSelector((state) => state.car);
   const placesServiceRef = useRef(null);
@@ -91,7 +113,7 @@ const MyComponent = ({ setStep }) => {
       });
 
       setIsButtonDisabled(false);
-      setAddr(place.formatted_address);
+      setAddr(place.formatted_address); // Update the input field value
     }
   };
 
@@ -145,7 +167,7 @@ const MyComponent = ({ setStep }) => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setAddr(value);
+    setAddr(value); // Update the addr state when the input changes
     if (value.trim() === '') {
       setPredictions([]); // Clear predictions if input is empty
     } else {
@@ -156,7 +178,7 @@ const MyComponent = ({ setStep }) => {
   const { isLoaded } = useLoadScript({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyCYAZZw3e-pUDPSHWluC2sbEjRO5FBo-CU',
-    libraries: ['places'],
+    libraries: ['places'], // Use the constant here
   });
 
   const sumbitCarLocation = (e) => {
@@ -223,68 +245,97 @@ const MyComponent = ({ setStep }) => {
   };
 
   return (
-    <div className='step-three'>
-      <form onSubmit={sumbitCarLocation}>
-        <h2>Τοποθεσία αυτοκινήτου</h2>
-        <div>
-          <div className='autocomplete-suggestions'>
-            <div className='create-input-auto-complete'>
-              <div className='input-label'>Διεύθυνση</div>
-              <input
-                type='text'
-                className='single-input'
-                ref={inputRef}
-                value={addr}
-                onChange={handleChange}
-                style={{ width: '90%' }}
-                placeholder='Η τοποθεσία μου'
-                required={true}
-              />
-            </div>
-            {predictions.length > 0 && (
-              <ul className='google-autocomplete-suggestions'>
-                {predictions.map((prediction) => (
-                  <li
-                    key={prediction.place_id}
-                    onClick={() => handlePredictionClick(prediction.place_id)}
-                  >
-                    {prediction.description}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div>
-            {isLoaded && (
-              <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={16}
-              >
-                {marker && <Marker position={marker} />}
-              </GoogleMap>
-            )}
-          </div>
+    <form>
+      <div className='select-container'>
+        <div className='create-input '>
+          <div className='input-label'>Διαθέσιμο από</div>
+          <DatePicker
+            wrapperClassName='datePicker'
+            selected={startDate}
+            onChange={handleStartDateChange}
+            showTimeSelect
+            timeFormat='HH:mm'
+            timeIntervals={60}
+            timeCaption='Ώρα'
+            minDate={new Date()}
+            minTime={now}
+            maxTime={setHours(setMinutes(new Date(), 0), 23)}
+            injectTimes={[
+              setHours(setMinutes(new Date(), 0), now.getHours() + 1),
+              ...Array.from({ length: 23 - now.getHours() }, (_, i) =>
+                setHours(setMinutes(new Date(), 0), now.getHours() + 2 + i)
+              ),
+            ]}
+            dateFormat='MMMM d, yyyy HH:mm'
+            locale={el}
+          />
         </div>
-        <div className='buttons'>
-          <button
-            type='submit'
-            disabled={isButtonDisabled}
-            className='register-car-btn'
-          >
-            {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'}
-          </button>
-          <button
-            type='button'
-            className='go-back-car-btn'
-            onClick={handleGoBackButton}
-          >
-            Προηγούμενο
-          </button>
+        <div className='create-input '>
+          <div className='input-label'>Διαθέσιμο έως</div>
+          <DatePicker
+            selected={endDate}
+            wrapperClassName='datePicker'
+            onChange={(date) => setEndDate(date)}
+            showTimeSelect
+            timeFormat='HH:mm'
+            timeIntervals={60}
+            timeCaption='Ώρα'
+            minDate={startDate}
+            minTime={startDate}
+            maxTime={setHours(setMinutes(new Date(), 0), 23)}
+            injectTimes={[
+              setHours(setMinutes(new Date(), 0), startDate.getHours() + 1),
+              ...Array.from({ length: 23 - startDate.getHours() }, (_, i) =>
+                setHours(
+                  setMinutes(new Date(), 0),
+                  startDate.getHours() + 2 + i
+                )
+              ),
+            ]}
+            dateFormat='MMMM d, yyyy HH:mm'
+            locale={el}
+          />
         </div>
-      </form>
-    </div>
-  );
-};
 
-export default MyComponent;
+        <div className='create-input full-row'>
+          <div className='input-label'>Διεύθυνση</div>
+          <input
+            type='text'
+            className='single-input'
+            ref={inputRef}
+            value={addr}
+            onChange={handleChange}
+            style={{ width: '90%' }}
+            placeholder='Η τοποθεσία μου'
+            required={true}
+          />
+          {predictions.length > 0 && (
+            <ul className='google-autocomplete-suggestions'>
+              {predictions.map((prediction) => (
+                <li
+                  key={prediction.place_id}
+                  onClick={() => handlePredictionClick(prediction.place_id)}
+                >
+                  {prediction.description}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className='full-row'>
+          {isLoaded && (
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={16}
+            >
+              {marker && <Marker position={marker} />}
+            </GoogleMap>
+          )}
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export default CarAvailability;

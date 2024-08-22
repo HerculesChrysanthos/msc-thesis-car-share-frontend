@@ -625,10 +625,12 @@ header {
   }
 }
 
-.register-car {
+.register-car,
+.single-car {
   position: relative;
   max-width: 768px;
   padding: 32px 16px;
+  padding-bottom: 0;
 
   h1 {
     font-size: 32px;
@@ -1351,76 +1353,321 @@ header {
       }
     }
     .car-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
+      .mycars-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
 
-      .car {
-        padding: 16px;
-        border-radius: 16px;
-        background: #ffffff;
-        border: 1px solid #e6e6e6;
-        cursor: pointer;
+        .car {
+          padding: 16px;
+          border-radius: 16px;
+          background: #ffffff;
+          border: 1px solid #e6e6e6;
+          cursor: pointer;
+          margin-bottom: 26px;
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
 
-        @include mq(medium) {
-          flex-direction: row;
-          justify-content: flex-start;
-        }
-
-        .car-img {
-          width: 146px;
-          height: 104px;
-          border-radius: 8px;
-          overflow: hidden;
-
-          img {
-            max-width: 100%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+          &:nth-last-child(2) {
+            margin-bottom: 0;
           }
-        }
 
-        .car-info {
-          h2 {
-            font-size: 24px;
-            line-height: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-align: center;
+          @include mq(medium) {
+            flex-direction: row;
+            justify-content: flex-start;
+          }
 
-            @include mq(medium) {
-              text-align: left;
+          .car-img {
+            width: 146px;
+            height: 104px;
+            border-radius: 8px;
+            overflow: hidden;
+
+            img {
+              max-width: 100%;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
             }
           }
-          .rating {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
 
-            .stars {
-              display: flex;
-              align-items: center;
-              justify-content: flex-start;
-            }
+          .car-info {
+            h2 {
+              font-size: 24px;
+              line-height: 32px;
+              font-weight: 700;
+              margin-bottom: 8px;
+              text-align: center;
 
-            .text {
-              color: #838486;
-              font-size: 16px;
-              line-height: 24px;
-              font-weight: 300;
+              @include mq(medium) {
+                text-align: left;
+              }
             }
           }
         }
       }
+
+      .add-car-container {
+        justify-self: end;
+
+        .add-car {
+          width: fit-content;
+          border: 1px solid #000000;
+          padding: 8px 24px;
+          border-radius: 8px;
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 500;
+          background-color: #fff;
+          margin-inline: auto;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .no-cars-registered {
+      h2 {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #838486;
+        margin-bottom: 26px;
+        text-align: center;
+      }
+
+      .img {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        max-width: 424px;
+        margin-inline: auto;
+        margin-bottom: 24px;
+
+        img {
+          max-width: 100%;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+
+      .add-car-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .add-car {
+          width: fit-content;
+          border: 1px solid #000000;
+          padding: 8px 24px;
+          border-radius: 8px;
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 500;
+          background-color: #fff;
+          margin-inline: auto;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .single-car {
+      max-width: 100%;
+
+      .car-images {
+        @include mq(xlarge) {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      .car-images-container {
+        margin-bottom: 16px;
+
+        h3 {
+          text-align: left;
+        }
+      }
+
+      .img-upload {
+        label {
+          margin-bottom: 0;
+        }
+      }
+
+      .register-car-btn {
+        margin-bottom: 0;
+      }
+
+      .datePicker {
+        input {
+          border: none;
+        }
+      }
+
+      .react-datepicker__tab-loop {
+        h2 {
+          font-size: 16px;
+          line-height: normal;
+        }
+
+        .react-datepicker {
+          border-radius: 12px;
+          border: 1px solid #a6a6a7;
+          padding: 12px;
+
+          .react-datepicker__header {
+            background-color: #fff;
+          }
+        }
+      }
+
+      .google-autocomplete-suggestions {
+        list-style: none;
+        border: 1px solid #a6a6a7;
+        padding: 12px;
+        border-radius: 12px;
+        background-color: #fff;
+
+        position: absolute;
+        top: 76px;
+        left: 0;
+        width: 100%;
+        max-height: 220px;
+        overflow: auto;
+        z-index: 1;
+
+        li {
+          cursor: pointer;
+          padding: 8px;
+          margin: 4px 0;
+
+          // &:nth-child(odd) {
+          //    background-color: red;
+          // }
+        }
+      }
+
+      .car-top-section {
+        width: 100%;
+        margin-bottom: 24px;
+
+        .back-button {
+          display: flex;
+          align-items: center;
+          gap: 13px;
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #000;
+          border: none;
+          background-color: unset;
+          margin-bottom: 4px;
+          cursor: pointer;
+        }
+
+        h2 {
+          font-size: 32px;
+          line-height: 40px;
+          font-weight: 700;
+          color: #000;
+          margin-bottom: 4px;
+          width: 100%;
+          text-align: left;
+        }
+
+        .rating-delete {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+
+          @include mq(medium) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          .delete-car {
+            align-self: flex-end;
+
+            button {
+              font-size: 20px;
+              line-height: 24px;
+              color: #dd2037;
+              border: none;
+              background-color: unset;
+            }
+          }
+        }
+      }
+
+      .car-tabs {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 16px;
+        overflow-x: auto;
+        margin-bottom: 24px;
+
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+
+        .car-tab {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 300;
+          text-wrap: nowrap;
+          padding: 4px 16px 8px 16px;
+          border-width: 0 0 2px 0;
+          border-color: transparent;
+          border-style: solid;
+          color: #595959;
+          cursor: pointer;
+        }
+
+        .selected-car-tab {
+          border-width: 0 0 2px 0;
+          border-color: #912740;
+          border-style: solid;
+          font-weight: 400;
+          color: #000;
+        }
+      }
+    }
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+
+    .stars {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .star {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .text {
+      color: #838486;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 300;
     }
   }
 }
@@ -1446,5 +1693,81 @@ header {
   to {
     opacity: 0;
     transform: scale(0);
+  }
+}
+
+.spinner-full-width {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-24 {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid $main-color;
+    animation: prixClipFix 2s linear infinite;
+  }
+}
+
+.loader-24 {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid $main-color;
+    animation: prixClipFix 2s linear infinite;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
   }
 }
