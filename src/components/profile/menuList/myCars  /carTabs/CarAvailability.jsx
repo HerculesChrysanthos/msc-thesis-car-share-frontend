@@ -2,7 +2,14 @@ import React, { useRef, useEffect, useCallback, useState } from 'react';
 import debounce from 'lodash/debounce';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { setHours, setMinutes, addHours } from 'date-fns';
+import {
+  setHours,
+  setMinutes,
+  addHours,
+  isSameDay,
+  startOfDay,
+  endOfDay,
+} from 'date-fns';
 import { el } from 'date-fns/locale';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
@@ -27,20 +34,20 @@ const initialCenter = {
   lng: 23.727539,
 };
 
-function CarAvailability() {
+function CarAvailability({ car }) {
   const now = new Date();
   const nextHour = setMinutes(setHours(now, now.getHours() + 1), 0);
 
   const [startDate, setStartDate] = useState(nextHour);
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(addHours(nextHour, 1));
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setEndDate(null); // Reset end date when start date changes
+    setEndDate(addHours(date, 1)); // Set end date to one hour after start date
   };
 
+  const { carIsLoading } = useSelector((state) => state.car);
   const autocompleteServiceRef = useRef(null);
-  const { carIsLoading, car } = useSelector((state) => state.car);
   const placesServiceRef = useRef(null);
   const [predictions, setPredictions] = useState([]);
   const [center, setCenter] = useState(() => {
@@ -161,10 +168,6 @@ function CarAvailability() {
     }
   }, []);
 
-  const handleGoBackButton = (e) => {
-    setStep(2);
-  };
-
   const handleChange = (e) => {
     const value = e.target.value;
     setAddr(value); // Update the addr state when the input changes
@@ -181,7 +184,18 @@ function CarAvailability() {
     libraries: ['places'], // Use the constant here
   });
 
-  const sumbitCarLocation = (e) => {
+  function formatToISOString(date) {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  }
+
+  const updateAvailability = (e) => {
     e.preventDefault();
 
     if (!selectedPlace) {
@@ -213,15 +227,34 @@ function CarAvailability() {
 
     if (!city || '') {
       toast.error('Παρακαλώ διαλέξτε πόλη');
+      return;
     }
 
     if (!street || '') {
       toast.error('Παρακαλώ διαλέξτε διεύθυνση');
+      return;
     }
 
     if (!number || '') {
       toast.error('Παρακαλώ διαλέξτε αριθμό διεύθυνσης');
+      return;
     }
+
+    if (!startDate || '') {
+      toast.error('Παρακαλώ διαλέξτε αρχική ημερομηνία');
+      return;
+    }
+
+    if (!startDate || '') {
+      toast.error('Παρακαλώ διαλέξτε τελική ημερομηνία');
+      return;
+    }
+
+    const formattedStartDate = formatToISOString(startDate);
+    const formattedEndtDate = formatToISOString(endDate);
+
+    console.log('start: ', formattedStartDate);
+    console.log('end: ', formattedEndtDate);
 
     const address = {
       city,
@@ -231,6 +264,9 @@ function CarAvailability() {
       lat,
       long,
     };
+
+    console.log(address);
+    return;
 
     dispatch(carUpdate({ carId: car._id, body: { address } }))
       .unwrap()
@@ -245,7 +281,7 @@ function CarAvailability() {
   };
 
   return (
-    <form>
+    <form onSubmit={updateAvailability}>
       <div className='select-container'>
         <div className='create-input '>
           <div className='input-label'>Διαθέσιμο από</div>
@@ -258,14 +294,21 @@ function CarAvailability() {
             timeIntervals={60}
             timeCaption='Ώρα'
             minDate={new Date()}
-            minTime={now}
+            minTime={isSameDay(startDate, now) ? nextHour : startOfDay(now)}
             maxTime={setHours(setMinutes(new Date(), 0), 23)}
-            injectTimes={[
-              setHours(setMinutes(new Date(), 0), now.getHours() + 1),
-              ...Array.from({ length: 23 - now.getHours() }, (_, i) =>
-                setHours(setMinutes(new Date(), 0), now.getHours() + 2 + i)
-              ),
-            ]}
+            injectTimes={
+              isSameDay(startDate, now)
+                ? [
+                    setHours(setMinutes(new Date(), 0), now.getHours() + 1),
+                    ...Array.from({ length: 23 - now.getHours() }, (_, i) =>
+                      setHours(
+                        setMinutes(new Date(), 0),
+                        now.getHours() + 2 + i
+                      )
+                    ),
+                  ]
+                : []
+            }
             dateFormat='MMMM d, yyyy HH:mm'
             locale={el}
           />
@@ -281,17 +324,30 @@ function CarAvailability() {
             timeIntervals={60}
             timeCaption='Ώρα'
             minDate={startDate}
-            minTime={startDate}
+            minTime={
+              isSameDay(startDate, endDate)
+                ? addHours(startDate, 1)
+                : startOfDay(startDate)
+            }
             maxTime={setHours(setMinutes(new Date(), 0), 23)}
-            injectTimes={[
-              setHours(setMinutes(new Date(), 0), startDate.getHours() + 1),
-              ...Array.from({ length: 23 - startDate.getHours() }, (_, i) =>
-                setHours(
-                  setMinutes(new Date(), 0),
-                  startDate.getHours() + 2 + i
-                )
-              ),
-            ]}
+            injectTimes={
+              isSameDay(startDate, endDate)
+                ? [
+                    setHours(
+                      setMinutes(new Date(), 0),
+                      startDate.getHours() + 1
+                    ),
+                    ...Array.from(
+                      { length: 23 - startDate.getHours() },
+                      (_, i) =>
+                        setHours(
+                          setMinutes(new Date(), 0),
+                          startDate.getHours() + 2 + i
+                        )
+                    ),
+                  ]
+                : []
+            }
             dateFormat='MMMM d, yyyy HH:mm'
             locale={el}
           />
@@ -333,6 +389,15 @@ function CarAvailability() {
             </GoogleMap>
           )}
         </div>
+      </div>
+      <div className='buttons'>
+        <button
+          type='submit'
+          disabled={isButtonDisabled}
+          className='register-car-btn'
+        >
+          {carIsLoading ? 'Φόρτωση..' : ' Αποθήκευση'}
+        </button>
       </div>
     </form>
   );
