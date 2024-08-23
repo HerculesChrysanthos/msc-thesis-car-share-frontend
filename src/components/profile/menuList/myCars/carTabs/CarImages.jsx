@@ -110,6 +110,7 @@ export default function CarImages({ car, setDisplayedCar }) {
         toast.error(error.message);
       });
   };
+
   return (
     <div className='step-four'>
       <form action=''>

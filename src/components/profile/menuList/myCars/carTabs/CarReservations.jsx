@@ -16,9 +16,9 @@ function CarReservations({ car, setDisplayedCar }) {
   const [pendingPageNum, setPendingPageNum] = useState(1);
   const [acceptedPageNum, setAcceptedPageNum] = useState(1);
   const [previousPageNum, setPreviousPageNum] = useState(1);
-  const [pendingLimit, setPendingLimit] = useState(1);
-  const [acceptedLimit, setAcceptedLimit] = useState(1);
-  const [previousLimit, setPreviousLimit] = useState(1);
+  const [pendingLimit, setPendingLimit] = useState(9);
+  const [acceptedLimit, setAcceptedLimit] = useState(9);
+  const [previousLimit, setPreviousLimit] = useState(9);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -151,15 +151,20 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          <ReactPaginate
-            breakLabel='...'
-            nextLabel={<GoChevronRight size='16px' />}
-            onPageChange={(event) => setPendingPageNum(event.selected + 1)}
-            pageRangeDisplayed={3}
-            pageCount={bookingPending[0].totalCount[0].count}
-            previousLabel={<GoChevronLeft size='16px' />}
-            renderOnZeroPageCount={null}
-          />
+          {Math.ceil(bookingPending[0].totalCount[0].count / pendingLimit) >
+            1 && (
+            <ReactPaginate
+              breakLabel='...'
+              nextLabel={<GoChevronRight size='16px' />}
+              onPageChange={(event) => setPendingPageNum(event.selected + 1)}
+              pageRangeDisplayed={3}
+              pageCount={Math.ceil(
+                bookingPending[0].totalCount[0].count / pendingLimit
+              )}
+              previousLabel={<GoChevronLeft size='16px' />}
+              renderOnZeroPageCount={null}
+            />
+          )}
         </div>
       )}
       {bookingAccepted[0]?.paginatedResults.length > 0 && (
@@ -187,15 +192,20 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          <ReactPaginate
-            breakLabel='...'
-            nextLabel={<GoChevronRight size='16px' />}
-            onPageChange={(event) => setAcceptedPageNum(event.selected + 1)}
-            pageRangeDisplayed={3}
-            pageCount={bookingAccepted[0].totalCount[0].count}
-            previousLabel={<GoChevronLeft size='16px' />}
-            renderOnZeroPageCount={null}
-          />
+          {Math.ceil(bookingAccepted[0].totalCount[0].count / acceptedLimit) >
+            1 && (
+            <ReactPaginate
+              breakLabel='...'
+              nextLabel={<GoChevronRight size='16px' />}
+              onPageChange={(event) => setAcceptedPageNum(event.selected + 1)}
+              pageRangeDisplayed={3}
+              pageCount={Math.ceil(
+                bookingAccepted[0].totalCount[0].count / acceptedLimit
+              )}
+              previousLabel={<GoChevronLeft size='16px' />}
+              renderOnZeroPageCount={null}
+            />
+          )}
         </div>
       )}
       {bookingPrevious[0]?.paginatedResults.length > 0 && (
@@ -223,15 +233,20 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          <ReactPaginate
-            breakLabel='...'
-            nextLabel={<GoChevronRight size='16px' />}
-            onPageChange={(event) => setPreviousPageNum(event.selected + 1)}
-            pageRangeDisplayed={3}
-            pageCount={bookingPrevious[0].totalCount[0].count}
-            previousLabel={<GoChevronLeft size='16px' />}
-            renderOnZeroPageCount={null}
-          />
+          {Math.ceil(bookingPrevious[0].totalCount[0].count / previousLimit) >
+            1 && (
+            <ReactPaginate
+              breakLabel='...'
+              nextLabel={<GoChevronRight size='16px' />}
+              onPageChange={(event) => setPreviousPageNum(event.selected + 1)}
+              pageRangeDisplayed={3}
+              pageCount={Math.ceil(
+                bookingPrevious[0].totalCount[0].count / previousLimit
+              )}
+              previousLabel={<GoChevronLeft size='16px' />}
+              renderOnZeroPageCount={null}
+            />
+          )}
         </div>
       )}
     </div>
