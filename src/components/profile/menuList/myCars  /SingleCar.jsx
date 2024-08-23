@@ -13,18 +13,37 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
   const tabList = [
     {
       name: 'Διαθεσιμότητα',
-      component: <CarAvailability car={displayedCar} />,
+      component: (
+        <CarAvailability car={displayedCar} setDisplayedCar={setDisplayedCar} />
+      ),
     },
-    { name: 'Κρατήσεις', component: <CarReservations car={displayedCar} /> },
+    {
+      name: 'Κρατήσεις',
+      component: (
+        <CarReservations car={displayedCar} setDisplayedCar={setDisplayedCar} />
+      ),
+    },
     {
       name: 'Στοιχεία οχήματος',
-      component: <CarInfomrations car={displayedCar} />,
+      component: (
+        <CarInfomrations car={displayedCar} setDisplayedCar={setDisplayedCar} />
+      ),
     },
     {
       name: 'Επιπλέον χαρακτηριστικά',
-      component: <CarExtraFeatures car={displayedCar} />,
+      component: (
+        <CarExtraFeatures
+          car={displayedCar}
+          setDisplayedCar={setDisplayedCar}
+        />
+      ),
     },
-    { name: 'Φωτογραφίες', component: <CarImages car={displayedCar} /> },
+    {
+      name: 'Φωτογραφίες',
+      component: (
+        <CarImages car={displayedCar} setDisplayedCar={setDisplayedCar} />
+      ),
+    },
   ];
   const deleteCar = () => {};
   return (

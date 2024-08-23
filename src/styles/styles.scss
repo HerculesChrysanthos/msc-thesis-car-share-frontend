@@ -1480,6 +1480,7 @@ header {
 
     .single-car {
       max-width: 100%;
+      padding: 0;
 
       .car-images {
         @include mq(xlarge) {
@@ -1712,6 +1713,14 @@ header {
   justify-content: center;
 }
 
+.spinner-16 {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .loader {
   width: 48px;
   height: 48px;
@@ -1745,6 +1754,213 @@ header {
     border-radius: 50%;
     border: 5px solid $main-color;
     animation: prixClipFix 2s linear infinite;
+  }
+}
+
+.car-reservations {
+  .booking-list {
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: #912740;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  .bookings {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .book {
+      padding: 24px 16px 24px 16px;
+      border: 1px solid #e6e6e6;
+      background-color: #f8f8f8;
+      border-radius: 16px;
+      width: 100%;
+      position: relative;
+
+      .status {
+        padding: 4px 12px 4px 12px;
+        border-radius: 24px;
+        margin-inline: auto;
+        width: fit-content;
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 500;
+
+        @include mq(medium) {
+          top: 16px;
+          left: 16px;
+          transform: unset;
+        }
+      }
+
+      .status.accepted {
+        background-color: #e2f0e7;
+        color: #2fb25b;
+      }
+
+      .status.rejected {
+        background-color: #f3e3e5;
+        color: #dd2037;
+      }
+
+      .status.cancelled {
+        background-color: #ece7dd;
+        color: #e59a01;
+      }
+
+      .for {
+        margin-bottom: 14px;
+        text-align: center;
+        h3 {
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          margin-bottom: 12px;
+          color: #000;
+        }
+
+        .dates {
+          @include mq(medium) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+          }
+          .date {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 500;
+            color: #000;
+          }
+        }
+      }
+
+      .from {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 300;
+        color: #838486;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        button {
+          font-weight: 400;
+          color: #000;
+          text-decoration: underline;
+          background-color: unset;
+          border: none;
+        }
+
+        .stars {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+
+      .from.pending {
+        margin-bottom: 24px;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        @include mq(medium) {
+          max-width: 280px;
+          margin: auto;
+        }
+
+        button {
+          padding: 8px 24px 8px 24px;
+          border-radius: 8px;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+        }
+
+        .accept {
+          background: #000;
+          color: #fff;
+          border: 1px solid #000;
+        }
+
+        .decline {
+          color: #dd2037;
+          border: 1px solid #dd2037;
+        }
+      }
+    }
+
+    .book.previous {
+      padding-top: 40px;
+
+      @include mq(medium) {
+        padding-top: 24px;
+      }
+    }
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+
+    li {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 16px;
+      line-height: 16px;
+      cursor: pointer;
+      color: #595959;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+
+      a {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:first-child,
+      &:last-child {
+        padding: 4px 4px;
+      }
+    }
+
+    li.selected {
+      background-color: #efd4da;
+      color: #000;
+    }
+
+    li.disabled {
+      color: #737373;
+    }
   }
 }
 

@@ -11,7 +11,7 @@ import { FaEuroSign } from 'react-icons/fa';
 import Select from 'react-select';
 import toast from 'react-hot-toast';
 
-function CarInfomrations({ car }) {
+function CarInfomrations({ car, setDisplayedCar }) {
   const colourStyles = {
     control: (styles) => ({ ...styles, backgroundColor: 'white' }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -271,6 +271,7 @@ function CarInfomrations({ car }) {
         .unwrap()
         .then((res) => {
           setIsButtonDisabled(false);
+          setDisplayedCar(res);
           toast.success('Επιτυχής ενημέρωση αυτοκινήτου');
         })
         .catch((error) => {

@@ -10,13 +10,13 @@ import {
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Spinner from '../../../../Spinner';
 import Spinner24 from '../../../../Spinner24';
-export default function CarImages() {
+export default function CarImages({ car, setDisplayedCar }) {
   const handleGoBackButton = (e) => {
     setStep(3);
   };
 
   const maxFileSize = 2 * 1024 * 1024;
-  const { carIsLoading, carImgUploadLoading, car } = useSelector(
+  const { carIsLoading, carImgUploadLoading } = useSelector(
     (state) => state.car
   );
 
@@ -102,6 +102,7 @@ export default function CarImages() {
         setIsButtonDisabled(false);
         const newImages = res.images;
         setImages(newImages);
+        setDisplayedCar(res);
         toast.success('Επιτυχής ενημέρωση αυτοκινήτου');
       })
       .catch((error) => {

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { carUpdate } from '../../../../../features/car/carSlice';
 import toast from 'react-hot-toast';
 
-function CarExtraFeatures() {
+function CarExtraFeatures({ car, setDisplayedCar }) {
   const dispatch = useDispatch();
-  const { carIsLoading, car } = useSelector((state) => state.car);
+  const { carIsLoading } = useSelector((state) => state.car);
   const [form, setForm] = useState({
     doors: car?.doors ? car?.doors : '3',
     seats: car?.seats ? car?.seats : '2',

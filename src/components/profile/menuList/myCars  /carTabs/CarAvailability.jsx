@@ -34,7 +34,7 @@ const initialCenter = {
   lng: 23.727539,
 };
 
-function CarAvailability({ car }) {
+function CarAvailability({ car, setDisplayedCar }) {
   const now = new Date();
   const nextHour = setMinutes(setHours(now, now.getHours() + 1), 0);
 
