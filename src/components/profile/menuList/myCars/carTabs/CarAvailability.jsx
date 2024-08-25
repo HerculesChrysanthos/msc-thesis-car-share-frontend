@@ -12,16 +12,8 @@ import {
 } from 'date-fns';
 import { el } from 'date-fns/locale';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-
-import { SlCloudUpload } from 'react-icons/sl';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  carUpdateImage,
-  carUploadImage,
-  carDeleteImage,
-} from '../../../../../features/car/carSlice';
-import { FaRegTrashAlt } from 'react-icons/fa';
 
 const containerStyle = {
   width: '100%',

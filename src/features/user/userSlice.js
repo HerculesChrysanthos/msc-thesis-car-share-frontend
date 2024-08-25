@@ -19,6 +19,20 @@ export const updateProfileImage = createAsyncThunk(
   }
 );
 
+export const updateProfileInfo = createAsyncThunk(
+  'user/updateProfileInfo',
+  async ({ userId, formData }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await userService.updateProfileInfo(userId, formData, token);
+    } catch (error) {
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -36,6 +50,15 @@ export const userSlice = createSlice({
         state.userLoading = false;
       })
       .addCase(updateProfileImage.rejected, (state) => {
+        state.userLoading = false;
+      })
+      .addCase(updateProfileInfo.pending, (state) => {
+        state.userLoading = true;
+      })
+      .addCase(updateProfileInfo.fulfilled, (state, action) => {
+        state.userLoading = false;
+      })
+      .addCase(updateProfileInfo.rejected, (state) => {
         state.userLoading = false;
       });
   },
