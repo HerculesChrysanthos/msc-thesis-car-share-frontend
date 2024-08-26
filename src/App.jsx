@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Header from './components/Header';
 import CarRegistration from './pages/CarRegistration';
 import Profile from './pages/Profile';
+import Footer from './components/Footer';
 
 function App() {
   const ProtectedRoutes = () => {
@@ -17,6 +18,7 @@ function App() {
       <>
         <Header />
         <Outlet />
+        <Footer />
         {/* <Header />
         <div className='app'>
           <Sidebar />

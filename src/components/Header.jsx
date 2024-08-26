@@ -4,6 +4,7 @@ import Login from '../components/auth/Login';
 import Register from '../components/auth/Register';
 import Logo from '../assets/logo/Logo.png';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '../assets/profile/Avatar.png';
 
 function Header() {
   const [showLogin, setShowLogin] = useState(false);
@@ -14,18 +15,28 @@ function Header() {
   return (
     <>
       <header className='container'>
-        <div className='logo'>
+        <div className='logo' onClick={() => navigate('/')}>
           <img src={Logo} alt='Logo' />
         </div>
-        <nav>
-          <ul className='flex-center-32'>
+        <nav className='navigation'>
+          <ul>
             {user ? (
               <>
                 <li onClick={() => navigate('/profile')}>
-                  {user?.user?.name} {user?.user?.surname}
+                  <div className='profile-thumbnail'>
+                    <img
+                      src={
+                        user.user?.profileImage?.url
+                          ? user.user?.profileImage?.url
+                          : Avatar
+                      }
+                      alt='Profile image'
+                    />
+                  </div>
+                  <p>{user?.user?.name}</p>
                 </li>
                 <li onClick={() => navigate('/car-registration')}>
-                  Προσθήκη αυτοκινήτου
+                  Νοίκιασε το αμάξι σου
                 </li>
               </>
             ) : (

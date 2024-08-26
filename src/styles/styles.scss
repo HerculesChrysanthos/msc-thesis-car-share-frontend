@@ -57,17 +57,14 @@ a {
 .flex-center-32 {
   display: flex;
   align-items: center;
-  gap: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .container {
-  max-width: 1440px;
+  max-width: 1312px;
   margin-inline: auto;
   padding-inline: 1rem;
-
-  @include mq(medium) {
-    padding-inline: 1.5rem;
-  }
 
   @include mq(xlarge) {
     padding-inline: 2rem;
@@ -82,6 +79,158 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
+
+  .logo {
+    cursor: pointer;
+  }
+
+  .navigation {
+    display: flex;
+    align-items: center;
+
+    ul {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        &:not(:first-child) {
+          display: none;
+
+          @include mq(xlarge) {
+            display: block;
+          }
+        }
+
+        &:first-child {
+          :nth-child(n + 2) {
+            display: none;
+
+            @include mq(medium) {
+              display: block;
+            }
+          }
+
+          @include mq(medium) {
+            padding: 8px 24px 8px 16px;
+            border: 1px solid #000000;
+            border-radius: 8px;
+          }
+        }
+
+        .profile-thumbnail {
+          width: 44px;
+          height: 44px;
+          border-radius: 24px;
+
+          @include mq(medium) {
+            width: 24px;
+            height: 24px;
+          }
+
+          img {
+            object-fit: cover;
+            object-position: center;
+            max-width: 100%;
+            width: 100%;
+            max-height: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+footer {
+  background-color: #000;
+  padding: 48px 16px;
+
+  margin-top: 48px;
+
+  @include mq(xlarge) {
+    padding: 48px 88px;
+  }
+
+  .icons {
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+
+      max-width: 224px;
+      margin-inline: auto;
+
+      li {
+        .icon {
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #fff;
+          border-radius: 24px;
+
+          font-size: 16px;
+          color: #000;
+        }
+      }
+    }
+  }
+
+  nav {
+    margin-top: 24px;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+
+      @include mq(xlarge) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      li {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+    margin-top: 24px;
+  }
+
+  .logo {
+    margin-top: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-rights {
+    margin-top: 24px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    font-weight: 300;
+  }
 }
 
 .errorMessage {
@@ -2080,6 +2229,634 @@ header {
   }
 }
 
+.home-page {
+  margin-top: 56px;
+  .hero-search {
+    background-image: url(../assets/home/home-hero.png);
+    background-position: center;
+    background-size: cover;
+
+    padding: 34px 16px;
+    border-radius: 12px;
+
+    @include mq(medium) {
+      background-image: url(../assets/home/home-hero-tablet.png);
+      padding: 34px 32px 122px 32px;
+    }
+
+    @include mq(xlarge) {
+      background-image: url(../assets/home/home-hero-pc.png);
+      padding: 72px 40px 52px 40px;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 700;
+      color: #000;
+      margin-bottom: 8px;
+
+      @include mq(xlarge) {
+        font-size: 48px;
+        line-height: 56px;
+        max-width: 800px;
+      }
+    }
+
+    h2 {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      color: #272728;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      margin-bottom: 32px;
+
+      @include mq(xlarge) {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+
+    .search {
+      padding: 12px;
+      background-color: #fff;
+      border: 1px solid #a6a6a7;
+      border-radius: 12px;
+      max-height: 48px;
+
+      @include mq(medium) {
+        max-width: 472px;
+      }
+
+      .input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          font-size: 14px;
+          color: #912740;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        input {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #272728;
+          border: none;
+        }
+
+        .google-autocomplete-suggestions-home {
+          list-style: none;
+          border: 1px solid #a6a6a7;
+          padding: 12px;
+          border-radius: 12px;
+          background-color: #fff;
+
+          position: absolute;
+          top: 46px;
+          left: -12px;
+          width: calc(100% + 24px);
+          max-height: 220px;
+          overflow: auto;
+          z-index: 1;
+
+          li {
+            cursor: pointer;
+            padding: 8px;
+            margin: 4px 0;
+
+            // &:nth-child(odd) {
+            //    background-color: red;
+            // }
+          }
+        }
+      }
+    }
+
+    .search-btn {
+      background-color: #000;
+      padding: 8px 24px;
+      border-radius: 8px;
+      color: #fff;
+      height: 40px;
+      width: 100%;
+      text-align: center;
+      border: none;
+      margin-top: 12px;
+      cursor: pointer;
+
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+
+      @include mq(medium) {
+        max-width: 472px;
+      }
+    }
+  }
+
+  .home-brands {
+    margin-top: 48px;
+
+    @include mq(xlarge) {
+      margin-top: 64px;
+    }
+
+    .brands-container {
+      display: grid;
+      grid-gap: 12px;
+      grid-auto-flow: column;
+      grid-template-columns: repeat(1fr, 208px);
+      max-width: 1312px;
+      margin-inline: auto;
+      padding-left: 1rem;
+
+      overflow: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+
+      @include mq(medium) {
+        padding-left: 1.5rem;
+      }
+
+      @include mq(xlarge) {
+        padding-left: 2rem;
+      }
+
+      @include mq(container) {
+        padding-left: 0;
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      .brand {
+        width: 208px;
+        height: 180px;
+        border-radius: 16px;
+        border: 1px solid #e9e9e9;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        @include mq(container) {
+          width: 100%;
+        }
+
+        &:last-child {
+          margin-right: 1rem;
+
+          @include mq(xlarge) {
+            margin-right: 2rem;
+          }
+
+          @include mq(container) {
+            margin-right: 0;
+          }
+        }
+
+        h2 {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .home-new-additions {
+    margin-top: 48px;
+
+    @include mq(xlarge) {
+      margin-top: 64px;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .additions-container {
+      display: grid;
+      grid-gap: 24px;
+      grid-auto-flow: column;
+      grid-template-columns: repeat(1fr, 310px);
+      margin-top: 48px;
+      max-width: 1312px;
+      margin-inline: auto;
+      padding-left: 1rem;
+
+      overflow: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+
+      @include mq(medium) {
+        padding-left: 1.5rem;
+      }
+
+      @include mq(xlarge) {
+        padding-left: 2rem;
+      }
+
+      @include mq(container) {
+        padding-left: 0;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .addition {
+        width: 310px;
+        border: 1px solid #e6e6e6;
+        border-radius: 16px;
+        padding: 12px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        @include mq(container) {
+          width: 100%;
+        }
+
+        &:last-child {
+          margin-right: 1rem;
+
+          @include mq(xlarge) {
+            margin-right: 2rem;
+          }
+
+          @include mq(container) {
+            margin-right: 0;
+          }
+        }
+
+        .car-img {
+          max-width: 100%;
+          width: 100%;
+          height: 144px;
+          border-radius: 8px;
+          overflow: hidden;
+
+          img {
+            max-width: 100%;
+            width: 100%;
+            max-height: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+
+        h2 {
+          text-align: center;
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          color: #000;
+          align-self: flex-start;
+        }
+
+        .distance,
+        .reviews {
+          align-self: flex-start;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #838486;
+
+          .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+            font-size: 17px;
+          }
+        }
+
+        .price {
+          align-self: flex-end;
+          display: flex;
+          align-items: center;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #912740;
+        }
+      }
+    }
+  }
+
+  .extra-income {
+    margin-top: 48px;
+    overflow: hidden;
+
+    @include mq(xlarge) {
+      margin-top: 64px;
+    }
+
+    @include mq(xlarge) {
+      overflow: visible;
+    }
+
+    h2 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      text-align: center;
+      color: #000;
+      margin-bottom: 8px;
+
+      @include mq(xlarge) {
+        font-size: 32px;
+        line-height: 40px;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+      text-align: center;
+      color: #595959;
+
+      @include mq(xlarge) {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+
+    .extra-container {
+      margin-top: 16px;
+
+      @include mq(xlarge) {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .audi-img {
+        width: 100%;
+        height: auto;
+        position: relative;
+
+        @include mq(xlarge) {
+          overflow: visible;
+        }
+
+        img {
+          width: calc(100% + 32px);
+          height: 100%;
+          object-fit: contain;
+          object-position: center;
+          position: absolute;
+          top: 0;
+          left: -16px;
+
+          @include mq(medium) {
+            width: calc(100% - 22px);
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          @include mq(xlarge) {
+            width: 880px;
+            height: auto;
+            top: -20px;
+            left: -360px;
+            transform: unset;
+          }
+        }
+
+        .hidden-image {
+          width: calc(100% + 32px);
+          height: auto;
+          object-fit: contain;
+          object-position: center;
+          opacity: 0;
+          position: relative;
+        }
+      }
+
+      .steps {
+        margin-top: 32px;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+
+        @include mq(medium) {
+          grid-template-columns: repeat(2, 1fr);
+          grid-row-gap: 34px;
+          grid-column-gap: 24px;
+        }
+
+        @include mq(xlarge) {
+          margin-top: 41px;
+        }
+
+        .step {
+          height: 120px;
+
+          h3 {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 500;
+            margin-bottom: 8px;
+          }
+
+          h3::first-letter {
+            font-size: 64px;
+            line-height: 72px;
+            font-weight: 700;
+            initial-letter: 2;
+            margin-right: 14px;
+          }
+
+          p {
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: 400;
+            text-align: left;
+            color: #595959;
+          }
+        }
+
+        .rent-btn {
+          padding: 8px 24px 8px 24px;
+          border-radius: 8px;
+          background: #000;
+          color: #fff;
+          width: fit-content;
+          margin: auto;
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          cursor: pointer;
+
+          @include mq(medium) {
+            grid-column: span 2;
+          }
+        }
+      }
+    }
+  }
+
+  .home-accordition {
+    margin-top: 48px;
+
+    @include mq(xlarge) {
+      margin-top: 64px;
+    }
+
+    .icon {
+      margin-left: auto;
+      transition: transform 0.25s ease;
+    }
+
+    .szh-accordion {
+      &__item {
+        border: 1px solid #838486;
+        margin-bottom: 12px;
+        border-radius: 8px;
+
+        &-btn {
+          cursor: pointer;
+          padding: 15px 12px;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          margin: 0;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 500;
+          text-align: left;
+          color: #000;
+          background-color: transparent;
+          border: none;
+        }
+
+        &-content {
+          transition: height 0.25s cubic-bezier(0, 0, 0, 1);
+
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 300;
+        }
+
+        &-panel {
+          padding: 1rem;
+        }
+
+        &--expanded {
+          .icon {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+    }
+  }
+
+  .react-datepicker-popper {
+    z-index: 2;
+  }
+
+  .datePicker {
+    z-index: 3;
+    input {
+      border: none;
+
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .datePicker-driving {
+    position: relative;
+    z-index: 2;
+    input {
+      border: none;
+      opacity: 0;
+      width: calc(100% - 24px);
+      height: 36px;
+
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      cursor: pointer;
+    }
+  }
+
+  .react-datepicker__tab-loop {
+    h2 {
+      font-size: 16px;
+      line-height: normal;
+    }
+
+    .react-datepicker {
+      border-radius: 12px;
+      border: 1px solid #a6a6a7;
+      padding: 12px;
+
+      .react-datepicker__header {
+        background-color: #fff;
+        padding: 0;
+
+        h2 {
+          font-size: 16px;
+          line-height: 24px;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .react-datepicker__header {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 0;
+    margin-bottom: 8px;
+    border: none;
+    color: #912740;
+  }
+
+  .react-datepicker-popper {
+    z-index: 4;
+  }
+
+  .react-datepicker__navigation-icon {
+    top: 6px;
+    left: -10px;
+  }
+
+  .react-datepicker__tab-loop .react-datepicker .react-datepicker__header h2 {
+    color: #912740;
+  }
+}
+
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
@@ -2102,4 +2879,14 @@ header {
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
   }
+}
+
+// Hide scrollbar
+.brands-container::-webkit-scrollbar {
+  display: none;
+}
+
+.brands-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
