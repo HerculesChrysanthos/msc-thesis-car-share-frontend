@@ -2287,9 +2287,8 @@ footer {
     .search {
       padding: 12px;
       background-color: #fff;
-      border: 1px solid #a6a6a7;
+      outline: 1px solid #a6a6a7;
       border-radius: 12px;
-      max-height: 48px;
 
       @include mq(medium) {
         max-width: 472px;
