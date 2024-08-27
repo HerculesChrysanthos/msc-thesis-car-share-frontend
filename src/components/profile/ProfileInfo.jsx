@@ -65,7 +65,7 @@ function ProfileInfo() {
         <div className='profile-image'>
           <img
             src={
-              user.user.profileImage.url ? user.user.profileImage.url : Avatar
+              user.user?.profileImage?.url ? user.user.profileImage.url : Avatar
             }
             alt='Profile image'
           />
