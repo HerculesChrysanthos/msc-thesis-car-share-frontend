@@ -11,23 +11,28 @@ import Header from './components/Header';
 import CarRegistration from './pages/CarRegistration';
 import Profile from './pages/Profile';
 import Footer from './components/Footer';
+import Search from './pages/Search';
+import PrivateRoute from './components/auth/PrivateRoute';
 
 function App() {
-  const ProtectedRoutes = () => {
+  const Routes = () => {
     return (
       <>
         <Header />
         <Outlet />
         <Footer />
-        {/* <Header />
-        <div className='app'>
-          <Sidebar />
-          <PrivateRoute>
-            <main>
-              <Outlet />
-            </main>
-          </PrivateRoute>
-        </div> */}
+      </>
+    );
+  };
+
+  const ProtectedRoutes = () => {
+    return (
+      <>
+        <Header />
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+        <Footer />
       </>
     );
   };
@@ -35,7 +40,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <ProtectedRoutes />,
+      element: <Routes />,
       children: [
         {
           path: '/',
@@ -45,6 +50,16 @@ function App() {
           path: '/car-registration',
           element: <CarRegistration />,
         },
+        {
+          path: '/search',
+          element: <Search />,
+        },
+      ],
+    },
+    {
+      path: '/profile',
+      element: <ProtectedRoutes />,
+      children: [
         {
           path: '/profile',
           element: <Profile />,

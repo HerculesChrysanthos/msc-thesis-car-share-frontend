@@ -98,6 +98,8 @@ header {
         align-items: center;
         gap: 16px;
 
+        cursor: pointer;
+
         &:not(:first-child) {
           display: none;
 
