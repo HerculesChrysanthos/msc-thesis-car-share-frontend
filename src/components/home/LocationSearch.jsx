@@ -1,12 +1,18 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import debounce from 'lodash/debounce';
 import { RiMapPin2Fill } from 'react-icons/ri';
+import { useSearchParams } from 'react-router-dom';
 
 function LocationSearch({ setLat, setLong }) {
+  let [searchParams, setSearchParams] = useSearchParams();
   const autocompleteServiceRef = useRef(null);
   const placesServiceRef = useRef(null);
   const [predictions, setPredictions] = useState([]);
-  const [addr, setAddr] = useState(''); // Ensure addr is initialized as an empty string
+  const [addr, setAddr] = useState(
+    searchParams?.get('lat') && searchParams?.get('lonh')
+      ? initializeAddress
+      : ''
+  ); // Ensure addr is initialized as an empty string
 
   const inputRef = useRef(null);
 
@@ -44,6 +50,26 @@ function LocationSearch({ setLat, setLong }) {
           }
         }
       );
+    }
+  };
+
+  const initializeAddress = () => {
+    try {
+      const apiKey = 'AIzaSyCYAZZw3e-pUDPSHWluC2sbEjRO5FBo-CU'; // Replace with your actual API key
+      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${apiKey}`;
+
+      const response = axios.get(geocodeUrl);
+      const results = response?.data;
+
+      console.log(results);
+
+      if (results?.length > 0) {
+        return results[0].formatted_address; // Return the first (usually most accurate) address
+      } else {
+        return '';
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
     }
   };
 

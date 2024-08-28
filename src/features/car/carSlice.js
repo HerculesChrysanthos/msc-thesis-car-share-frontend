@@ -10,6 +10,7 @@ const initialState = {
   carImgUploadLoading: false,
   car: car ? car : null,
   myCars: [],
+  searchCars: [],
 };
 
 // get car brands
@@ -129,6 +130,16 @@ export const carSlice = createSlice({
       })
       .addCase(getMycars.rejected, (state) => {
         state.carIsLoading = false;
+      })
+      .addCase(getCarsBySearch.pending, (state) => {
+        state.carIsLoading = true;
+      })
+      .addCase(getCarsBySearch.fulfilled, (state, action) => {
+        state.carIsLoading = false;
+        state.searchCars = action.payload;
+      })
+      .addCase(getCarsBySearch.rejected, (state) => {
+        state.carIsLoading = false;
       });
   },
 });
@@ -215,6 +226,45 @@ export const getMycars = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await carService.getMycars(token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getCarsBySearch = createAsyncThunk(
+  'cars/getCarsBySearch',
+  async (
+    {
+      lat,
+      long,
+      startDate,
+      endDate,
+      maxPrice,
+      minPrice,
+      make,
+      model,
+      gearboxType,
+    },
+    thunkAPI
+  ) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.getCarsBySearch(
+        lat,
+        long,
+        startDate,
+        endDate,
+        maxPrice,
+        minPrice,
+        make,
+        model,
+        gearboxType,
+        token
+      );
     } catch (error) {
       console.log(error);
       const message = error.response.data.error;

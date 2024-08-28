@@ -47,10 +47,6 @@ function App() {
           element: <Home />,
         },
         {
-          path: '/car-registration',
-          element: <CarRegistration />,
-        },
-        {
           path: '/search',
           element: <Search />,
         },
@@ -63,6 +59,16 @@ function App() {
         {
           path: '/profile',
           element: <Profile />,
+        },
+      ],
+    },
+    {
+      path: '/car-registration',
+      element: <ProtectedRoutes />,
+      children: [
+        {
+          path: '/car-registration',
+          element: <CarRegistration />,
         },
       ],
     },

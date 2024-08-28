@@ -18,6 +18,7 @@ function DatesSearch({
   setStartDate,
   setEndDate,
   handleStartDateChange,
+  handleEndDateChange,
 }) {
   const now = new Date();
   const nextHour = setMinutes(setHours(now, now.getHours() + 1), 0);
@@ -54,7 +55,7 @@ function DatesSearch({
                   ]
                 : []
             }
-            dateFormat='MMMM d, yyyy HH:mm'
+            dateFormat='dd MMM, hh:mm aa'
             locale={el}
           />
         </div>
@@ -68,7 +69,7 @@ function DatesSearch({
           <DatePicker
             selected={endDate}
             wrapperClassName='datePicker'
-            onChange={(date) => setEndDate(date)}
+            onChange={handleEndDateChange}
             showTimeSelect
             timeFormat='HH:mm'
             timeIntervals={60}
@@ -98,7 +99,7 @@ function DatesSearch({
                   ]
                 : []
             }
-            dateFormat='MMMM d, yyyy HH:mm'
+            dateFormat='dd MMM, hh:mm aa'
             locale={el}
           />
         </div>

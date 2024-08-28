@@ -2709,6 +2709,7 @@ footer {
         .rent-btn {
           padding: 8px 24px 8px 24px;
           border-radius: 8px;
+          border: none;
           background: #000;
           color: #fff;
           width: fit-content;
@@ -2855,6 +2856,525 @@ footer {
 
   .react-datepicker__tab-loop .react-datepicker .react-datepicker__header h2 {
     color: #912740;
+  }
+}
+
+.searchPage {
+  .hero-search {
+    box-shadow: 0px 6px 10px 0px #00000026;
+    padding: 8px 8px 16px 8px;
+    z-index: 2;
+    position: relative;
+
+    @include mq(medium) {
+      padding: 16px;
+    }
+
+    @include mq(xlarge) {
+      padding: 0;
+      padding-bottom: 12px;
+    }
+
+    .search-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+
+      @include mq(medium) {
+        grid-template-columns: 0.4fr 0.4fr 0.2fr;
+        gap: 8px;
+      }
+
+      @include mq(xlarge) {
+        grid-template-columns: 0.34fr 0.28fr 0.28fr 0.1fr;
+        gap: 16px;
+        max-width: 1312px;
+        margin-inline: auto;
+      }
+
+      h1 {
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 8px;
+
+        @include mq(xlarge) {
+          font-size: 48px;
+          line-height: 56px;
+          max-width: 800px;
+        }
+      }
+
+      h2 {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        color: #272728;
+        display: none;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        margin-bottom: 32px;
+
+        @include mq(xlarge) {
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+
+      .search {
+        padding: 12px;
+        background-color: #fff;
+        border: 1px solid #a6a6a7;
+        border-radius: 12px;
+
+        &:first-child {
+          grid-column: span 2;
+
+          @include mq(medium) {
+            grid-column: span 3;
+          }
+
+          @include mq(xlarge) {
+            grid-column: span 1;
+          }
+        }
+
+        .input-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          .icon {
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            color: #912740;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          input {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+            color: #272728;
+            border: none;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+          }
+
+          .google-autocomplete-suggestions-home {
+            list-style: none;
+            border: 1px solid #a6a6a7;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: #fff;
+            z-index: 4;
+
+            position: absolute;
+            top: 46px;
+            left: -12px;
+            width: calc(100% + 24px);
+            max-height: 220px;
+            overflow: auto;
+            z-index: 1;
+
+            li {
+              cursor: pointer;
+              padding: 8px;
+              margin: 4px 0;
+
+              // &:nth-child(odd) {
+              //    background-color: red;
+              // }
+            }
+          }
+        }
+
+        &:nth-child(n + 2) {
+          input,
+          .datePicker,
+          .react-datepicker__input-container {
+            width: 120px;
+
+            @include mq(small) {
+              width: 150px;
+            }
+
+            @include mq(medium) {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      .display-filters {
+        padding: 8px 16px 8px 16px;
+        border-radius: 8px;
+        background-color: #000;
+        font-size: 24px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        grid-column: span 2;
+
+        @include mq(medium) {
+          grid-column: span 1;
+        }
+      }
+
+      .filters {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        padding-inline: 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @include mq(medium) {
+          padding-inline: 64px;
+        }
+
+        .content {
+          padding: 24px;
+          background-color: #fff;
+          border-radius: 16px;
+          width: 100%;
+          z-index: 1;
+          position: relative;
+          max-width: 800px;
+
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+
+          .close {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 22px;
+            cursor: pointer;
+          }
+
+          h2 {
+            font-size: 40px;
+            line-height: 48px;
+            font-weight: 700;
+            color: $main-color;
+            display: inline;
+          }
+
+          .values {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            @include mq(xlarge) {
+              gap: 32px;
+            }
+
+            .price {
+              h3 {
+                font-size: 16px;
+                line-height: 24px;
+                font-weight: 400;
+                color: #000;
+                padding-bottom: 16px;
+
+                span {
+                  color: #838486;
+                }
+              }
+
+              .price-slide {
+                padding-top: 44px;
+                padding-bottom: 8px;
+              }
+            }
+
+            .type,
+            .make,
+            .model,
+            .gearboxType {
+              position: relative;
+
+              .icon {
+                width: 24px;
+                height: 24px;
+                position: absolute;
+                top: 12px;
+                right: 12px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 22px;
+              }
+            }
+
+            select {
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 400;
+              color: #838486;
+              width: 100%;
+              padding: 12px;
+              border-radius: 12px;
+              border: 1px solid #a6a6a7;
+              padding-right: 32px;
+              overflow: hidden;
+              width: 100%;
+
+              -webkit-appearance: none;
+              -moz-appearance: none;
+            }
+          }
+
+          .filter-results {
+            background-color: #000;
+            padding: 8px 24px;
+            align-self: end;
+            width: fit-content;
+            border-radius: 8px;
+            border: none;
+
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 400;
+            color: #fff;
+          }
+        }
+
+        &:before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          backdrop-filter: blur(1px);
+        }
+
+        .min-max-price {
+          background-color: #e6e6e6;
+        }
+
+        .range-slider__range {
+          background: $main-color;
+          transition: height 0.3s;
+        }
+
+        .range-slider__thumb {
+          background: $main-color;
+          transition: transform 0.3s;
+
+          &:before {
+            content: attr(aria-valuenow) '€';
+            position: absolute;
+            top: -30px;
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 500;
+            color: $main-color;
+          }
+        }
+      }
+    }
+  }
+
+  .react-datepicker-popper {
+    width: 110%;
+  }
+
+  .react-datepicker {
+    h2 {
+      display: block;
+      font-size: 16px;
+      line-height: 24px;
+      margin-top: 0;
+      color: $main-color;
+    }
+  }
+
+  .search-results {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'map-results'
+      'car-container';
+
+    @include mq(xlarge) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: unset;
+
+      max-width: 1312px;
+      padding: 0;
+      margin-inline: auto;
+      margin-top: 24px;
+    }
+
+    .map-results {
+      grid-area: map-results;
+      height: 567px;
+
+      @include mq(medium) {
+        height: 800px;
+      }
+
+      @include mq(xlarge) {
+        grid-area: unset;
+      }
+
+      .google-map-style {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .car-container {
+      grid-area: car-container;
+      display: grid;
+      grid-gap: 24px;
+      grid-auto-flow: column;
+      grid-template-columns: repeat(1, 310px);
+      margin-top: 24px;
+      max-width: 1312px;
+      margin-inline: auto;
+      padding-left: 1rem;
+      width: 100%;
+
+      overflow: auto;
+
+      @include mq(xlarge) {
+        grid-area: unset;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 0;
+      }
+
+      .car {
+        width: 310px;
+        border: 1px solid #e6e6e6;
+        border-radius: 16px;
+        padding: 12px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        @include mq(container) {
+          width: 100%;
+        }
+
+        @include mq(xlarge) {
+          width: 100%;
+          height: fit-content;
+        }
+
+        &:last-child {
+          margin-right: 1rem;
+
+          @include mq(xlarge) {
+            margin-right: 2rem;
+          }
+
+          @include mq(container) {
+            margin-right: 0;
+          }
+        }
+
+        .car-img {
+          max-width: 100%;
+          width: 100%;
+          height: 144px;
+          border-radius: 8px;
+          overflow: hidden;
+
+          img {
+            max-width: 100%;
+            width: 100%;
+            max-height: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+
+        h2 {
+          text-align: center;
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          color: #000;
+          align-self: flex-start;
+        }
+
+        .distance,
+        .reviews {
+          align-self: flex-start;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #838486;
+
+          .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+            font-size: 17px;
+          }
+        }
+
+        .price {
+          align-self: flex-end;
+          display: flex;
+          align-items: center;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+          color: #912740;
+        }
+      }
+    }
   }
 }
 

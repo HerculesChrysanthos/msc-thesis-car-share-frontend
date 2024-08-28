@@ -1,7 +1,17 @@
-import React from 'react';
+import CarResults from '../components/search/CarResults';
+import MapResults from '../components/search/MapResults';
+import SearchBar from '../components/search/SearchBar';
 
 function Search() {
-  return <div>Search</div>;
+  return (
+    <div className='searchPage'>
+      <SearchBar />
+      <div className='search-results'>
+        <CarResults />
+        <MapResults />
+      </div>
+    </div>
+  );
 }
 
 export default Search;

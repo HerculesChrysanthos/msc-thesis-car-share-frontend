@@ -106,6 +106,51 @@ const getMycars = async (token) => {
   return response.data;
 };
 
+const getCarsBySearch = async (
+  lat,
+  long,
+  startDate,
+  endDate,
+  maxPrice,
+  minPrice,
+  make,
+  model,
+  gearboxType,
+  token
+) => {
+  const headers = `Bearer ${token}`;
+  const queryParams = new URLSearchParams({
+    startDate,
+    endDate,
+    lat,
+    long,
+    maxPrice,
+    minPrice,
+  });
+
+  // Conditionally append optional parameters
+  if (make) {
+    queryParams.append('make', make);
+  }
+  if (model) {
+    queryParams.append('model', model);
+  }
+  if (gearboxType) {
+    queryParams.append('gearboxType', gearboxType);
+  }
+
+  const response = await axios.get(
+    `${API_URL}cars/?${queryParams.toString()}`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 const carService = {
   getCarBrands,
   getBrandModels,
@@ -115,6 +160,7 @@ const carService = {
   carUpdateImage,
   carDeleteImage,
   getMycars,
+  getCarsBySearch,
 };
 
 export default carService;

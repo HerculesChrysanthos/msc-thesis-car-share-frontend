@@ -19,11 +19,13 @@ import ExtraIncome from '../components/home/ExtraIncome';
 
 function formatToISOString(date) {
   const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   const day = String(date.getUTCDate()).padStart(2, '0');
   const hours = String(date.getUTCHours()).padStart(2, '0');
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+  // Ensure that seconds are always '00'
+  const seconds = '00';
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
@@ -41,7 +43,11 @@ function Home() {
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setEndDate(addHours(date, 1)); // Set end date to one hour after start date
+    setEndDate(addHours(date, 1));
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
   };
 
   const navigateToSearch = (e) => {
@@ -73,6 +79,7 @@ function Home() {
             endDate={endDate}
             setEndDate={setEndDate}
             handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
           />
           <button type='submit' className='search-btn'>
             Αναζήτηση
