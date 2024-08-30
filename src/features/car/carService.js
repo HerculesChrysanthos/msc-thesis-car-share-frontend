@@ -116,16 +116,18 @@ const getCarsBySearch = async (
   make,
   model,
   gearboxType,
+  page,
+  limit,
   token
 ) => {
   const headers = `Bearer ${token}`;
   const queryParams = new URLSearchParams({
-    startDate,
-    endDate,
     lat,
     long,
-    maxPrice,
-    minPrice,
+    startDate,
+    endDate,
+    page,
+    limit,
   });
 
   // Conditionally append optional parameters
@@ -137,6 +139,12 @@ const getCarsBySearch = async (
   }
   if (gearboxType) {
     queryParams.append('gearboxType', gearboxType);
+  }
+  if (minPrice) {
+    queryParams.append('minPrice', minPrice);
+  }
+  if (maxPrice) {
+    queryParams.append('maxPrice', maxPrice);
   }
 
   const response = await axios.get(
@@ -151,6 +159,28 @@ const getCarsBySearch = async (
   return response.data;
 };
 
+const reverseGeocoding = async (lat, long) => {
+  const apiKey =
+    'AIzaSyCYAZZw3e-pUDPSHWluC2sbEjRO5FBo-CU&libraries=places&language=el';
+  const google_url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${+lat},${+long}&key=${apiKey}`;
+  const response = await axios.get(google_url);
+
+  const returnedAddresses = response.data.results;
+
+  let fullAddress = '';
+
+  for (let i = 0; i < returnedAddresses.length; i++) {
+    const address = returnedAddresses[i];
+    const location = address.geometry.location;
+
+    if (location.lat === +lat && location.lng === +long) {
+      fullAddress = address.formatted_address;
+      break; // Exit the loop once the matching address is found
+    }
+  }
+  return fullAddress;
+};
+
 const carService = {
   getCarBrands,
   getBrandModels,
@@ -161,6 +191,7 @@ const carService = {
   carDeleteImage,
   getMycars,
   getCarsBySearch,
+  reverseGeocoding,
 };
 
 export default carService;

@@ -2,6 +2,9 @@ import React, { useRef, useEffect, useCallback, useState } from 'react';
 import debounce from 'lodash/debounce';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { useSearchParams } from 'react-router-dom';
+import { useLoadScript } from '@react-google-maps/api';
+import { useDispatch } from 'react-redux';
+import { reverseGeocoding } from '../../features/car/carSlice';
 
 function LocationSearch({ setLat, setLong }) {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -12,9 +15,36 @@ function LocationSearch({ setLat, setLong }) {
     searchParams?.get('lat') && searchParams?.get('lonh')
       ? initializeAddress
       : ''
-  ); // Ensure addr is initialized as an empty string
+  );
+
+  const [libraries] = useState(['places']);
+
+  const dispatch = useDispatch();
 
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    const paramLat = searchParams?.get('lat');
+    const paramLong = searchParams?.get('long');
+
+    if (paramLat && paramLong) {
+      dispatch(
+        reverseGeocoding({
+          lat: paramLat,
+          long: paramLong,
+        })
+      )
+        .unwrap()
+        .then((res) => {
+          const searchedAddress = res;
+          setAddr(res);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.message);
+        });
+    }
+  }, []);
 
   const options = {
     componentRestrictions: { country: 'gr' },
@@ -104,6 +134,12 @@ function LocationSearch({ setLat, setLong }) {
       debouncedHandleSearch(value);
     }
   };
+
+  const { isLoaded } = useLoadScript({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyCYAZZw3e-pUDPSHWluC2sbEjRO5FBo-CU',
+    libraries,
+  });
 
   return (
     <div className='search'>

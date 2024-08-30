@@ -20,6 +20,7 @@ function Filters({
   setDisplayFilters,
   searchParams,
   setSearchParams,
+  submitSearch,
 }) {
   const { searchCars } = useSelector((state) => state.car);
   const [minMax, setMinMax] = useState([minPrice, maxPrice]);
@@ -62,6 +63,8 @@ function Filters({
     if (gearboxType) params.set('gearboxType', gearboxType);
 
     setSearchParams(params);
+
+    setDisplayFilters(false);
 
     submitSearch();
   };

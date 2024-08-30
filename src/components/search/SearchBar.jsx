@@ -42,7 +42,7 @@ const roundToNearestHalfHour = (date) => {
   return roundedDate;
 };
 
-function SearchBar() {
+function SearchBar({ carsPageNum, carsLimit, setCenter }) {
   const navigate = useNavigate();
   const { searchCars } = useSelector((state) => state.car);
   const dispatch = useDispatch();
@@ -69,10 +69,10 @@ function SearchBar() {
       : addHours(nextHour, 1)
   );
   const [maxPrice, setMaxPrice] = useState(
-    searchParams?.get('maxPrice') ? searchParams?.get('maxPrice') : 999999
+    searchParams?.get('maxPrice') ? searchParams?.get('maxPrice') : null
   );
   const [minPrice, setMinPrice] = useState(
-    searchParams?.get('minPrice') ? searchParams?.get('minPrice') : 1
+    searchParams?.get('minPrice') ? searchParams?.get('minPrice') : null
   );
   const [make, setMake] = useState(
     searchParams?.get('make') ? searchParams?.get('make') : ''
@@ -86,7 +86,7 @@ function SearchBar() {
 
   useEffect(() => {
     submitSearch();
-  }, [lat, long, startDate, endDate]);
+  }, [lat, long, startDate, endDate, carsPageNum, carsLimit]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
@@ -139,11 +139,14 @@ function SearchBar() {
         make,
         model,
         gearboxType,
+        page: carsPageNum,
+        limit: carsLimit,
       })
     )
       .unwrap()
       .then((res) => {
-        //console.log(res);
+        const center = res[0].searchTerms;
+        setCenter({ lat: +center.lat, lng: +center.long });
       })
       .catch((error) => {
         console.log(error);

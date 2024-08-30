@@ -8,8 +8,10 @@ import {
   carDeleteImage,
 } from '../../../features/car/carSlice';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterCarCom4({ setStep }) {
+  const navigate = useNavigate();
   const handleGoBackButton = (e) => {
     setStep(3);
   };
@@ -61,7 +63,6 @@ function RegisterCarCom4({ setStep }) {
         setIsButtonDisabled(false);
         const newImages = res.images;
         setImages(newImages);
-        // setStep(4);
       })
       .catch((error) => {
         console.log(error);
@@ -101,7 +102,6 @@ function RegisterCarCom4({ setStep }) {
         setIsButtonDisabled(false);
         const newImages = res.images;
         setImages(newImages);
-        // setStep(4);
       })
       .catch((error) => {
         console.log(error);
@@ -112,9 +112,15 @@ function RegisterCarCom4({ setStep }) {
       });
   };
 
+  const saveCar = () => {
+    localStorage.removeItem('car');
+    navigate('/');
+    window.location.reload();
+  };
+
   return (
     <div className='step-four'>
-      <form action=''>
+      <form>
         <h2>Ανέβασμα φωτογραφιών</h2>
         <div className='img-upload'>
           <input
@@ -171,8 +177,8 @@ function RegisterCarCom4({ setStep }) {
           </div>
         </div>
         <div className='buttons'>
-          <button type='submit' className='register-car-btn'>
-            {/* {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'} */}Epomeno
+          <button type='button' className='register-car-btn' onClick={saveCar}>
+            {/* {carIsLoading ? 'Φόρτωση..' : ' Επόμενο'} */}Αποθήκευση
           </button>
           <button
             type='button'

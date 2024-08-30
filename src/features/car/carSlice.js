@@ -11,6 +11,7 @@ const initialState = {
   car: car ? car : null,
   myCars: [],
   searchCars: [],
+  searchAddress: '',
 };
 
 // get car brands
@@ -140,6 +141,16 @@ export const carSlice = createSlice({
       })
       .addCase(getCarsBySearch.rejected, (state) => {
         state.carIsLoading = false;
+      })
+      .addCase(reverseGeocoding.pending, (state) => {
+        state.carIsLoading = true;
+      })
+      .addCase(reverseGeocoding.fulfilled, (state, action) => {
+        state.carIsLoading = false;
+        state.searchAddress = action.payload;
+      })
+      .addCase(reverseGeocoding.rejected, (state) => {
+        state.carIsLoading = false;
       });
   },
 });
@@ -248,6 +259,8 @@ export const getCarsBySearch = createAsyncThunk(
       make,
       model,
       gearboxType,
+      page,
+      limit,
     },
     thunkAPI
   ) => {
@@ -263,8 +276,24 @@ export const getCarsBySearch = createAsyncThunk(
         make,
         model,
         gearboxType,
+        page,
+        limit,
         token
       );
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const reverseGeocoding = createAsyncThunk(
+  'cars/reverseGeocoding',
+  async ({ lat, long }, thunkAPI) => {
+    try {
+      return await carService.reverseGeocoding(lat, long);
     } catch (error) {
       console.log(error);
       const message = error.response.data.error;
