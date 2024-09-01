@@ -50,9 +50,49 @@ const updateProfileInfo = async (userId, formData, token) => {
   return response.data;
 };
 
+// get my accepted bookings
+const getMyBookingAccepted = async (userId, pageNum, limit, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(
+    API_URL +
+      'users/' +
+      userId +
+      `/bookings?status=ACCEPTED&page=${pageNum}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// get get my previous bookings
+const getMyBookingPrevious = async (userId, pageNum, limit, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(
+    API_URL +
+      'users/' +
+      userId +
+      `/bookings?status=PREVIOUS&page=${pageNum}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 const userService = {
   updateProfileImage,
   updateProfileInfo,
+  getMyBookingAccepted,
+  getMyBookingPrevious,
 };
 
 export default userService;

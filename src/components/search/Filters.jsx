@@ -15,7 +15,7 @@ function Filters({
   setMinPrice,
   setMake,
   setModel,
-  setGearBox,
+  setGearboxType,
   displayFilters,
   setDisplayFilters,
   searchParams,
@@ -28,16 +28,6 @@ function Filters({
     setMinPrice(minMax[0]);
     setMaxPrice(minMax[1]);
   }, [minMax]);
-
-  useEffect(() => {
-    if (searchCars[0].general[0].minPrice) {
-      setMinPrice(searchCars[0].general[0].minPrice);
-    }
-
-    if (searchCars[0].general[0].maxPrice) {
-      setMinPrice(searchCars[0].general[0].maxPrice);
-    }
-  }, [searchCars]);
 
   const contentRef = useRef(null);
 
@@ -88,6 +78,10 @@ function Filters({
                 step={1}
                 onInput={setMinMax}
                 className='min-max-price'
+                defaultValue={[
+                  searchCars[0]?.general[0]?.minPrice,
+                  searchCars[0]?.general[0]?.maxPrice,
+                ]}
               />
             </div>
           </div>
@@ -102,7 +96,7 @@ function Filters({
             </div>
           </div>
           <div className='make'>
-            <select onChange={(e) => setMake(e.target.value)}>
+            <select onChange={(e) => setMake(e.target.value)} value={make}>
               <option hidden>Μάρκα</option>
               {searchCars[0]?.general[0]?.makes.map((option) => (
                 <option key={option._id} value={option._id}>
@@ -115,7 +109,11 @@ function Filters({
             </div>
           </div>
           <div className='model'>
-            <select disabled={!make} onChange={setModel}>
+            <select
+              disabled={!make}
+              onChange={(e) => setModel(e.target.value)}
+              value={model}
+            >
               <option hidden>Μοντέλο</option>
               {searchCars[0]?.general[0]?.models?.map((option) =>
                 option.make === make ? (
@@ -130,7 +128,10 @@ function Filters({
             </div>
           </div>
           <div className='gearboxType'>
-            <select>
+            <select
+              onChange={(e) => setGearboxType(e.target.value)}
+              value={gearboxType}
+            >
               <option hidden>Κιβώτιο ταχυτήτων</option>
               <option value='Αυτόματο'>Αυτόματο</option>
               <option value='Μηχανικό'>Μηχανικό</option>

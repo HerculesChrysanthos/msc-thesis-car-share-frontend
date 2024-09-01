@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { FaEuroSign } from 'react-icons/fa';
 import { IoStar } from 'react-icons/io5';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { getCarsBySearch } from '../../features/car/carSlice';
 import NoCarsImg from '../../assets/car/no_cars.png';
 import Spinner from '../Spinner';
+import { CgClose } from 'react-icons/cg';
 
 function CarResults({
   selectedPin,
@@ -16,11 +17,21 @@ function CarResults({
   carsPageNum,
   setCarsPageNum,
   carsLimit,
+  minPrice,
+  maxPrice,
+  gearboxType,
+  setMinPrice,
+  setMaxPrice,
+  setMake,
+  setModel,
+  setGearboxType,
 }) {
   const { searchCars, carIsLoading } = useSelector((state) => state.car);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Moved to top level
+  const location = useLocation(); // Moved to top level
+
   const dispatch = useDispatch();
 
   const changePageNum = (e) => {
@@ -31,6 +42,36 @@ function CarResults({
     setSearchParams(params);
   };
 
+  function clearFilter(filterName) {
+    return () => {
+      const urlParams = new URLSearchParams(location.search);
+      if (filterName === 'prices') {
+        setMinPrice(null);
+        setMaxPrice(null);
+
+        urlParams.delete('minPrice');
+        urlParams.delete('maxPrice');
+      } else if (filterName === 'make') {
+        setMake('');
+        setModel('');
+
+        urlParams.delete('make');
+        urlParams.delete('model');
+      } else if (filterName === 'model') {
+        setModel('');
+
+        urlParams.delete('model');
+      } else if (filterName === 'gearboxType') {
+        setGearboxType('');
+
+        urlParams.delete('gearboxType');
+      }
+
+      const newUrl = `${location.pathname}?${urlParams.toString()}`;
+      navigate(newUrl, { replace: true });
+    };
+  }
+
   if (carIsLoading) return <Spinner />;
 
   return (
@@ -39,7 +80,6 @@ function CarResults({
         <div className='inline-filters'>
           {Object.entries(searchCars[0].searchTerms).map(
             ([filterName, filterValue]) => {
-              // Skip lat, long, startDate, and endDate
               if (
                 [
                   'lat',
@@ -53,27 +93,35 @@ function CarResults({
                 return null;
               }
 
-              // Handle minPrice and maxPrice together
               if (filterName === 'minPrice' || filterName === 'maxPrice') {
-                // Check if both minPrice and maxPrice exist
-                const minPrice = searchCars[0].searchTerms.minPrice;
-                const maxPrice = searchCars[0].searchTerms.maxPrice;
+                const minPriceDefault = searchCars[0].searchTerms.minPrice;
+                const maxPriceDefault = searchCars[0].searchTerms.maxPrice;
 
-                // Display them together and only once
-                if (minPrice && maxPrice && filterName === 'minPrice') {
+                if (
+                  (minPrice !== minPriceDefault ||
+                    maxPrice !== maxPriceDefault) &&
+                  filterName === 'minPrice'
+                ) {
                   return (
-                    <div key='priceRange' className='filter-item'>
-                      {`${minPrice}€ - ${maxPrice}€`}
+                    <div
+                      key='priceRange'
+                      className='filter-item'
+                      onClick={clearFilter('prices')}
+                    >
+                      {`${minPrice}€ - ${maxPrice}€`} <CgClose />
                     </div>
                   );
                 }
-                return null; // Skip individual rendering
+                return null;
               }
 
-              // Display other filters as is
               return (
-                <div key={filterName} className='filter-item'>
-                  {filterValue}
+                <div
+                  key={filterName}
+                  className='filter-item'
+                  onClick={clearFilter(filterName)}
+                >
+                  {filterValue} <CgClose />
                 </div>
               );
             }
