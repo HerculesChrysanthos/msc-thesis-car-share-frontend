@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changeBookingState,
   getBookingAccepted,
   getBookingPending,
   getBookingPrevious,
@@ -11,6 +12,7 @@ import ReactPaginate from 'react-paginate';
 import { GoChevronLeft } from 'react-icons/go';
 import { GoChevronRight } from 'react-icons/go';
 import Spinner16 from '../../../../Spinner24';
+import toast from 'react-hot-toast';
 
 function CarReservations({ car, setDisplayedCar }) {
   const [pendingPageNum, setPendingPageNum] = useState(1);
@@ -19,6 +21,8 @@ function CarReservations({ car, setDisplayedCar }) {
   const [pendingLimit, setPendingLimit] = useState(9);
   const [acceptedLimit, setAcceptedLimit] = useState(9);
   const [previousLimit, setPreviousLimit] = useState(9);
+
+  const [forceRender, setForceRender] = useState(true);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +48,7 @@ function CarReservations({ car, setDisplayedCar }) {
       .catch((error) => {
         console.log(error);
       });
-  }, [car._id, pendingPageNum]);
+  }, [car._id, pendingPageNum, forceRender]);
 
   useEffect(() => {
     dispatch(
@@ -59,7 +63,7 @@ function CarReservations({ car, setDisplayedCar }) {
       .catch((error) => {
         console.log(error);
       });
-  }, [car._id, acceptedPageNum]);
+  }, [car._id, acceptedPageNum, forceRender]);
 
   useEffect(() => {
     dispatch(
@@ -106,6 +110,29 @@ function CarReservations({ car, setDisplayedCar }) {
     setPendingPageNum(event.selected + 1);
   };
 
+  const acceptReservation = (id) => {
+    dispatch(changeBookingState({ id, state: 'accept' }))
+      .unwrap()
+      .then((res) => {
+        toast.success('Η κράτηση έγινε αποδεχτή');
+        setForceRender((prev) => !prev);
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
+  const declineReservation = (id) => {
+    dispatch(changeBookingState({ id, state: 'reject' }))
+      .unwrap()
+      .then((res) => {
+        toast.success('Η κράτηση απορρίφθηκε');
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
   if (
     bookingPending[0]?.paginatedResults.length === 0 &&
     bookingAccepted[0]?.paginatedResults.length === 0 &&
@@ -141,12 +168,23 @@ function CarReservations({ car, setDisplayedCar }) {
                     {book.renter.name} {book.renter.surname}
                   </button>{' '}
                   <div className='stars'>
-                    <IoStar fill='#912740' size='18px' /> (4/5)
+                    <IoStar fill='#912740' size='18px' /> (
+                    {book?.renter?.ratingsScore}/5)
                   </div>
                 </div>
                 <div className='buttons'>
-                  <button className='accept'>Αποδοχή</button>
-                  <button className='decline'>Απόρριψη</button>
+                  <button
+                    className='accept'
+                    onClick={() => acceptReservation(book._id)}
+                  >
+                    Αποδοχή
+                  </button>
+                  <button
+                    className='decline'
+                    onClick={() => declineReservation(book._id)}
+                  >
+                    Απόρριψη
+                  </button>
                 </div>
               </div>
             ))}
@@ -186,7 +224,8 @@ function CarReservations({ car, setDisplayedCar }) {
                     {book.renter.name} {book.renter.surname}
                   </button>{' '}
                   <div className='stars'>
-                    <IoStar fill='#912740' size='18px' /> (4/5)
+                    <IoStar fill='#912740' size='18px' /> (
+                    {book?.renter?.ratingsScore}/5)
                   </div>
                 </div>
               </div>
@@ -227,7 +266,8 @@ function CarReservations({ car, setDisplayedCar }) {
                     {book.renter.name} {book.renter.surname}
                   </button>{' '}
                   <div className='stars'>
-                    <IoStar fill='#912740' size='18px' /> (4/5)
+                    <IoStar fill='#912740' size='18px' /> (
+                    {book?.renterReview?.rating}/5)
                   </div>
                 </div>
               </div>

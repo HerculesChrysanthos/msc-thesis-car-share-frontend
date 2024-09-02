@@ -9,12 +9,15 @@ import MyCars from './menuList/MyCars';
 import MyReservations from './menuList/MyReservations';
 import { updateProfileImage } from '../../features/user/userSlice';
 import toast from 'react-hot-toast';
+import DisplayReviews from '../review/DisplayReviews';
 
 function ProfileInfo() {
   const { user } = useSelector((state) => state.auth);
   const [selectedTab, setSelectedTab] = useState(0);
   const [displayedCar, setDisplayedCar] = useState({});
   const maxFileSize = 2 * 1024 * 1024;
+
+  const [displayReviews, setDisplayReviews] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -59,6 +62,27 @@ function ProfileInfo() {
       });
   };
 
+  const displayStars = (stars) => {
+    const totalStars = 5;
+    const filledStars = stars;
+    const emptyStars = totalStars - filledStars;
+
+    return (
+      <div className='stars'>
+        {Array.from({ length: filledStars }, (_, index) => (
+          <div className='star' key={index}>
+            <IoStar key={`filled-${index}`} fill='#912740' size='18px' />
+          </div>
+        ))}
+        {Array.from({ length: emptyStars }, (_, index) => (
+          <div className='star' key={index}>
+            <IoStar key={`empty-${index}`} fill='#EFD4DA' size='18px' />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className='container profile-page'>
       <div className='top-section'>
@@ -87,15 +111,13 @@ function ProfileInfo() {
           <h2>
             {user?.user?.name} {user?.user?.surname}
           </h2>
-          <div className='rating'>
-            <div className='stars'>
-              <IoStar fill='#912740' size='18px' />
-              <IoStar fill='#912740' size='18px' />
-              <IoStar fill='#912740' size='18px' />
-              <IoStar fill='#912740' size='18px' />
-              <MdStarHalf fill='#912740' size='18px' />
-            </div>
-            <div className='text'>(7) Αξιολογήσεις</div>
+          <div className='rating' onClick={() => setDisplayReviews(true)}>
+            {user?.user?.ratingsScore && displayStars(user?.user?.ratingsScore)}
+            {user?.user?.ratingsAmount && (
+              <div className='text'>
+                ({user?.user?.ratingsAmount}) Αξιολογήσεις
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -116,6 +138,12 @@ function ProfileInfo() {
         </div>
         <div className='selected-tab'>{menuList[selectedTab].component}</div>
       </div>
+      {displayReviews && (
+        <DisplayReviews
+          userId={user.user._id}
+          setDisplayReviews={setDisplayReviews}
+        />
+      )}
     </div>
   );
 }
