@@ -6,7 +6,7 @@ import ProfileInfo from '../components/profile/ProfileInfo';
 function Profile() {
   const { user } = useSelector((state) => state.auth);
 
-  if (!user) return <Navigate to='/not-found' />;
+  if (!user) return <Navigate to='/' />;
 
   return (
     <div>
