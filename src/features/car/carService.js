@@ -117,10 +117,8 @@ const getCarsBySearch = async (
   model,
   gearboxType,
   page,
-  limit,
-  token
+  limit
 ) => {
-  const headers = `Bearer ${token}`;
   const queryParams = new URLSearchParams({
     lat,
     long,
@@ -147,14 +145,7 @@ const getCarsBySearch = async (
     queryParams.append('maxPrice', maxPrice);
   }
 
-  const response = await axios.get(
-    `${API_URL}cars/?${queryParams.toString()}`,
-    {
-      headers: {
-        Authorization: headers,
-      },
-    }
-  );
+  const response = await axios.get(`${API_URL}cars/?${queryParams.toString()}`);
 
   return response.data;
 };

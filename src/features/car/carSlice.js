@@ -265,7 +265,6 @@ export const getCarsBySearch = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
       return await carService.getCarsBySearch(
         lat,
         long,
@@ -277,8 +276,7 @@ export const getCarsBySearch = createAsyncThunk(
         model,
         gearboxType,
         page,
-        limit,
-        token
+        limit
       );
     } catch (error) {
       console.log(error);
