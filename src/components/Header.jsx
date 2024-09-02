@@ -9,8 +9,14 @@ import Avatar from '../assets/profile/Avatar.png';
 function Header() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [displaySubmenu, setDisplaySubMenu] = useState(false);
   const { isLoading, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <>
@@ -22,7 +28,9 @@ function Header() {
           <ul>
             {user ? (
               <>
-                <li onClick={() => navigate('/profile')}>
+                <li
+                  onClick={() => setDisplaySubMenu((prevState) => !prevState)}
+                >
                   <div className='profile-thumbnail'>
                     <img
                       src={
@@ -52,6 +60,24 @@ function Header() {
           </ul>
         </nav>
       </header>
+      {displaySubmenu && (
+        <div className='submenu'>
+          <ul>
+            <li onClick={() => navigate('/profile') & setDisplaySubMenu(false)}>
+              Ο Λογαριασμός μου
+            </li>
+            <li
+              className='mobile'
+              onClick={() =>
+                navigate('/car-registration') & setDisplaySubMenu(false)
+              }
+            >
+              Νοίκιασε το αμάξι σου
+            </li>
+            <li onClick={logout}>Αποσύνδεση</li>
+          </ul>
+        </div>
+      )}
 
       {showLogin && <Login showLogin={showLogin} setShowLogin={setShowLogin} />}
       {showRegister && (
