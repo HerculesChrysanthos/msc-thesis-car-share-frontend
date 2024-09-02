@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Footer from './components/Footer';
 import Search from './pages/Search';
 import PrivateRoute from './components/auth/PrivateRoute';
+import User from './pages/User';
 
 function App() {
   const Routes = () => {
@@ -49,6 +50,10 @@ function App() {
         {
           path: '/search',
           element: <Search />,
+        },
+        {
+          path: '/user/:id',
+          element: <User />,
         },
       ],
     },
