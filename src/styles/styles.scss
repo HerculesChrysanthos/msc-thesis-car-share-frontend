@@ -343,7 +343,7 @@ footer {
   }
 
   .login-container {
-    z-index: 2;
+    z-index: 12;
     max-width: 375px;
     width: 100%;
     overflow: hidden;
@@ -577,7 +577,7 @@ footer {
   }
 
   .register-container {
-    z-index: 2;
+    z-index: 12;
     max-width: 375px;
     width: 100%;
     overflow: hidden;
@@ -606,6 +606,7 @@ footer {
       background-color: #e6e6e6;
       z-index: 5;
       border-radius: 50px;
+      cursor: pointer;
 
       display: flex;
       align-items: center;
