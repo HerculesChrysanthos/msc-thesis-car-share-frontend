@@ -38,7 +38,6 @@ const getBookingAccepted = async (carId, pageNum, limit, token) => {
   return response.data;
 };
 
-// get car brands
 const getBookingPrevious = async (carId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -57,10 +56,27 @@ const getBookingPrevious = async (carId, pageNum, limit, token) => {
   return response.data;
 };
 
+const changeBookingState = async (id, state, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.put(
+    API_URL + 'bookings/' + id + `/${state}`,
+    {},
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 const carService = {
   getBookingPending,
   getBookingAccepted,
   getBookingPrevious,
+  changeBookingState,
 };
 
 export default carService;

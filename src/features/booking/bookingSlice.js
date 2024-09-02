@@ -8,6 +8,7 @@ const initialState = {
   bookingPendingLoading: false,
   bookingAcceptedLoading: false,
   bookingPreviousLoading: false,
+  bookingLoading: false,
 };
 
 export const getBookingPending = createAsyncThunk(
@@ -67,12 +68,26 @@ export const getBookingPrevious = createAsyncThunk(
   }
 );
 
+export const changeBookingState = createAsyncThunk(
+  'booking/changeBookingState',
+  async ({ id, state }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await bookingService.changeBookingState(id, state, token);
+    } catch (error) {
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const bookingSlice = createSlice({
   name: 'booking',
   initialState,
   reducers: {
     reset: (state) => {
-      state.bookingIsLoading = false;
+      state.bookingLoading = false;
     },
   },
   extraReducers: (builder) => {
@@ -106,6 +121,15 @@ export const bookingSlice = createSlice({
       })
       .addCase(getBookingPrevious.rejected, (state) => {
         state.bookingPreviousLoading = false;
+      })
+      .addCase(changeBookingState.pending, (state) => {
+        state.bookingLoading = true;
+      })
+      .addCase(changeBookingState.fulfilled, (state, action) => {
+        state.bookingLoading = false;
+      })
+      .addCase(changeBookingState.rejected, (state) => {
+        state.bookingLoading = false;
       });
   },
 });

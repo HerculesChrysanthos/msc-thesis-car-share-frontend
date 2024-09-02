@@ -88,11 +88,98 @@ const getMyBookingPrevious = async (userId, pageNum, limit, token) => {
   return response.data;
 };
 
+// get user by id
+const getUserById = async (userId, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(API_URL + 'users/' + userId, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  return response.data;
+};
+
+const getUserReviewsAsOwner = async (userId, page, limit, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(
+    API_URL +
+      'users/' +
+      userId +
+      `/reviews?page=${page}&limit=${limit}&role=OWNER`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+const getUserReviewsAsRenter = async (userId, page, limit, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(
+    API_URL +
+      'users/' +
+      userId +
+      `/reviews?page=${page}&limit=${limit}&role=RENTER`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// get cars by user id
+const getCarsByUserId = async (userId, pageNum, limit, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.get(
+    API_URL + 'users/' + userId + `/cars?page=${pageNum}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// post booking review
+const postBookingReview = async (bookingId, body, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.post(
+    API_URL + 'bookings/' + bookingId + '/reviews',
+    body,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 const userService = {
   updateProfileImage,
   updateProfileInfo,
   getMyBookingAccepted,
   getMyBookingPrevious,
+  postBookingReview,
+  getUserById,
+  getUserReviewsAsOwner,
+  getUserReviewsAsRenter,
+  getCarsByUserId,
 };
 
 export default userService;
