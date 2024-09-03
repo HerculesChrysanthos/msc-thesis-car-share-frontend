@@ -10,7 +10,7 @@ const initialState = {
   carImgUploadLoading: false,
   car: car ? car : null,
   myCars: [],
-  searchCars: [],
+  searchCars: {},
   searchAddress: '',
 };
 

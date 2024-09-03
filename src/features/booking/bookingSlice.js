@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import bookingService from './bookingService';
 
 const initialState = {
-  bookingPending: [],
-  bookingAccepted: [],
-  bookingPrevious: [],
+  bookingPending: {},
+  bookingAccepted: {},
+  bookingPrevious: {},
   bookingPendingLoading: false,
   bookingAcceptedLoading: false,
   bookingPreviousLoading: false,

@@ -151,10 +151,7 @@ function MyReservations() {
       });
   };
 
-  if (
-    myAcceptedBooking[0]?.paginatedResults.length === 0 &&
-    myPreviousBooking[0]?.paginatedResults.length === 0
-  )
+  if (myAcceptedBooking.totalCount === 0 && myPreviousBooking.totalCount === 0)
     return (
       <div className='no-cars-registered'>
         <h2>Δεν υπάρχει κάποια κράτηση ακόμα</h2>
@@ -166,11 +163,11 @@ function MyReservations() {
 
   return (
     <div className='my-reservations'>
-      {myAcceptedBooking[0]?.paginatedResults.length > 0 && (
+      {myAcceptedBooking?.totalCount > 0 && (
         <div className='booking-list'>
           <h2>Προγραμματισμένες</h2>
           <div className='bookings'>
-            {myAcceptedBooking[0]?.paginatedResults.map((book) => (
+            {myAcceptedBooking?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='car-img'>
                   <img src={book.car?.thumbnail?.url} alt='Car Thumbnail' />
@@ -219,15 +216,14 @@ function MyReservations() {
               </div>
             ))}
           </div>
-          {Math.ceil(myAcceptedBooking[0].totalCount[0].count / acceptedLimit) >
-            1 && (
+          {Math.ceil(myAcceptedBooking.totalCount / acceptedLimit) > 1 && (
             <ReactPaginate
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setAcceptedPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
               pageCount={Math.ceil(
-                myAcceptedBooking[0].totalCount[0].count / acceptedLimit
+                myAcceptedBooking.totalCount / acceptedLimit
               )}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}
@@ -235,11 +231,11 @@ function MyReservations() {
           )}
         </div>
       )}
-      {myPreviousBooking[0]?.paginatedResults.length > 0 && (
+      {myPreviousBooking.totalCount > 0 && (
         <div className='booking-list'>
           <h2>Προηγούμενες</h2>
           <div className='bookings'>
-            {myPreviousBooking[0]?.paginatedResults.map((book) => (
+            {myPreviousBooking?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='car-img'>
                   <img src={book.car.thumbnail?.url} alt='Car Thumbnail' />
@@ -293,15 +289,14 @@ function MyReservations() {
               </div>
             ))}
           </div>
-          {Math.ceil(myPreviousBooking[0].totalCount[0].count / previousLimit) >
-            1 && (
+          {Math.ceil(myPreviousBooking.totalCount / previousLimit) > 1 && (
             <ReactPaginate
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setPreviousPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
               pageCount={Math.ceil(
-                myPreviousBooking[0].totalCount[0].count / previousLimit
+                myPreviousBooking.totalCount / previousLimit
               )}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}

@@ -76,9 +76,9 @@ function CarResults({
 
   return (
     <div className='cars-search-resutls'>
-      {searchCars[0]?.searchTerms && (
+      {searchCars?.searchTerms && (
         <div className='inline-filters'>
-          {Object.entries(searchCars[0].searchTerms).map(
+          {Object.entries(searchCars?.searchTerms).map(
             ([filterName, filterValue]) => {
               if (
                 [
@@ -94,8 +94,8 @@ function CarResults({
               }
 
               if (filterName === 'minPrice' || filterName === 'maxPrice') {
-                const minPriceDefault = searchCars[0].searchTerms.minPrice;
-                const maxPriceDefault = searchCars[0].searchTerms.maxPrice;
+                const minPriceDefault = searchCars?.searchTerms.minPrice;
+                const maxPriceDefault = searchCars?.searchTerms.maxPrice;
 
                 if (
                   (minPrice !== minPriceDefault ||
@@ -129,9 +129,9 @@ function CarResults({
         </div>
       )}
 
-      {searchCars[0]?.paginatedResults.length > 0 ? (
+      {searchCars?.totalCount > 0 ? (
         <div className='car-container'>
-          {searchCars[0]?.paginatedResults.map((car) => (
+          {searchCars?.paginatedResults.map((car) => (
             <div
               className={`car ${car._id === selectedPin ? 'car-selected' : ''}`}
               key={car._id}
@@ -174,13 +174,13 @@ function CarResults({
         </div>
       )}
 
-      {Math.ceil(searchCars[0]?.totalCount[0]?.count / carsLimit) > 1 && (
+      {Math.ceil(searchCars?.totalCount / carsLimit) > 1 && (
         <ReactPaginate
           breakLabel='...'
           nextLabel={<GoChevronRight size='16px' />}
           onPageChange={changePageNum}
           pageRangeDisplayed={3}
-          pageCount={Math.ceil(searchCars[0].totalCount[0].count / carsLimit)}
+          pageCount={Math.ceil(searchCars?.totalCount / carsLimit)}
           previousLabel={<GoChevronLeft size='16px' />}
           renderOnZeroPageCount={null}
           initialPage={carsPageNum - 1} // ReactPaginate is 0-indexed

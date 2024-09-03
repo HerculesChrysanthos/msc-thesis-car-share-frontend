@@ -134,15 +134,15 @@ function CarReservations({ car, setDisplayedCar }) {
   };
 
   if (
-    bookingPending[0]?.paginatedResults.length === 0 &&
-    bookingAccepted[0]?.paginatedResults.length === 0 &&
-    bookingPrevious[0]?.paginatedResults.length === 0
+    bookingPending?.totalCount === 0 &&
+    bookingAccepted?.totalCount === 0 &&
+    bookingPrevious?.totalCount === 0
   )
     return <div>Δεν υπάρχουν κρατήσεις</div>;
 
   return (
     <div className='car-reservations'>
-      {bookingPending[0]?.paginatedResults.length > 0 && (
+      {bookingPending?.totalCount > 0 && (
         <div className='booking-list'>
           <h2>
             Αιτήματα{' '}
@@ -153,7 +153,7 @@ function CarReservations({ car, setDisplayedCar }) {
             )}
           </h2>
           <div className='bookings'>
-            {bookingPending[0]?.paginatedResults.map((book) => (
+            {bookingPending?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='for'>
                   <h3>Έχεις νεα κράτηση για τις:</h3>
@@ -189,27 +189,24 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          {Math.ceil(bookingPending[0].totalCount[0].count / pendingLimit) >
-            1 && (
+          {Math.ceil(bookingPending?.totalCount / pendingLimit) > 1 && (
             <ReactPaginate
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setPendingPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
-              pageCount={Math.ceil(
-                bookingPending[0].totalCount[0].count / pendingLimit
-              )}
+              pageCount={Math.ceil(bookingPending?.totalCount / pendingLimit)}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}
             />
           )}
         </div>
       )}
-      {bookingAccepted[0]?.paginatedResults.length > 0 && (
+      {bookingAccepted?.totalCount > 0 && (
         <div className='booking-list'>
           <h2>Προγραμματισμένες</h2>
           <div className='bookings'>
-            {bookingAccepted[0]?.paginatedResults.map((book) => (
+            {bookingAccepted?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='for'>
                   <h3>Έχεις κράτηση για τις:</h3>
@@ -231,27 +228,24 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          {Math.ceil(bookingAccepted[0].totalCount[0].count / acceptedLimit) >
-            1 && (
+          {Math.ceil(bookingAccepted?.totalCount / acceptedLimit) > 1 && (
             <ReactPaginate
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setAcceptedPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
-              pageCount={Math.ceil(
-                bookingAccepted[0].totalCount[0].count / acceptedLimit
-              )}
+              pageCount={Math.ceil(bookingAccepted?.totalCount / acceptedLimit)}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}
             />
           )}
         </div>
       )}
-      {bookingPrevious[0]?.paginatedResults.length > 0 && (
+      {bookingPrevious?.totalCount > 0 && (
         <div className='booking-list'>
           <h2>Προηγούμενες</h2>
           <div className='bookings'>
-            {bookingPrevious[0]?.paginatedResults.map((book) => (
+            {bookingPrevious?.paginatedResults.map((book) => (
               <div className='book previous' key={book._id}>
                 {formatStatus(book.status)}
                 <div className='for'>
@@ -273,16 +267,13 @@ function CarReservations({ car, setDisplayedCar }) {
               </div>
             ))}
           </div>
-          {Math.ceil(bookingPrevious[0].totalCount[0].count / previousLimit) >
-            1 && (
+          {Math.ceil(bookingPrevious?.totalCount / previousLimit) > 1 && (
             <ReactPaginate
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setPreviousPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
-              pageCount={Math.ceil(
-                bookingPrevious[0].totalCount[0].count / previousLimit
-              )}
+              pageCount={Math.ceil(bookingPrevious?.totalCount / previousLimit)}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}
             />

@@ -37,8 +37,8 @@ function MapResults({ selectedPin, setSelectedPin, center, setCenter }) {
     <div className='map-results'>
       {isLoaded ? (
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={16}>
-          {searchCars.length > 0 &&
-            searchCars[0]?.paginatedResults?.map((pin) => (
+          {searchCars.totalCount > 0 &&
+            searchCars?.paginatedResults?.map((pin) => (
               <Marker
                 key={pin._id}
                 position={{
@@ -59,7 +59,6 @@ function MapResults({ selectedPin, setSelectedPin, center, setCenter }) {
                   fontWeight: '400',
                 }}
                 onClick={() => handlePinClick(pin)}
-                // Add any additional props here
               />
             ))}
         </GoogleMap>

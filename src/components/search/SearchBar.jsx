@@ -145,7 +145,7 @@ function SearchBar({
     )
       .unwrap()
       .then((res) => {
-        const center = res[0].searchTerms;
+        const center = res.searchTerms;
         setCenter({ lat: +center.lat, lng: +center.long });
       })
       .catch((error) => {
@@ -171,9 +171,7 @@ function SearchBar({
           role='button'
           onClick={() => setDisplayFilters(true)}
           className='display-filters'
-          disabled={
-            searchCars[0]?.totalCount.length === 0 || searchCars.length === 0
-          }
+          disabled={searchCars?.totalCount === 0}
         >
           <VscSettings />
         </button>
