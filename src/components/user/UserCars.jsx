@@ -37,9 +37,9 @@ function UserCars() {
 
   return (
     <div className='car-list'>
-      {userCars[0]?.totalCount[0]?.count > 0 ? (
+      {userCars?.totalCount > 0 ? (
         <div className='mycars-list'>
-          {userCars[0]?.paginatedResults.map((car) => (
+          {userCars?.paginatedResults.map((car) => (
             <div key={car?._id} className='car'>
               <div className='car-img'>
                 <img src={car?.thumbnail?.url} alt='Car image' />
@@ -61,14 +61,14 @@ function UserCars() {
               </div>
             </div>
           ))}
-          {Math.ceil(userCars[0].totalCount[0].count / limit) > 1 && (
+          {Math.ceil(userCars?.totalCount / limit) > 1 && (
             <ReactPaginate
               key={pageNum}
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setPageNum(event.selected + 1)}
               pageRangeDisplayed={3}
-              pageCount={Math.ceil(userCars[0].totalCount[0].count / limit)}
+              pageCount={Math.ceil(userCars?.totalCount / limit)}
               previousLabel={<GoChevronLeft size='16px' />}
               renderOnZeroPageCount={null}
               forcePage={pageNum - 1} // Sync with pageNum state

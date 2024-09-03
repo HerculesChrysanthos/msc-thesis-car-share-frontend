@@ -73,14 +73,14 @@ function Filters({
             </h3>
             <div className='price-slide'>
               <RangeSlider
-                min={searchCars[0]?.general[0]?.minPrice}
-                max={searchCars[0]?.general[0]?.maxPrice}
+                min={searchCars?.general[0]?.minPrice}
+                max={searchCars?.general[0]?.maxPrice}
                 step={1}
                 onInput={setMinMax}
                 className='min-max-price'
                 defaultValue={[
-                  searchCars[0]?.general[0]?.minPrice,
-                  searchCars[0]?.general[0]?.maxPrice,
+                  searchCars?.general[0]?.minPrice,
+                  searchCars?.general[0]?.maxPrice,
                 ]}
               />
             </div>
@@ -98,7 +98,7 @@ function Filters({
           <div className='make'>
             <select onChange={(e) => setMake(e.target.value)} value={make}>
               <option hidden>Μάρκα</option>
-              {searchCars[0]?.general[0]?.makes.map((option) => (
+              {searchCars?.general[0]?.makes.map((option) => (
                 <option key={option._id} value={option._id}>
                   {option.name}
                 </option>
@@ -115,7 +115,7 @@ function Filters({
               value={model}
             >
               <option hidden>Μοντέλο</option>
-              {searchCars[0]?.general[0]?.models?.map((option) =>
+              {searchCars?.general[0]?.models?.map((option) =>
                 option.make === make ? (
                   <option key={option._id} value={option._id}>
                     {option.name}
