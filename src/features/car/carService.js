@@ -95,6 +95,12 @@ const carDeleteImage = async (carId, imageId, token) => {
   return response.data;
 };
 
+const getCar = async (carId) => {
+  const response = await axios.get(API_URL + `cars/${carId}`);
+
+  return response.data;
+};
+
 const getMycars = async (token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.get(API_URL + `cars/my-cars`, {
@@ -183,6 +189,7 @@ const carService = {
   getMycars,
   getCarsBySearch,
   reverseGeocoding,
+  getCar,
 };
 
 export default carService;

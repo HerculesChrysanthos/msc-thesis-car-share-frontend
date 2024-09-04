@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Search from './pages/Search';
 import PrivateRoute from './components/auth/PrivateRoute';
 import User from './pages/User';
+import Car from './pages/Car';
 
 function App() {
   const Routes = () => {
@@ -54,6 +55,10 @@ function App() {
         {
           path: '/user/:id',
           element: <User />,
+        },
+        {
+          path: '/car/:id',
+          element: <Car />,
         },
       ],
     },

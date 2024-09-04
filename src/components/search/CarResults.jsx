@@ -72,6 +72,23 @@ function CarResults({
     };
   }
 
+  const navigateToCar = (car) => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    const lat = queryParameters.get('lat');
+    const long = queryParameters.get('long');
+    const startDate = queryParameters.get('startDate');
+    const endDate = queryParameters.get('endDate');
+
+    if (!lat) return;
+    if (!long) return;
+    if (!startDate) return;
+    if (!endDate) return;
+
+    navigate(
+      `/car/${car._id}?lat=${lat}&long=${long}&startDate=${startDate}&endDate=${endDate}`
+    );
+  };
+
   if (carIsLoading) return <Spinner />;
 
   return (
@@ -135,7 +152,7 @@ function CarResults({
             <div
               className={`car ${car._id === selectedPin ? 'car-selected' : ''}`}
               key={car._id}
-              onClick={() => navigate(`/car/${car._id}`)}
+              onClick={() => navigateToCar(car)}
             >
               <div className='car-img'>
                 <img src={car?.images[0]?.url} alt={`${car.title} thumbnail`} />

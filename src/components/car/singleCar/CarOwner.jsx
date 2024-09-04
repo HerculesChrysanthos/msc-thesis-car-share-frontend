@@ -1,44 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Avatar from '../assets/profile/Avatar.png';
+import { getUserById } from '../../../features/user/userSlice';
+import Avatar from '../../../assets/profile/Avatar.png';
 import { MdCameraAlt } from 'react-icons/md';
 import { IoStar } from 'react-icons/io5';
-import toast from 'react-hot-toast';
-import DisplayReviews from '../components/review/DisplayReviews';
-import { getUserById } from '../features/user/userSlice';
-import UserInformation from '../components/user/UserInformation';
-import UserCars from '../components/user/UserCars';
-import { useParams } from 'react-router-dom';
+import DisplayReviews from '../../review/DisplayReviews';
 
-function User() {
+function CarOwner({ ownerId }) {
   const { singleUser } = useSelector((state) => state.user);
-  const [selectedTab, setSelectedTab] = useState(0);
 
   const [displayReviews, setDisplayReviews] = useState(false);
-
-  const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserById({ userId: id }))
+    dispatch(getUserById({ userId: ownerId }))
       .unwrap()
       .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-  const menuList = [
-    {
-      name: 'Στοιχεία λογαριασμού',
-      component: <UserInformation user={singleUser} />,
-    },
-    {
-      name: 'Τα αμάξια',
-      component: <UserCars />,
-    },
-  ];
+  }, [ownerId]);
 
   const displayStars = (stars) => {
     const totalStars = 5;
@@ -65,7 +47,8 @@ function User() {
   };
 
   return (
-    <div className='container profile-page display-user'>
+    <div className='single-car-display-onwer'>
+      <h2>Ιδιοκτήτης</h2>
       <div className='top-section'>
         <div className='profile-image'>
           <img
@@ -94,25 +77,14 @@ function User() {
           </div>
         </div>
       </div>
-      <div className='tab-section'>
-        <div className='tabs'>
-          {menuList.map((menu, index) => (
-            <div
-              key={index}
-              className={`tab ${selectedTab === index ? 'selected' : ''}`}
-              onClick={() => setSelectedTab(index)}
-            >
-              {menu.name}
-            </div>
-          ))}
-        </div>
-        <div className='selected-tab'>{menuList[selectedTab].component}</div>
-      </div>
       {displayReviews && (
-        <DisplayReviews userId={id} setDisplayReviews={setDisplayReviews} />
+        <DisplayReviews
+          userId={ownerId}
+          setDisplayReviews={setDisplayReviews}
+        />
       )}
     </div>
   );
 }
 
-export default User;
+export default CarOwner;
