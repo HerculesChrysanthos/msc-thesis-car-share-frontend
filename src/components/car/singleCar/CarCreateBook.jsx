@@ -32,9 +32,8 @@ function CarCreateBook({ car, startDate, endDate, address, rentPerHour }) {
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const period = hours >= 12 ? 'μμ' : 'πμ';
-    hours = hours % 12 || 12; // Convert to 12-hour format, handling midnight/noon
+    hours = hours % 12 || 12;
 
-    // Return formatted date and time
     return {
       date: `${day} ${month} ${year}`,
       time: `${hours}:${minutes} ${period}`,
@@ -131,6 +130,12 @@ function CarCreateBook({ car, startDate, endDate, address, rentPerHour }) {
       });
   };
 
+  const handleModalClick = (e) => {
+    if (e.target.classList.contains('reservation-modal') && !showSuccess) {
+      closeRejected();
+    }
+  };
+
   return (
     <>
       <div className='single-car-create-book'>
@@ -157,8 +162,8 @@ function CarCreateBook({ car, startDate, endDate, address, rentPerHour }) {
         </button>
       </div>
       {displayReservation && (
-        <div className='reservation-modal'>
-          <div className='modal'>
+        <div className='reservation-modal' onClick={handleModalClick}>
+          <div className='modal' onClick={(e) => e.stopPropagation()}>
             {reservationSuccess ? (
               <>
                 {showSuccess && (
