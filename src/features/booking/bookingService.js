@@ -72,11 +72,24 @@ const changeBookingState = async (id, state, token) => {
   return response.data;
 };
 
+const createBooking = async (body, token) => {
+  const headers = `Bearer ${token}`;
+
+  const response = await axios.post(API_URL + 'bookings', body, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  return response.data;
+};
+
 const carService = {
   getBookingPending,
   getBookingAccepted,
   getBookingPrevious,
   changeBookingState,
+  createBooking,
 };
 
 export default carService;

@@ -18,6 +18,7 @@ function Car() {
   const dispatch = useDispatch();
 
   const { singleCar } = useSelector((state) => state.car);
+  const { user } = useSelector((state) => state.auth);
 
   const queryParameters = new URLSearchParams(window.location.search);
   const startDate = queryParameters.get('startDate');
@@ -100,9 +101,9 @@ function Car() {
           <CarMap address={singleCar?.address} />
           <CarOwner ownerId={singleCar?.owner} />
         </div>
-        {startDate && endDate ? (
+        {startDate && endDate && user ? (
           <CarCreateBook
-            car={singleCar?._id}
+            car={singleCar}
             startDate={startDate}
             endDate={endDate}
             address={singleCar?.address}

@@ -4328,6 +4328,7 @@ footer {
     width: 8px;
   }
 
+  /* Handle */
   .display-reviews-container::-webkit-scrollbar-thumb {
     background: #d5d5d5;
     border-radius: 4px;
@@ -4433,6 +4434,7 @@ footer {
       padding: 8px 24px;
       border: none;
       border-radius: 8px;
+      cursor: pointer;
 
       font-size: 20px;
       line-height: 24px;
@@ -4760,6 +4762,344 @@ footer {
         background-color: #912740;
         border: none;
         margin: 0;
+      }
+    }
+  }
+
+  .reservation-modal {
+    width: 100%;
+    min-height: 100svh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #27272866;
+    z-index: 10;
+    padding: 16px;
+
+    .modal {
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      max-height: 600px;
+      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      @include mq(medium) {
+        padding: 24px;
+        max-height: 800px;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 16px;
+        background-color: #e6e6e640;
+        border-radius: 50%;
+        cursor: pointer;
+
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @include mq(medium) {
+          top: 24px;
+          right: 24px;
+        }
+      }
+
+      .booking-messsage {
+        width: 100%;
+        max-width: 800px;
+
+        h4 {
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          color: #912740;
+          margin-bottom: 24px;
+        }
+
+        .message {
+          padding-top: 24px;
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+
+          font-size: 14px;
+          line-height: 16px;
+          font-weight: 500;
+
+          color: #838486;
+        }
+
+        .car-image {
+          width: 100%;
+          height: auto;
+          max-width: 400px;
+          margin-inline: auto;
+          margin-top: 32px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+      }
+
+      h3 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 700;
+        padding-right: 24px;
+        color: #912740;
+      }
+
+      .img-and-info {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-bottom: 1px solid #d5d5d5;
+        padding-bottom: 24px;
+
+        @include mq(medium) {
+          flex-direction: row;
+          gap: 24px;
+        }
+
+        .car-thumbnail {
+          width: 176px;
+          height: 128px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 8px;
+          }
+        }
+
+        .car-info {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+
+          .name {
+            h4 {
+              font-size: 48px;
+              line-height: 56px;
+              font-weight: 700;
+              color: #000;
+              margin-bottom: 8px;
+            }
+
+            p {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 300;
+              color: #838486;
+            }
+          }
+
+          .display-features {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+
+            .feature {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              padding: 4px 8px;
+              border-radius: 12px;
+              background-color: #f3e7ea;
+
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 400;
+              color: #912740;
+
+              .icon {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+          }
+
+          .display-car-details {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            @include mq(xlarge) {
+              flex-direction: row;
+              gap: 24px;
+            }
+
+            .top,
+            .bottom {
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 16px 24px;
+            }
+            .detail {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              padding: 4px 8px;
+              border-radius: 12px;
+              background-color: #f3e7ea;
+
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 400;
+              color: #912740;
+
+              .icon {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+          }
+        }
+      }
+
+      .reservation-info {
+        padding-top: 24px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        h3 {
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 500;
+          color: #912740;
+        }
+
+        .dates {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+
+          @include mq(xlarge) {
+            width: fit-content;
+          }
+
+          .from-date,
+          .to-date {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            font-size: 16px;
+            line-height: 24px;
+
+            @include mq(xlarge) {
+              width: 270px;
+            }
+
+            .from {
+              font-weight: 400;
+            }
+
+            .date {
+              display: flex;
+              flex-direction: column;
+              font-weight: 500;
+            }
+          }
+
+          .from-date {
+            border-right: 1px solid #d5d5d5;
+          }
+        }
+      }
+      .total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 12px;
+        background-color: #f8f8f8;
+
+        .days {
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          span {
+            font-weight: 700;
+          }
+        }
+
+        .price {
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          color: #912740;
+        }
+      }
+
+      .message {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 400;
+        color: #272728;
+      }
+
+      .send-booking {
+        background: #000;
+        color: #fff;
+        padding: 8px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        align-self: flex-end;
+        margin-top: 16px;
+
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 400;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
       }
     }
   }
