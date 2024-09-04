@@ -74,19 +74,13 @@ function CarResults({
 
   const navigateToCar = (car) => {
     const queryParameters = new URLSearchParams(window.location.search);
-    const lat = queryParameters.get('lat');
-    const long = queryParameters.get('long');
     const startDate = queryParameters.get('startDate');
     const endDate = queryParameters.get('endDate');
 
-    if (!lat) return;
-    if (!long) return;
     if (!startDate) return;
     if (!endDate) return;
 
-    navigate(
-      `/car/${car._id}?lat=${lat}&long=${long}&startDate=${startDate}&endDate=${endDate}`
-    );
+    navigate(`/car/${car._id}?startDate=${startDate}&endDate=${endDate}`);
   };
 
   if (carIsLoading) return <Spinner />;

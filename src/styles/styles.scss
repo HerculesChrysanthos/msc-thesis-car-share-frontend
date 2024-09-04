@@ -4341,6 +4341,105 @@ footer {
   width: 100%;
   margin-top: 24px;
 
+  .single-car-create-book {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    padding: 16px;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0px -6px 14px 0px #00000026;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include mq(xlarge) {
+      border-radius: 12px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      @include mq(medium) {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      @include mq(xlarge) {
+        flex-direction: column;
+        align-items: unset;
+      }
+
+      .option {
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #a6a6a7;
+
+        .text {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          white-space: normal;
+
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 400;
+        }
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          color: #912740;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .cost {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+
+      .hours {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 400;
+        color: #272728;
+      }
+
+      .money {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #912740;
+      }
+    }
+
+    button {
+      background: #000;
+      color: #fff;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+    }
+  }
+
   .car-details {
     display: flex;
     flex-direction: column;
@@ -4593,11 +4692,13 @@ footer {
 
   .car-carousel-item {
     width: 100%;
-    padding-right: 24px; /* Adjust padding to create space around items */
     box-sizing: border-box;
 
     &:last-child {
       padding: 0;
+    }
+    @include mq(medium) {
+      padding-right: 24px;
     }
   }
 

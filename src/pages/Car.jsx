@@ -19,6 +19,10 @@ function Car() {
 
   const { singleCar } = useSelector((state) => state.car);
 
+  const queryParameters = new URLSearchParams(window.location.search);
+  const startDate = queryParameters.get('startDate');
+  const endDate = queryParameters.get('endDate');
+
   useEffect(() => {
     if (!id) navigate('/not-found');
 
@@ -96,7 +100,15 @@ function Car() {
           <CarMap address={singleCar?.address} />
           <CarOwner ownerId={singleCar?.owner} />
         </div>
-        <CarCreateBook />
+        {startDate && endDate ? (
+          <CarCreateBook
+            car={singleCar?._id}
+            startDate={startDate}
+            endDate={endDate}
+            address={singleCar?.address}
+            rentPerHour={singleCar.rentPerHour}
+          />
+        ) : null}
       </div>
     </div>
   );
