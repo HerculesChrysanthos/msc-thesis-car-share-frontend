@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '../assets/profile/Avatar.png';
 import { MdCameraAlt } from 'react-icons/md';
 import { IoStar } from 'react-icons/io5';
-import toast from 'react-hot-toast';
 import DisplayReviews from '../components/review/DisplayReviews';
 import { getUserById } from '../features/user/userSlice';
 import UserInformation from '../components/user/UserInformation';

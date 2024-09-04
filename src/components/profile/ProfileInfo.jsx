@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '../../assets/profile/Avatar.png';
 import { MdCameraAlt } from 'react-icons/md';
 import { IoStar } from 'react-icons/io5';
-import { MdStarHalf } from 'react-icons/md';
 import UserInfo from './menuList/UserInfo';
 import MyCars from './menuList/MyCars';
 import MyReservations from './menuList/MyReservations';

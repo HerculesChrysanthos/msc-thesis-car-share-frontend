@@ -14,7 +14,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getCarsBySearch } from '../../features/car/carSlice';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import Filters from './Filters';
 import { VscSettings } from 'react-icons/vsc';
 

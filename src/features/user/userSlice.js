@@ -18,6 +18,7 @@ const initialState = {
   reviewsAsRenterLoading: false,
 };
 
+// update user profile image
 export const updateProfileImage = createAsyncThunk(
   'user/profileImage',
   async ({ userId, formData }, thunkAPI) => {
@@ -32,6 +33,7 @@ export const updateProfileImage = createAsyncThunk(
   }
 );
 
+// update users info
 export const updateProfileInfo = createAsyncThunk(
   'user/updateProfileInfo',
   async ({ userId, formData }, thunkAPI) => {
@@ -46,7 +48,7 @@ export const updateProfileInfo = createAsyncThunk(
   }
 );
 
-// get my accepted booking
+// get the my bookings with state ACCEPTED
 export const getMyBookingAccepted = createAsyncThunk(
   'myBooking/accepted',
   async ({ userId, pageNum, limit }, thunkAPI) => {
@@ -66,7 +68,7 @@ export const getMyBookingAccepted = createAsyncThunk(
   }
 );
 
-// get my previous booking
+// get the my bookings with state PREVIOUS
 export const getMyBookingPrevious = createAsyncThunk(
   'myBooking/previous',
   async ({ userId, pageNum, limit }, thunkAPI) => {
@@ -101,6 +103,7 @@ export const getUserById = createAsyncThunk(
   }
 );
 
+// get user reviews as owner
 export const getUserReviewsAsOwner = createAsyncThunk(
   'user/getUserReviewsAsOwner',
   async ({ userId, page, limit }, thunkAPI) => {
@@ -120,6 +123,7 @@ export const getUserReviewsAsOwner = createAsyncThunk(
   }
 );
 
+// get user reviews as renter
 export const getUserReviewsAsRenter = createAsyncThunk(
   'user/getUserReviewsAsRenter',
   async ({ userId, page, limit }, thunkAPI) => {
@@ -139,6 +143,7 @@ export const getUserReviewsAsRenter = createAsyncThunk(
   }
 );
 
+// get the cars of specific user by user id
 export const getCarsByUserId = createAsyncThunk(
   'user/getCarsByUserId',
   async ({ userId, pageNum, limit }, thunkAPI) => {

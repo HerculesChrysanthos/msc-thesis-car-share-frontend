@@ -11,6 +11,7 @@ const initialState = {
   bookingLoading: false,
 };
 
+// get bookings with status PENDING
 export const getBookingPending = createAsyncThunk(
   'booking/pending',
   async ({ carId, pageNum, limit }, thunkAPI) => {
@@ -30,6 +31,7 @@ export const getBookingPending = createAsyncThunk(
   }
 );
 
+// get bookings with status ACCEPTED
 export const getBookingAccepted = createAsyncThunk(
   'booking/accepted',
   async ({ carId, pageNum, limit }, thunkAPI) => {
@@ -49,6 +51,7 @@ export const getBookingAccepted = createAsyncThunk(
   }
 );
 
+// get bookings with status PREVIOUS
 export const getBookingPrevious = createAsyncThunk(
   'booking/previous',
   async ({ carId, pageNum, limit }, thunkAPI) => {
@@ -68,6 +71,7 @@ export const getBookingPrevious = createAsyncThunk(
   }
 );
 
+// update booking state ACCEPT, REJECT, CANCEL
 export const changeBookingState = createAsyncThunk(
   'booking/changeBookingState',
   async ({ id, state }, thunkAPI) => {

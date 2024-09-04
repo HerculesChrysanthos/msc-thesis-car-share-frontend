@@ -21,7 +21,6 @@ function RegisterCarCom2({ step, setStep }) {
     form.interiorColor
   );
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const doors = ['3', '5', '7+'];
 

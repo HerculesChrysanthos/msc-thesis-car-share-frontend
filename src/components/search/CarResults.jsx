@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { FaEuroSign } from 'react-icons/fa';
@@ -6,7 +5,6 @@ import { IoStar } from 'react-icons/io5';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
-import { getCarsBySearch } from '../../features/car/carSlice';
 import NoCarsImg from '../../assets/car/no_cars.png';
 import Spinner from '../Spinner';
 import { CgClose } from 'react-icons/cg';

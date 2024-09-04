@@ -8,7 +8,6 @@ import {
   carUpdateImage,
 } from '../../../../../features/car/carSlice';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import Spinner from '../../../../Spinner';
 import Spinner24 from '../../../../Spinner24';
 export default function CarImages({ car, setDisplayedCar }) {
   const handleGoBackButton = (e) => {

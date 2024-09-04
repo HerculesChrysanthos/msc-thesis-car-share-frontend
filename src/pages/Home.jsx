@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import LocationSearch from '../components/home/LocationSearch';
 import DatesSearch from '../components/home/DatesSearch';
 import {

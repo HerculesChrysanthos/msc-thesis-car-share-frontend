@@ -6,7 +6,6 @@ import {
   carUpdate,
 } from '../../../../../features/car/carSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { FaEuroSign } from 'react-icons/fa';
 import Select from 'react-select';
 import toast from 'react-hot-toast';

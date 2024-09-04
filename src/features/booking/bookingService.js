@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = '/api/';
 
+// get bookings with status PENDING
 const getBookingPending = async (carId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -20,6 +21,7 @@ const getBookingPending = async (carId, pageNum, limit, token) => {
   return response.data;
 };
 
+// get bookings with status ACCEPTED
 const getBookingAccepted = async (carId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -38,6 +40,7 @@ const getBookingAccepted = async (carId, pageNum, limit, token) => {
   return response.data;
 };
 
+// get bookings with status PREVIOUS
 const getBookingPrevious = async (carId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -56,6 +59,7 @@ const getBookingPrevious = async (carId, pageNum, limit, token) => {
   return response.data;
 };
 
+// update booking state ACCEPT, REJECT, CANCEL
 const changeBookingState = async (id, state, token) => {
   const headers = `Bearer ${token}`;
 
@@ -72,6 +76,7 @@ const changeBookingState = async (id, state, token) => {
   return response.data;
 };
 
+// create Booking
 const createBooking = async (body, token) => {
   const headers = `Bearer ${token}`;
 

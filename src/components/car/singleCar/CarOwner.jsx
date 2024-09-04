@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserById } from '../../../features/user/userSlice';
 import Avatar from '../../../assets/profile/Avatar.png';
-import { MdCameraAlt } from 'react-icons/md';
 import { IoStar } from 'react-icons/io5';
 import DisplayReviews from '../../review/DisplayReviews';
 

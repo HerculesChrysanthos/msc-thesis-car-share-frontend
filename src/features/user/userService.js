@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = '/api/';
 
+// update user profile image
 const updateProfileImage = async (userId, formData, token) => {
   const headers = `Bearer ${token}`;
 
@@ -28,6 +29,7 @@ const updateProfileImage = async (userId, formData, token) => {
   return response.data;
 };
 
+// update users info
 const updateProfileInfo = async (userId, formData, token) => {
   const headers = `Bearer ${token}`;
 
@@ -50,7 +52,7 @@ const updateProfileInfo = async (userId, formData, token) => {
   return response.data;
 };
 
-// get my accepted bookings
+// get the my bookings with state ACCEPTED
 const getMyBookingAccepted = async (userId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -69,7 +71,7 @@ const getMyBookingAccepted = async (userId, pageNum, limit, token) => {
   return response.data;
 };
 
-// get get my previous bookings
+// get the my bookings with state PREVIOUS
 const getMyBookingPrevious = async (userId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -101,6 +103,7 @@ const getUserById = async (userId, token) => {
   return response.data;
 };
 
+// get user reviews as owner
 const getUserReviewsAsOwner = async (userId, page, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -119,6 +122,7 @@ const getUserReviewsAsOwner = async (userId, page, limit, token) => {
   return response.data;
 };
 
+// get user reviews as renter
 const getUserReviewsAsRenter = async (userId, page, limit, token) => {
   const headers = `Bearer ${token}`;
 
@@ -137,7 +141,7 @@ const getUserReviewsAsRenter = async (userId, page, limit, token) => {
   return response.data;
 };
 
-// get cars by user id
+// get the cars of specific user by user id
 const getCarsByUserId = async (userId, pageNum, limit, token) => {
   const headers = `Bearer ${token}`;
 

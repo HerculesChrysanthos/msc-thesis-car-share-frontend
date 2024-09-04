@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import SingleCar from './myCars/SingleCar';
 import MyCarsList from './myCars/MyCarsList';
 import { useDispatch, useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
 import { getMycars } from '../../../features/car/carSlice';
 
 function MyCars({ displayedCar, setDisplayedCar }) {

@@ -9,12 +9,14 @@ const getCarBrands = async () => {
   return response.data;
 };
 
+// get the models of specific brand
 const getBrandModels = async (brand) => {
   const response = await axios.get(API_URL + '/models?make=' + `${brand}`);
 
   return response.data;
 };
 
+// register new car
 const carRegistration = async (car, token) => {
   console.log(car);
   const headers = `Bearer ${token}`;
@@ -31,6 +33,7 @@ const carRegistration = async (car, token) => {
   return response.data;
 };
 
+// update car
 const carUpdate = async (carId, body, token) => {
   console.log(carId);
   const headers = `Bearer ${token}`;
@@ -47,6 +50,7 @@ const carUpdate = async (carId, body, token) => {
   return response.data;
 };
 
+// upload car image
 const carUploadImage = async (carId, body, token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.post(API_URL + `cars/${carId}/images`, body, {
@@ -62,6 +66,7 @@ const carUploadImage = async (carId, body, token) => {
   return response.data;
 };
 
+// update car image
 const carUpdateImage = async (carId, body, token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.patch(API_URL + `cars/${carId}`, body, {
@@ -77,6 +82,7 @@ const carUpdateImage = async (carId, body, token) => {
   return response.data;
 };
 
+// delete car image
 const carDeleteImage = async (carId, imageId, token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.delete(
@@ -95,12 +101,14 @@ const carDeleteImage = async (carId, imageId, token) => {
   return response.data;
 };
 
+// get car by id
 const getCar = async (carId) => {
   const response = await axios.get(API_URL + `cars/${carId}`);
 
   return response.data;
 };
 
+// get my cars
 const getMycars = async (token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.get(API_URL + `cars/my-cars`, {
@@ -112,6 +120,7 @@ const getMycars = async (token) => {
   return response.data;
 };
 
+// get the cars that match search options and filters
 const getCarsBySearch = async (
   lat,
   long,
@@ -156,6 +165,7 @@ const getCarsBySearch = async (
   return response.data;
 };
 
+// take the address name and info from lat and lng
 const reverseGeocoding = async (lat, long) => {
   const apiKey =
     'AIzaSyCYAZZw3e-pUDPSHWluC2sbEjRO5FBo-CU&libraries=places&language=el';

@@ -30,7 +30,7 @@ export const getCarBrands = createAsyncThunk(
   }
 );
 
-// get car brands
+// get the models of specific brand
 export const getBrandModels = createAsyncThunk(
   'car/models',
   async (brand, thunkAPI) => {
@@ -125,7 +125,7 @@ export const carDeleteImage = createAsyncThunk(
   }
 );
 
-// get single car
+// get car by id
 export const getCar = createAsyncThunk(
   'cars/car',
   async ({ carId }, thunkAPI) => {
@@ -156,7 +156,7 @@ export const getMycars = createAsyncThunk(
   }
 );
 
-// get cars that match search params and filters
+// get the cars that match search options and filters
 export const getCarsBySearch = createAsyncThunk(
   'cars/getCarsBySearch',
   async (
@@ -198,7 +198,7 @@ export const getCarsBySearch = createAsyncThunk(
   }
 );
 
-// get address name from lat & lng
+// take the address name and info from lat and lng
 export const reverseGeocoding = createAsyncThunk(
   'cars/reverseGeocoding',
   async ({ lat, long }, thunkAPI) => {

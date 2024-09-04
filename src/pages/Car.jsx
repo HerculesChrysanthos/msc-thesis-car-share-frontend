@@ -48,9 +48,12 @@ function Car() {
             <h2>
               {singleCar?.make?.name} {singleCar?.model?.name}
             </h2>
-            <p>
-              <IoStar fill='#912740' size='18px' /> (7) Αξιολογήσεις
-            </p>
+            {singleCar?.ratingsScore && (
+              <p>
+                <IoStar fill='#912740' size='18px' /> (
+                {singleCar.ratingsScore.toFixed(2)}) Αξιολογήσεις
+              </p>
+            )}
           </div>
           <div className='features'>
             <h3>Χαρακτηριστικά οχήματος</h3>
