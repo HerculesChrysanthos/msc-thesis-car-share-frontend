@@ -15,6 +15,8 @@ import Search from './pages/Search';
 import PrivateRoute from './components/auth/PrivateRoute';
 import User from './pages/User';
 import Car from './pages/Car';
+import NotFound from './pages/NotFound';
+import VerifyToken from './pages/VerifyToken';
 
 function App() {
   const Routes = () => {
@@ -59,6 +61,14 @@ function App() {
         {
           path: '/car/:id',
           element: <Car />,
+        },
+        {
+          path: '/verify-token',
+          element: <VerifyToken />,
+        },
+        {
+          path: '*',
+          element: <NotFound />,
         },
       ],
     },

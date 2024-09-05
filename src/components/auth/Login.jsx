@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../features/auth/authSlice';
+import { googleLogin, login } from '../../features/auth/authSlice';
 import CarImg from '../../assets/login/login.jpg';
 import Logo from '../../assets/logo/Logo.png';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -51,6 +51,19 @@ function Login({ showLogin, setShowLogin }) {
       });
   };
 
+  const loginWithGoogle = () => {
+    // dispatch(googleLogin())
+    //    .unwrap()
+    //    .then((res) => {
+    //       setShowLogin(false)
+    //    })
+    //    .catch((error) => {
+    //       setErrorMessage(error.message)
+    //       setHasError(true)
+    //    })
+
+    window.open('http://localhost:8080/api/users/google', '_self');
+  };
   return (
     <div className='login'>
       <div
@@ -111,7 +124,7 @@ function Login({ showLogin, setShowLogin }) {
             </button>
             <div className='google-login'>
               <span>Ή εναλλακτικά</span>
-              <div className='google-btn'>
+              <div className='google-btn' onClick={loginWithGoogle}>
                 <FaGoogle size={18} /> Συνέχεια με την Google
               </div>
             </div>

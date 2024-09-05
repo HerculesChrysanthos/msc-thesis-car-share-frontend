@@ -35,7 +35,6 @@ const carRegistration = async (car, token) => {
 
 // update car
 const carUpdate = async (carId, body, token) => {
-  console.log(carId);
   const headers = `Bearer ${token}`;
   const response = await axios.patch(API_URL + `/cars/${carId}`, body, {
     headers: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LocationSearch from '../components/home/LocationSearch';
 import DatesSearch from '../components/home/DatesSearch';
 import {
@@ -15,6 +15,8 @@ import Brands from '../components/home/Brands';
 import NewAdditions from '../components/home/NewAdditions';
 import AccorditionHome from '../components/home/AccorditionHome';
 import ExtraIncome from '../components/home/ExtraIncome';
+import { useDispatch } from 'react-redux';
+import { getMe, googleLogin } from '../features/auth/authSlice';
 
 function formatToISOString(date) {
   const year = date.getUTCFullYear();
@@ -64,6 +66,34 @@ function Home() {
       `/search?startDate=${formatedStartDate}&endDate=${formatedEndDate}&lat=${lat}&long=${long}`
     );
   };
+
+  // The getCookie function goes here
+  function getCookie(name) {
+    const cookieArr = document.cookie.split(';');
+
+    for (let i = 0; i < cookieArr.length; i++) {
+      const cookiePair = cookieArr[i].split('=');
+
+      // Remove whitespace at the beginning of the cookie name and compare it with the given name
+      if (name === cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+
+    // Return null if the cookie is not found
+    return null;
+  }
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const tokenValue = getCookie('token');
+    dispatch(googleLogin({ token: tokenValue }))
+      .unwrap()
+      .then((res) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className='home-page'>

@@ -26,8 +26,8 @@ function UserInfo() {
     },
     vat: user?.user?.vat || '',
     drivingSince: {
-      month: user?.user?.drivingSince.month || 1,
-      year: user?.user?.drivingSince.year || 2024,
+      month: user?.user?.drivingSince?.month || 1,
+      year: user?.user?.drivingSince?.year || 2024,
     },
     licenceNumber: user?.user?.licenceNumber || '',
   });
