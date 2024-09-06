@@ -52,18 +52,9 @@ function Login({ showLogin, setShowLogin }) {
   };
 
   const loginWithGoogle = () => {
-    // dispatch(googleLogin())
-    //    .unwrap()
-    //    .then((res) => {
-    //       setShowLogin(false)
-    //    })
-    //    .catch((error) => {
-    //       setErrorMessage(error.message)
-    //       setHasError(true)
-    //    })
-
     window.open('http://localhost:8080/api/users/google', '_self');
   };
+
   return (
     <div className='login'>
       <div

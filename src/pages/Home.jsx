@@ -15,7 +15,7 @@ import Brands from '../components/home/Brands';
 import NewAdditions from '../components/home/NewAdditions';
 import AccorditionHome from '../components/home/AccorditionHome';
 import ExtraIncome from '../components/home/ExtraIncome';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMe, googleLogin } from '../features/auth/authSlice';
 
 function formatToISOString(date) {
@@ -41,6 +41,8 @@ function Home() {
   const [endDate, setEndDate] = useState(addHours(nextHour, 1));
 
   const navigate = useNavigate();
+
+  const { user, userLoading } = useSelector((state) => state.auth);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -87,12 +89,14 @@ function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
     const tokenValue = getCookie('token');
-    dispatch(googleLogin({ token: tokenValue }))
-      .unwrap()
-      .then((res) => {})
-      .catch((error) => {
-        console.log(error);
-      });
+    if (tokenValue && !user) {
+      dispatch(googleLogin({ token: tokenValue }))
+        .unwrap()
+        .then((res) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   return (

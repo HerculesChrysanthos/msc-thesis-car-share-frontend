@@ -14,7 +14,16 @@ function Header() {
   const navigate = useNavigate();
 
   const logout = () => {
+    // Clear localStorage
     localStorage.clear();
+
+    // Delete 'token' cookie
+    document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
+    // Delete 'userInfo' cookie
+    document.cookie = `userInfo=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
+    // Reload the page to apply changes
     window.location.reload();
   };
 

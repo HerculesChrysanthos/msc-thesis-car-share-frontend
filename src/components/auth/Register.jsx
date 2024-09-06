@@ -117,6 +117,10 @@ function Register({ showRegister, setShowRegister }) {
       });
   };
 
+  const registerWithGoogle = () => {
+    window.open('http://localhost:8080/api/users/google', '_self');
+  };
+
   return (
     <div className='register'>
       <div
@@ -217,7 +221,7 @@ function Register({ showRegister, setShowRegister }) {
             </button>
             <div className='google-login'>
               <span>Ή εναλλακτικά</span>
-              <div className='google-btn'>
+              <div className='google-btn' onClick={registerWithGoogle}>
                 <FaGoogle size={18} /> Συνέχεια με την Google
               </div>
             </div>
