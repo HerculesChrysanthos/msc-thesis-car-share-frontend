@@ -7,6 +7,10 @@ import CarReservations from './carTabs/CarReservations';
 import CarInfomrations from './carTabs/CarInfomrations';
 import CarExtraFeatures from './carTabs/CarExtraFeatures';
 import CarImages from './carTabs/CarImages';
+import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { deleteCar } from '../../../../features/car/carSlice';
 
 function SingleCar({ displayedCar, setDisplayedCar }) {
   const [selectedCarTab, setSelectedCarTab] = useState(0);
@@ -45,7 +49,26 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
       ),
     },
   ];
-  const deleteCar = () => {};
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const deleteCarFun = () => {
+    dispatch(deleteCar({ carId: displayedCar._id }))
+      .unwrap()
+      .then((res) => {
+        toast.success('Το αμάξι διαγράφηκε επιτυχώς');
+        const timeoutId = setTimeout(() => {
+          navigate('/profile');
+        }, 1000);
+        return () => {
+          clearTimeout(timeoutId);
+        };
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
   return (
     <div className='single-car'>
       <div className='car-top-section'>
@@ -77,7 +100,7 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
             <div className='text'>(7) Αξιολογήσεις</div>
           </div>
           <div className='delete-car'>
-            <button onClick={deleteCar}>Διαγραφή οχήματος</button>
+            <button onClick={deleteCarFun}>Διαγραφή οχήματος</button>
           </div>
         </div>
       </div>

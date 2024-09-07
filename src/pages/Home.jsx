@@ -93,9 +93,7 @@ function Home() {
       dispatch(googleLogin({ token: tokenValue }))
         .unwrap()
         .then((res) => {})
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     }
   }, []);
 

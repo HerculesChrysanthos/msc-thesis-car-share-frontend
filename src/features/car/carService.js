@@ -107,6 +107,17 @@ const getCar = async (carId) => {
   return response.data;
 };
 
+const deleteCar = async (carId, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.delete(API_URL + `cars/${carId}`, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  return response.data;
+};
+
 // get my cars
 const getMycars = async (token) => {
   const headers = `Bearer ${token}`;
@@ -199,6 +210,7 @@ const carService = {
   getCarsBySearch,
   reverseGeocoding,
   getCar,
+  deleteCar,
 };
 
 export default carService;

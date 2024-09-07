@@ -140,6 +140,22 @@ export const getCar = createAsyncThunk(
   }
 );
 
+// delete car by id
+export const deleteCar = createAsyncThunk(
+  'cars/deleteCar',
+  async ({ carId }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.deleteCar(carId, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // get my cars
 export const getMycars = createAsyncThunk(
   'cars/getMyCars',
@@ -311,6 +327,15 @@ export const carSlice = createSlice({
         state.singleCar = action.payload;
       })
       .addCase(getCar.rejected, (state) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(deleteCar.pending, (state) => {
+        state.singleCarLoading = true;
+      })
+      .addCase(deleteCar.fulfilled, (state, action) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(deleteCar.rejected, (state) => {
         state.singleCarLoading = false;
       });
   },
