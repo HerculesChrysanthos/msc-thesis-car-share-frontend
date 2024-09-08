@@ -907,6 +907,13 @@ footer {
       grid-template-columns: 1fr 1fr;
     }
 
+    .add-unvavailable-dates {
+      text-decoration: underline;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+    }
+
     .full-row {
       grid-column: span 1;
 
@@ -1827,15 +1834,87 @@ footer {
           margin-bottom: 4px;
           cursor: pointer;
         }
+        .car-info {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
 
-        h2 {
-          font-size: 32px;
-          line-height: 40px;
-          font-weight: 700;
-          color: #000;
-          margin-bottom: 4px;
-          width: 100%;
-          text-align: left;
+          @include mq(medium) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 4px;
+            width: 100%;
+            text-align: left;
+          }
+
+          .switch-car-status {
+            border-radius: 24px;
+            padding: 4px;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            width: fit-content;
+            transition: all ease-in 0.2s;
+
+            &::before {
+              content: '';
+              position: absolute;
+              border-radius: 24px;
+              transition: all ease-in 0.2s;
+            }
+
+            button {
+              padding: 12px;
+              border-radius: 24px;
+              border: none;
+              background-color: transparent;
+              z-index: 2;
+              cursor: pointer;
+            }
+
+            button.avai {
+              color: #2fb25b;
+            }
+            button.unavai {
+              color: #dd2037;
+            }
+          }
+
+          .switch-car-status.available {
+            border: 1px solid #2fb25b;
+
+            &::before {
+              left: 4px;
+              top: 4px;
+              background-color: #e2f0e7;
+
+              width: 67px;
+              height: 39px;
+            }
+          }
+
+          .switch-car-status.unavailable {
+            border: 1px solid #dd2037;
+
+            &::before {
+              left: calc(100% - 86px);
+              top: 4px;
+
+              background-color: #f3e3e5;
+              width: 82px;
+              height: 39px;
+            }
+          }
         }
 
         .rating-delete {
@@ -5156,6 +5235,322 @@ footer {
     font-size: 16px;
     line-height: 24px;
     font-weight: 300;
+  }
+}
+
+.availability-modal {
+  width: 100%;
+  min-height: 100svh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #27272866;
+  z-index: 10;
+  padding: 16px;
+
+  .modal {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    max-height: 600px;
+    overflow: visible;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include mq(medium) {
+      padding: 24px;
+      max-height: 800px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 16px;
+      background-color: #e6e6e640;
+      border-radius: 50%;
+      cursor: pointer;
+
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include mq(medium) {
+        top: 24px;
+        right: 24px;
+      }
+    }
+
+    h3 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      padding-right: 24px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+      color: #595959;
+    }
+
+    .dates-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+
+      @include mq(medium) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .create-input {
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .react-datepicker-wrapper {
+        width: 100%;
+      }
+
+      .react-datepicker__tab-loop {
+        h2 {
+          font-size: 16px;
+          line-height: normal;
+        }
+
+        .react-datepicker {
+          border-radius: 12px;
+          border: 1px solid #a6a6a7;
+          padding: 12px;
+
+          .react-datepicker__header {
+            background-color: #fff;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.display-car-availability {
+  margin-top: 32px;
+  .booking-list {
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: #912740;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  .bookings {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .book {
+      padding: 24px 16px 24px 16px;
+      border: 1px solid #e6e6e6;
+      background-color: #f8f8f8;
+      border-radius: 16px;
+      width: 100%;
+      position: relative;
+
+      .status {
+        padding: 4px 12px 4px 12px;
+        border-radius: 24px;
+        margin-inline: auto;
+        width: fit-content;
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 500;
+
+        @include mq(medium) {
+          top: 16px;
+          left: 16px;
+          transform: unset;
+        }
+      }
+
+      .status.accepted {
+        background-color: #e2f0e7;
+        color: #2fb25b;
+      }
+
+      .status.rejected {
+        background-color: #f3e3e5;
+        color: #dd2037;
+      }
+
+      .status.cancelled {
+        background-color: #ece7dd;
+        color: #e59a01;
+      }
+
+      .for {
+        margin-bottom: 14px;
+        text-align: center;
+        h3 {
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: 700;
+          margin-bottom: 12px;
+          color: #000;
+        }
+
+        .dates {
+          @include mq(medium) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+          }
+          .date {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 500;
+            color: #000;
+          }
+        }
+      }
+
+      .from {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 300;
+        color: #838486;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        button {
+          font-weight: 400;
+          color: #000;
+          text-decoration: underline;
+          background-color: unset;
+          border: none;
+        }
+
+        .stars {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+
+      .from.pending {
+        margin-bottom: 24px;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+
+        @include mq(medium) {
+          max-width: 280px;
+          margin: auto;
+        }
+
+        button {
+          padding: 8px 24px 8px 24px;
+          border-radius: 8px;
+          cursor: pointer;
+
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 400;
+        }
+
+        .accept {
+          background: #000;
+          color: #fff;
+          border: 1px solid #000;
+        }
+
+        .decline {
+          color: #dd2037;
+          border: 1px solid #dd2037;
+        }
+      }
+    }
+
+    .book.previous {
+      padding-top: 40px;
+
+      @include mq(medium) {
+        padding-top: 24px;
+      }
+    }
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+
+    li {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 16px;
+      line-height: 16px;
+      cursor: pointer;
+      color: #595959;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+
+      a {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:first-child,
+      &:last-child {
+        padding: 4px 4px;
+      }
+    }
+
+    li.selected {
+      background-color: #efd4da;
+      color: #000;
+    }
+
+    li.disabled {
+      color: #737373;
+    }
   }
 }
 

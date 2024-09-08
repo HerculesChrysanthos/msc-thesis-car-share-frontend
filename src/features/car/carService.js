@@ -107,6 +107,7 @@ const getCar = async (carId) => {
   return response.data;
 };
 
+// get car by id
 const deleteCar = async (carId, token) => {
   const headers = `Bearer ${token}`;
   const response = await axios.delete(API_URL + `cars/${carId}`, {
@@ -198,6 +199,52 @@ const reverseGeocoding = async (lat, long) => {
   return fullAddress;
 };
 
+// update car availability
+const updateCarAvailability = async (carId, body, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.put(
+    API_URL + `cars/${carId}/availabilities`,
+    body,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// getcar availability
+const getCarAvailability = async (carId, token) => {
+  const headers = `Bearer ${token}`;
+  const response = await axios.get(
+    API_URL + `cars/${carId}/availabilities?status=UNAVAILABLE`,
+    {
+      headers: {
+        Authorization: headers,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// change car status
+const changeCarStatus = async (carId, status, token) => {
+  const headers = `Bearer ${token}`;
+  const body = {
+    available: status,
+  };
+  const response = await axios.put(API_URL + `cars/${carId}/status`, body, {
+    headers: {
+      Authorization: headers,
+    },
+  });
+
+  return response.data;
+};
+
 const carService = {
   getCarBrands,
   getBrandModels,
@@ -211,6 +258,9 @@ const carService = {
   reverseGeocoding,
   getCar,
   deleteCar,
+  updateCarAvailability,
+  getCarAvailability,
+  changeCarStatus,
 };
 
 export default carService;

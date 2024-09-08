@@ -7,10 +7,10 @@ import CarReservations from './carTabs/CarReservations';
 import CarInfomrations from './carTabs/CarInfomrations';
 import CarExtraFeatures from './carTabs/CarExtraFeatures';
 import CarImages from './carTabs/CarImages';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { deleteCar } from '../../../../features/car/carSlice';
+import { changeCarStatus, deleteCar } from '../../../../features/car/carSlice';
 
 function SingleCar({ displayedCar, setDisplayedCar }) {
   const [selectedCarTab, setSelectedCarTab] = useState(0);
@@ -50,6 +50,8 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
     },
   ];
 
+  const { singleCarLoading } = useSelector((state) => state.car);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const deleteCarFun = () => {
@@ -69,15 +71,51 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
       });
   };
 
+  const updateCarStatus = (status) => {
+    if (displayedCar.isAvailable === status) return;
+
+    dispatch(changeCarStatus({ carId: displayedCar._id, status }))
+      .unwrap()
+      .then((res) => {
+        const updatedCar = res;
+        setDisplayedCar(updatedCar);
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
   return (
     <div className='single-car'>
       <div className='car-top-section'>
         <button className='back-button' onClick={() => setDisplayedCar({})}>
           <IoIosArrowBack size='16px' /> Πίσω
         </button>
-        <h2>
-          {displayedCar?.make.name} {displayedCar?.model.name}
-        </h2>
+        <div className='car-info'>
+          <h2>
+            {displayedCar?.make.name} {displayedCar?.model.name}
+          </h2>
+          <div
+            className={`switch-car-status ${
+              displayedCar.isAvailable ? 'available' : 'unavailable'
+            }`}
+          >
+            <button
+              className={`${displayedCar.isAvailable ? 'avai' : ''}`}
+              onClick={() => updateCarStatus(true)}
+              disabled={singleCarLoading}
+            >
+              Ενεργό
+            </button>
+            <button
+              className={`${displayedCar.isAvailable ? '' : 'unavai'}`}
+              onClick={() => updateCarStatus(false)}
+              disabled={singleCarLoading}
+            >
+              Ανενεργό
+            </button>
+          </div>
+        </div>
         <div className='rating-delete'>
           <div className='rating'>
             <div className='stars'>

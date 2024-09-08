@@ -7,6 +7,7 @@ const initialState = {
   brands: [],
   models: [],
   singleCar: {},
+  carAvailability: [],
   carIsLoading: false,
   carImgUploadLoading: false,
   car: car ? car : null,
@@ -14,6 +15,7 @@ const initialState = {
   searchCars: {},
   searchAddress: '',
   singleCarLoading: false,
+  carAvailabilityLoading: false,
 };
 
 // get car brands
@@ -229,6 +231,54 @@ export const reverseGeocoding = createAsyncThunk(
   }
 );
 
+// update car availability
+export const updateCarAvailability = createAsyncThunk(
+  'cars/updateCarAvailability',
+  async ({ carId, body }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.updateCarAvailability(carId, body, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// get car availability
+export const getCarAvailability = createAsyncThunk(
+  'cars/getCarAvailability',
+  async ({ carId }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.getCarAvailability(carId, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// change car status
+export const changeCarStatus = createAsyncThunk(
+  'cars/changeCarStatus',
+  async ({ carId, status }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await carService.changeCarStatus(carId, status, token);
+    } catch (error) {
+      console.log(error);
+      const message = error.response.data.error;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const carSlice = createSlice({
   name: 'car',
   initialState,
@@ -336,6 +386,34 @@ export const carSlice = createSlice({
         state.singleCarLoading = false;
       })
       .addCase(deleteCar.rejected, (state) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(updateCarAvailability.pending, (state) => {
+        state.singleCarLoading = true;
+      })
+      .addCase(updateCarAvailability.fulfilled, (state, action) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(updateCarAvailability.rejected, (state) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(getCarAvailability.pending, (state) => {
+        state.carAvailabilityLoading = true;
+      })
+      .addCase(getCarAvailability.fulfilled, (state, action) => {
+        state.carAvailabilityLoading = false;
+        state.carAvailability = action.payload;
+      })
+      .addCase(getCarAvailability.rejected, (state) => {
+        state.carAvailabilityLoading = false;
+      })
+      .addCase(changeCarStatus.pending, (state) => {
+        state.singleCarLoading = true;
+      })
+      .addCase(changeCarStatus.fulfilled, (state, action) => {
+        state.singleCarLoading = false;
+      })
+      .addCase(changeCarStatus.rejected, (state) => {
         state.singleCarLoading = false;
       });
   },
