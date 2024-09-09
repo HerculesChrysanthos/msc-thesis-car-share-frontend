@@ -2123,6 +2123,38 @@ footer {
       width: 100%;
       position: relative;
 
+      .renter-review {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .my-review {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          font-size: 12px;
+          line-height: 14px;
+          font-weight: 400;
+
+          .stars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            .star {
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+        }
+      }
+
       .status {
         padding: 4px 12px 4px 12px;
         border-radius: 24px;
@@ -2204,6 +2236,9 @@ footer {
           text-decoration: underline;
           background-color: unset;
           border: none;
+
+          font-size: 16px;
+          line-height: 24px;
         }
 
         .stars {
@@ -2477,6 +2512,8 @@ footer {
           text-decoration: underline;
           background-color: unset;
           border: none;
+          font-size: 16px;
+          line-height: 24px;
         }
 
         .stars {
@@ -5457,6 +5494,8 @@ footer {
           text-decoration: underline;
           background-color: unset;
           border: none;
+          font-size: 16px;
+          line-height: 24px;
         }
 
         .stars {

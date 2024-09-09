@@ -10,7 +10,7 @@ import { IoMdClose } from 'react-icons/io';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { FaEnvelope } from 'react-icons/fa';
 
-function Login({ showLogin, setShowLogin }) {
+function Login({ showLogin, setShowLogin, setShowRegister }) {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
 
@@ -122,7 +122,15 @@ function Login({ showLogin, setShowLogin }) {
             <div className='register-text'>
               Δεν έχει λογαριασμό;
               <br />
-              Κάνε την εγγραφή σου <span>εδώ</span>
+              Κάνε την εγγραφή σου{' '}
+              <span
+                onClick={() => {
+                  setShowLogin(false);
+                  setShowRegister(true);
+                }}
+              >
+                εδώ
+              </span>
             </div>
           </form>
         </div>

@@ -72,6 +72,7 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
   };
 
   const updateCarStatus = (status) => {
+    if (displayedCar.isEnabled === false) return;
     if (displayedCar.isAvailable === status) return;
 
     dispatch(changeCarStatus({ carId: displayedCar._id, status }))
@@ -83,6 +84,30 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
       .catch((error) => {
         toast.error(error);
       });
+  };
+
+  const displayStars = (stars) => {
+    const totalStars = 5;
+
+    const roundedStars = Math.round(stars);
+
+    const filledStars = roundedStars;
+    const emptyStars = totalStars - filledStars;
+
+    return (
+      <div className='stars'>
+        {Array.from({ length: filledStars }, (_, index) => (
+          <div className='star' key={index}>
+            <IoStar key={`filled-${index}`} fill='#912740' size='18px' />
+          </div>
+        ))}
+        {Array.from({ length: emptyStars }, (_, index) => (
+          <div className='star' key={index + filledStars}>
+            <IoStar key={`empty-${index}`} fill='#EFD4DA' size='18px' />
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -118,24 +143,12 @@ function SingleCar({ displayedCar, setDisplayedCar }) {
         </div>
         <div className='rating-delete'>
           <div className='rating'>
-            <div className='stars'>
-              <div className='star'>
-                <IoStar fill='#912740' size='18px' />
+            {displayStars(displayedCar.ratingsScore)}
+            {displayedCar?.ratingsAmount && (
+              <div className='text'>
+                ({displayedCar?.ratingsAmount}) Αξιολογήσεις
               </div>
-              <div className='star'>
-                <IoStar fill='#912740' size='18px' />
-              </div>
-              <div className='star'>
-                <IoStar fill='#912740' size='18px' />
-              </div>
-              <div className='star'>
-                <IoStar fill='#912740' size='18px' />
-              </div>
-              <div className='star'>
-                <MdStarHalf fill='#912740' size='18px' />
-              </div>
-            </div>
-            <div className='text'>(7) Αξιολογήσεις</div>
+            )}
           </div>
           <div className='delete-car'>
             <button onClick={deleteCarFun}>Διαγραφή οχήματος</button>

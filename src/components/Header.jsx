@@ -88,7 +88,13 @@ function Header() {
         </div>
       )}
 
-      {showLogin && <Login showLogin={showLogin} setShowLogin={setShowLogin} />}
+      {showLogin && (
+        <Login
+          showLogin={showLogin}
+          setShowLogin={setShowLogin}
+          setShowRegister={setShowRegister}
+        />
+      )}
       {showRegister && (
         <Register
           showRegister={showRegister}

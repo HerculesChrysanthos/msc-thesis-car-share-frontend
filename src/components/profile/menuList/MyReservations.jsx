@@ -15,6 +15,7 @@ import ReactPaginate from 'react-paginate';
 import { GoChevronLeft } from 'react-icons/go';
 import { GoChevronRight } from 'react-icons/go';
 import { changeBookingState } from '../../../features/booking/bookingSlice';
+import NoCarImage from '../../../assets/car/no_image.png';
 
 function MyReservations() {
   const [acceptedPageNum, setAcceptedPageNum] = useState(1);
@@ -170,7 +171,14 @@ function MyReservations() {
             {myAcceptedBooking?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='car-img'>
-                  <img src={book.car?.thumbnail?.url} alt='Car Thumbnail' />
+                  <img
+                    src={
+                      book.car?.thumbnail?.url
+                        ? book.car?.thumbnail?.url
+                        : NoCarImage
+                    }
+                    alt='Car Thumbnail'
+                  />
                 </div>
                 <div>
                   <div className='name-price'>
@@ -238,7 +246,14 @@ function MyReservations() {
             {myPreviousBooking?.paginatedResults.map((book) => (
               <div className='book' key={book._id}>
                 <div className='car-img'>
-                  <img src={book.car.thumbnail?.url} alt='Car Thumbnail' />
+                  <img
+                    src={
+                      book.car.thumbnail?.url
+                        ? book.car.thumbnail?.url
+                        : NoCarImage
+                    }
+                    alt='Car Thumbnail'
+                  />
                 </div>
                 <div>
                   <div className='name-price'>

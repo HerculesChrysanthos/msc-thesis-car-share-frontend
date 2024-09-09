@@ -5,10 +5,35 @@ import { MdStarHalf } from 'react-icons/md';
 import Spinner from '../../../Spinner';
 import NoCarsImage from '../../../../assets/car/no_cars.png';
 import { useNavigate } from 'react-router-dom';
+import NoCarImage from '../../../../assets/car/no_image.png';
 
 function MyCarsList({ displayedCar, setDisplayedCar }) {
   const { myCars, carIsLoading } = useSelector((state) => state.car);
   const navigate = useNavigate();
+
+  const displayStars = (stars) => {
+    const totalStars = 5;
+
+    const roundedStars = Math.round(stars);
+
+    const filledStars = roundedStars;
+    const emptyStars = totalStars - filledStars;
+
+    return (
+      <div className='stars'>
+        {Array.from({ length: filledStars }, (_, index) => (
+          <div className='star' key={index}>
+            <IoStar key={`filled-${index}`} fill='#912740' size='18px' />
+          </div>
+        ))}
+        {Array.from({ length: emptyStars }, (_, index) => (
+          <div className='star' key={index + filledStars}>
+            <IoStar key={`empty-${index}`} fill='#EFD4DA' size='18px' />
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   if (carIsLoading)
     return (
@@ -28,31 +53,22 @@ function MyCarsList({ displayedCar, setDisplayedCar }) {
               onClick={() => setDisplayedCar(car)}
             >
               <div className='car-img'>
-                <img src={car?.thumbnail?.url} alt='Car image' />
+                <img
+                  src={car?.thumbnail?.url ? car?.thumbnail?.url : NoCarImage}
+                  alt='Car image'
+                />
               </div>
               <div className='car-info'>
                 <h2>
                   {car?.make.name} {car?.model.name}
                 </h2>
                 <div className='rating'>
-                  <div className='stars'>
-                    <div className='star'>
-                      <IoStar fill='#912740' size='18px' />
+                  {displayStars(car.ratingsScore)}
+                  {car?.ratingsAmount && (
+                    <div className='text'>
+                      ({car?.ratingsAmount}) Αξιολογήσεις
                     </div>
-                    <div className='star'>
-                      <IoStar fill='#912740' size='18px' />
-                    </div>
-                    <div className='star'>
-                      <IoStar fill='#912740' size='18px' />
-                    </div>
-                    <div className='star'>
-                      <IoStar fill='#912740' size='18px' />
-                    </div>
-                    <div className='star'>
-                      <MdStarHalf fill='#912740' size='18px' />
-                    </div>
-                  </div>
-                  <div className='text'>(7) Αξιολογήσεις</div>
+                  )}
                 </div>
               </div>
             </div>

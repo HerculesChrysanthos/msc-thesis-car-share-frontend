@@ -288,7 +288,14 @@ function CarCreateBook({ car, startDate, endDate, address, rentPerHour }) {
                 </div>
                 <div className='total'>
                   <div className='days'>
-                    Σύνολο: <span>{diffInDays} ημέρες</span>
+                    Σύνολο:{' '}
+                    {diffInDays > 0 ? (
+                      <span>{diffInDays} ημέρες</span>
+                    ) : (
+                      <span>
+                        {diffInHours} {diffInHours > 1 ? 'ώρες' : 'ώρα'}
+                      </span>
+                    )}
                   </div>
                   <div className='price'>{diffInHours * rentPerHour}€</div>
                 </div>

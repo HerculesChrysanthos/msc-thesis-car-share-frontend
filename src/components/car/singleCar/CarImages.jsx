@@ -1,6 +1,7 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import NoCarImage from '../../../assets/car/no_image.png';
 
 const responsive = {
   desktop: {
@@ -22,7 +23,11 @@ const responsive = {
 
 function CarImages({ images = [] }) {
   if (!images.length) {
-    return <div>No images available</div>;
+    return (
+      <div>
+        <img src={NoCarImage} alt='Car has no image template' />
+      </div>
+    ); // Optional: Fallback UI
   }
 
   return (

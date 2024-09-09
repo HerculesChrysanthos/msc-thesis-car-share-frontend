@@ -8,6 +8,7 @@ import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import NoCarsImg from '../../assets/car/no_cars.png';
 import Spinner from '../Spinner';
 import { CgClose } from 'react-icons/cg';
+import NoCarImage from '../../assets/car/no_image.png';
 
 function CarResults({
   selectedPin,
@@ -147,7 +148,10 @@ function CarResults({
               onClick={() => navigateToCar(car)}
             >
               <div className='car-img'>
-                <img src={car?.images[0]?.url} alt={`${car.title} thumbnail`} />
+                <img
+                  src={car?.images[0]?.url ? car?.images[0]?.url : NoCarImage}
+                  alt={`${car.title} thumbnail`}
+                />
               </div>
               <h2>
                 {car.make.name} {car.model.name}
