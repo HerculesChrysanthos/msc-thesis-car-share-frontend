@@ -4645,11 +4645,6 @@ footer {
           flex-direction: column;
           gap: 16px;
 
-          @include mq(xlarge) {
-            flex-direction: row;
-            gap: 24px;
-          }
-
           .top,
           .bottom {
             display: flex;

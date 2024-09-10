@@ -85,16 +85,6 @@ function Filters({
               />
             </div>
           </div>
-          <div className='type'>
-            <select>
-              <option hidden>Τύπος οχήματος</option>
-              <option value={1}>SUV</option>
-              <option value={2}>Sport</option>
-            </select>
-            <div className='icon'>
-              <TbChevronDown />
-            </div>
-          </div>
           <div className='make'>
             <select onChange={(e) => setMake(e.target.value)} value={make}>
               <option hidden>Μάρκα</option>

@@ -75,9 +75,6 @@ function User() {
             }
             alt='Profile image'
           />
-          <div className='upload-icon'>
-            <MdCameraAlt color='#fff' size='20px' />
-          </div>
         </div>
         <div className='user-info'>
           <h2>

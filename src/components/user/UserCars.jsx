@@ -8,6 +8,7 @@ import { IoStar } from 'react-icons/io5';
 import ReactPaginate from 'react-paginate';
 import { GoChevronLeft } from 'react-icons/go';
 import { GoChevronRight } from 'react-icons/go';
+import NoCarImage from '../../assets/car/no_image.png';
 
 function UserCars() {
   const { userCars, userCarsLoading } = useSelector((state) => state.user);
@@ -42,7 +43,10 @@ function UserCars() {
           {userCars?.paginatedResults.map((car) => (
             <div key={car?._id} className='car'>
               <div className='car-img'>
-                <img src={car?.thumbnail?.url} alt='Car image' />
+                <img
+                  src={car?.thumbnail?.url ? car?.thumbnail?.url : NoCarImage}
+                  alt='Car image'
+                />
               </div>
               <div className='car-info'>
                 <h2>
@@ -63,7 +67,7 @@ function UserCars() {
           ))}
           {Math.ceil(userCars?.totalCount / limit) > 1 && (
             <ReactPaginate
-              key={pageNum}
+              key={pageNum} // Force React to recognize changes
               breakLabel='...'
               nextLabel={<GoChevronRight size='16px' />}
               onPageChange={(event) => setPageNum(event.selected + 1)}

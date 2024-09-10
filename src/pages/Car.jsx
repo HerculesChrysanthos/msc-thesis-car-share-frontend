@@ -89,8 +89,8 @@ function Car() {
                 <div className='detail'>
                   Έτος: {singleCar?.registration?.year}
                 </div>
-                <div className='detail'>Κυβικά: {singleCar?.mileage}</div>
-                <div className='detail'>Ιπποί: {singleCar?.mileage}</div>
+                <div className='detail'>Κυβικά: {singleCar?.engineSize}</div>
+                <div className='detail'>Ιπποί: {singleCar?.enginePower}</div>
               </div>
               <div className='bottom'>
                 {singleCar?.features?.map((feature, index) => (
