@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 import Pin from '../../assets/map/pin.svg';
 import SelectedPinIcon from '../../assets/map/pin-selected.svg';
 import Spinner from '../Spinner';
@@ -43,7 +43,7 @@ function MapResults({ selectedPin, setSelectedPin, center, setCenter }) {
           {searchCars.totalCount > 0 &&
             searchCars?.paginatedResults?.map((pin) => {
               return (
-                <Marker
+                <MarkerF
                   key={pin._id}
                   position={{
                     lat: pin.address.location.coordinates[1],

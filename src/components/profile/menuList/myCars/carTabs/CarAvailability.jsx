@@ -11,7 +11,7 @@ import {
   endOfDay,
 } from 'date-fns';
 import { el } from 'date-fns/locale';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoMdClose } from 'react-icons/io';
@@ -387,7 +387,7 @@ function CarAvailability({ car, setDisplayedCar }) {
                 center={center}
                 zoom={16}
               >
-                {marker && <Marker position={marker} />}
+                {marker && <MarkerF position={marker} />}
               </GoogleMap>
             )}
           </div>

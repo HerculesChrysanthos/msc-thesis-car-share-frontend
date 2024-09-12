@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -29,7 +29,7 @@ function CarMap({ address }) {
             center={location}
             zoom={16}
           >
-            {location && <Marker position={location} />}
+            {location && <MarkerF position={location} />}
           </GoogleMap>
         )}
       </div>

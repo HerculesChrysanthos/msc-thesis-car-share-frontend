@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import debounce from 'lodash/debounce';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { carUpdate } from '../../../features/car/carSlice';
@@ -91,7 +91,7 @@ const MyComponent = ({ setStep }) => {
       });
 
       setIsButtonDisabled(false);
-      setAddr(place.formatted_address);
+      setAddr(place.formatted_address); // Update the input field value
     }
   };
 
@@ -145,7 +145,7 @@ const MyComponent = ({ setStep }) => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setAddr(value);
+    setAddr(value); // Update the addr state when the input changes
     if (value.trim() === '') {
       setPredictions([]); // Clear predictions if input is empty
     } else {
@@ -261,7 +261,7 @@ const MyComponent = ({ setStep }) => {
                 center={center}
                 zoom={16}
               >
-                {marker && <Marker position={marker} />}
+                {marker && <MarkerF position={marker} />}
               </GoogleMap>
             )}
           </div>
